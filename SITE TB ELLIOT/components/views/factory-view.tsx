@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
 const rythmoSequence = [
@@ -172,8 +173,6 @@ export function FactoryView() {
     setSlideDirection('left')
     setModuleIndex((prev) => (prev - 1 + totalModules) % totalModules)
   }
-
-  const moduleHeightClass = "h-[46.5rem] sm:h-[38.5rem]"
 
   return (
     <section className="relative min-h-screen w-full bg-neutral-950 text-neutral-50 overflow-hidden pt-32 pb-24 select-none">
@@ -365,8 +364,7 @@ export function FactoryView() {
                     <div 
                       key={moduleIndex} 
                       className={cn(
-                        "flex-1 flex flex-col justify-start p-6 sm:p-8 rounded-none border border-white/10 bg-neutral-900/40 shadow-2xl backdrop-blur-md overflow-hidden", 
-                        moduleHeightClass,
+                        "flex-1 flex flex-col justify-start h-auto p-6 sm:p-8 rounded-none border border-white/10 bg-neutral-900/40 shadow-2xl backdrop-blur-md overflow-visible",
                         slideDirection === 'right' ? 'animate-slide-right' : 'animate-slide-left'
                       )}
                     >
@@ -411,11 +409,13 @@ export function FactoryView() {
             {/* ZONE DU BOUTON CTA */}
             {current.additionalContent && (
               <div className="border-t border-white/10 pt-8 pb-2 flex items-center justify-center mx-6 sm:mx-10">
-                <button 
+                <Link
+                  href="/doublage?to=formulas"
+                  scroll={false}
                   className="px-8 py-3 rounded-full border border-white/20 bg-white/[0.08] text-neutral-200 font-medium text-xs sm:text-sm tracking-wide hover:bg-red-600 hover:border-red-600 hover:text-white transition-all duration-300 cursor-pointer shadow-lg"
                 >
                   {current.additionalContent.ctaButton}
-                </button>
+                </Link>
               </div>
             )}
 

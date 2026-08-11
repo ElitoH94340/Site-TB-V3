@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 // Séquence rythmo pour le fond
 const rythmoSequence = [
@@ -17,6 +17,36 @@ const rythmoSequence = [
 
 export function AboutView() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const rawHash = window.location.hash
+    const wantsContact =
+      params.get('to') === 'contact' || rawHash.replace(/#/g, '') === 'contact'
+
+    if (!wantsContact) return
+
+    window.history.replaceState(null, '', '/qui-sommes-nous#contact')
+
+    const previousRestoration = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+
+    let cancelled = false
+    const timeoutId = window.setTimeout(() => {
+      if (cancelled) return
+      const target = document.getElementById('contact')
+      if (!target) return
+      const top = target.getBoundingClientRect().top + window.scrollY - 20
+      window.scrollTo({ top, behavior: 'smooth' })
+    }, 250)
+
+    return () => {
+      cancelled = true
+      window.clearTimeout(timeoutId)
+      window.history.scrollRestoration = previousRestoration
+    }
+  }, [])
 
   return (
     <section className="relative min-h-screen w-full bg-neutral-950 text-neutral-50 overflow-hidden pt-20 pb-24 select-none">
@@ -167,7 +197,7 @@ export function AboutView() {
           </div>
         </div>
 
-        <div className="mt-14 animate-text-sweep" style={{ animationDelay: '600ms' }}>
+        <div id="contact" className="mt-14 animate-text-sweep" style={{ animationDelay: '600ms' }}>
           
           <div className="rounded-[2rem] border border-white/10 bg-neutral-900/40 p-6 sm:p-10 shadow-2xl backdrop-blur-md">
             

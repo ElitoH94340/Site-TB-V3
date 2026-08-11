@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 // Séquence rythmo pour le fond
 const rythmoSequence = [
@@ -133,17 +134,44 @@ const FORMULAS = [
   },
 ]
 
-interface DubbingViewProps {
-  onOpenContact?: () => void
-}
-
-export function DubbingView({ onOpenContact }: DubbingViewProps) {
+export function DubbingView() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
   const [isVideo1Playing, setIsVideo1Playing] = useState(false)
   const [isVideo2Playing, setIsVideo2Playing] = useState(false)
   const [isHowItWorksVideoPlaying, setIsHowItWorksVideoPlaying] = useState(false)
-  
+
   const [playingColumnVideos, setPlayingColumnVideos] = useState<{ [key: string]: boolean }>({})
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const rawHash = window.location.hash
+    const wantsFormulas =
+      params.get('to') === 'formulas' || rawHash.replace(/#/g, '') === 'formulas'
+
+    if (!wantsFormulas) return
+
+    // URL propre : un seul #formulas, sans ?to=
+    window.history.replaceState(null, '', '/doublage#formulas')
+
+    const previousRestoration = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+
+    let cancelled = false
+    const timeoutId = window.setTimeout(() => {
+      if (cancelled) return
+      const target = document.getElementById('formulas')
+      if (!target) return
+      const top = target.getBoundingClientRect().top + window.scrollY - 30
+      window.scrollTo({ top, behavior: 'smooth' })
+    }, 350)
+
+    return () => {
+      cancelled = true
+      window.clearTimeout(timeoutId)
+      window.history.scrollRestoration = previousRestoration
+    }
+  }, [])
 
   const toggleColumnVideo = (id: string) => {
     setPlayingColumnVideos((prev) => ({ ...prev, [id]: true }))
@@ -510,7 +538,7 @@ export function DubbingView({ onOpenContact }: DubbingViewProps) {
       </div>
 
       {/* SECTION 3 COLONNES - FORMULES AVEC TRANSITION FLUIDE DES MIRES */}
-      <div className="mt-20 relative w-full max-w-7xl mx-auto px-4 sm:px-8 py-12 z-10">
+      <div className="mt-20 relative w-full max-w-7xl mx-auto px-4 sm:px-8 py-12 z-10"  id="formulas">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-stretch">
           {FORMULAS.map((formula) => {
             const isPlaying = playingColumnVideos[formula.id]
@@ -643,12 +671,13 @@ export function DubbingView({ onOpenContact }: DubbingViewProps) {
 
         {/* BOUTON CONTACT SOBRE */}
         <div className="mt-16 text-center">
-          <button
-            onClick={onOpenContact}
+          <Link
+            href="/qui-sommes-nous?to=contact"
+            scroll={false}
             className="inline-flex items-center justify-center px-8 py-3 rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-md text-neutral-200 font-medium text-xs sm:text-sm tracking-wide shadow-2xl transition-all duration-300 hover:bg-red-600 hover:border-red-600 hover:text-white hover:shadow-[0_0_20px_rgba(220,38,38,0.4)] cursor-pointer"
           >
             Contactez-nous pour votre projet
-          </button>
+          </Link>
         </div>
 
       </div>
