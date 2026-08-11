@@ -12,11 +12,11 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ active, onNavigate }: SiteHeaderProps) {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-neutral-800/60 bg-neutral-950/80 backdrop-blur-md">
       <style jsx>{`
         @keyframes pulseGlow {
-          0%, 100% { opacity: 0.4; box-shadow: 0 0 10px rgba(220, 38, 38, 0.4); }
-          50% { opacity: 1; box-shadow: 0 0 20px rgba(220, 38, 38, 0.8); }
+          0%, 100% { opacity: 0.4; box-shadow: 0 0 8px rgba(220, 38, 38, 0.4); }
+          50% { opacity: 1; box-shadow: 0 0 16px rgba(220, 38, 38, 0.8); }
         }
         .animate-pulse-glow {
           animation: pulseGlow 2s ease-in-out infinite;
@@ -50,14 +50,14 @@ export function SiteHeader({ active, onNavigate }: SiteHeaderProps) {
               />
             </span>
           </span>
-          <span className="text-balance font-serif italic text-2xl sm:text-3xl leading-tight tracking-tight drop-shadow-md">
+          <span className="text-balance font-serif italic text-2xl sm:text-3xl leading-tight tracking-tight drop-shadow-md text-white">
             Tournez Bobines
           </span>
         </button>
 
         {/* Navigation */}
         <nav aria-label="Navigation principale" className="h-full">
-          <ul className="flex h-full items-center gap-6 sm:gap-10">
+          <ul className="flex h-full items-center gap-9 sm:gap-16">
             {NAV_ITEMS.map((item) => {
               const isActive = active === item.id
               return (
@@ -67,10 +67,10 @@ export function SiteHeader({ active, onNavigate }: SiteHeaderProps) {
                     onClick={() => onNavigate(item.id)}
                     aria-current={isActive ? 'page' : undefined}
                     className={cn(
-                      'group relative h-full flex items-center text-base transition-colors cursor-pointer',
+                      'group relative h-full flex items-center text-[9px] sm:text-[11px] uppercase tracking-[0.2em] transition-colors cursor-pointer',
                       isActive
-                        ? 'text-foreground font-medium'
-                        : 'text-muted-foreground hover:text-foreground',
+                        ? 'text-white font-medium'
+                        : 'text-neutral-400 hover:text-white',
                     )}
                   >
                     {item.label}
@@ -79,15 +79,15 @@ export function SiteHeader({ active, onNavigate }: SiteHeaderProps) {
                     {isActive && (
                       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-10 flex items-center justify-center">
                         {/* Fond noir plus gros de quelques pixels pour l'isolation */}
-                        <span className="absolute size-5 rounded-full bg-neutral-950/90 blur-[1px]" />
+                        <span className="absolute size-4 rounded-full bg-neutral-950/90 blur-[1px]" />
                         {/* Point rouge clignotant au premier plan */}
-                        <span className="relative size-2.5 rounded-full bg-red-600 animate-pulse-glow" />
+                        <span className="relative size-2 rounded-full bg-red-600 animate-pulse-glow" />
                       </div>
                     )}
 
                     {/* Ligne de balayage au survol alignée sur le bord bas */}
                     {!isActive && (
-                      <span className="absolute bottom-0 left-0 h-[2px] w-full bg-foreground transition-transform duration-300 ease-out origin-center scale-x-0 group-hover:scale-x-100" />
+                      <span className="absolute bottom-0 left-0 h-[2px] w-full bg-white transition-transform duration-300 ease-out origin-center scale-x-0 group-hover:scale-x-100" />
                     )}
                   </button>
                 </li>

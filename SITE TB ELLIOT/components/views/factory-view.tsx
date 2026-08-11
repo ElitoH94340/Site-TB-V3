@@ -2,9 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-// Séquence rythmo pour le fond (identique à DubbingView)
 const rythmoSequence = [
   { track: 1, cue: '68', timecode: '01:22:38:12', width: 'w-64 sm:w-80' },
   { track: 2, cue: '69', timecode: '01:22:40:00', width: 'w-80 sm:w-96' },
@@ -21,10 +19,8 @@ const TABS = [
   {
     id: 'Primaire',
     label: 'Primaire',
-    heading: '',
-    text: '',
     additionalContent: {
-      public: "Élèves en classe de CM1 et CM2",
+      public: '<strong class="text-white font-semibold">Public visé :</strong> Élèves en classe de CM1 et CM2',
       modules: [
         {
           title: "Découverte Immersion",
@@ -50,10 +46,8 @@ const TABS = [
   {
     id: 'Collège',
     label: 'Collège',
-    heading: '',
-    text: '',
     additionalContent: {
-      public: "Collégiens",
+      public: '<strong class="text-white font-semibold">Public visé :</strong> Collégiens',
       modules: [
         {
           title: "Découverte & Adaptation",
@@ -77,11 +71,9 @@ const TABS = [
   },
   {
     id: 'Lycée',
-    label: 'Lycée',
-    heading: '',
-    text: '',
+    label: 'Lycéens',
     additionalContent: {
-      public: "Lycéens",
+      public: '<strong class="text-white font-semibold">Public visé :</strong> Lycéens',
       modules: [
         {
           prefix: "Module 1",
@@ -137,6 +129,18 @@ const TABS = [
   },
 ]
 
+const SharpLeftArrow = () => (
+  <svg className="w-12 h-12 text-red-500 opacity-80 hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
+    <polyline points="15 18 9 12 15 6" />
+  </svg>
+)
+
+const SharpRightArrow = () => (
+  <svg className="w-12 h-12 text-red-500 opacity-80 hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
+)
+
 export function FactoryView() {
   const [active, setActive] = useState(TABS[0].id)
   const [videoIndex, setVideoIndex] = useState(0)
@@ -169,10 +173,7 @@ export function FactoryView() {
     setModuleIndex((prev) => (prev - 1 + totalModules) % totalModules)
   }
 
-  const isPrimaryOrCollege = active === 'Primaire' || active === 'Collège'
-  const moduleHeightClass = isPrimaryOrCollege 
-    ? "h-[46.5rem] sm:h-[38.5rem]" 
-    : "h-[40.5rem] sm:h-[33.5rem]"
+  const moduleHeightClass = "h-[46.5rem] sm:h-[38.5rem]"
 
   return (
     <section className="relative min-h-screen w-full bg-neutral-950 text-neutral-50 overflow-hidden pt-32 pb-24 select-none">
@@ -200,6 +201,16 @@ export function FactoryView() {
         .animate-slide-right { animation: slideFromRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-slide-left { animation: slideFromLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        .diagonal-stripes {
+          background-image: repeating-linear-gradient(
+            135deg,
+            rgba(220, 38, 38, 0.25),
+            rgba(220, 38, 38, 0.25) 1px,
+            transparent 1px,
+            transparent 12px
+          );
+        }
       `}</style>
 
       {/* BACKGROUND TEXTURE */}
@@ -228,7 +239,7 @@ export function FactoryView() {
                     <div className="px-1.5 py-0.5 border border-red-500/70 bg-red-950/60 rounded-[3px] font-mono text-[10px] sm:text-xs text-red-300 tracking-wider shrink-0 text-center">
                       {item.cue}
                     </div>
-                    <div className={`h-11 sm:h-14 bg-neutral-800/90 rounded-md ${item.width} border border-neutral-700/70 shadow-md shrink-0`} />
+                    <div className={`h-11 sm:h-14 bg-neutral-800/95 rounded-md ${item.width} border border-neutral-700/70 shadow-md shrink-0`} />
                     <div className="px-1.5 py-0.5 border border-red-500/70 bg-red-950/60 rounded-[3px] font-mono text-[9px] sm:text-[11px] text-red-300 tracking-wider shrink-0">
                       {item.timecode}
                     </div>
@@ -246,28 +257,39 @@ export function FactoryView() {
           <h1 className="text-balance font-serif italic text-3xl sm:text-5xl tracking-tight">Le doublage : un outil d&apos;enseignement</h1>
         </header>
 
-        <div className="mt-12 flex justify-center gap-3">
-          {TABS.map((tab) => {
+        {/* SÉLECTEURS D'ONGLETS */}
+        <div className="mt-12 grid grid-cols-3 w-full max-w-lg mx-auto h-12 items-center">
+          {TABS.map((tab, idx) => {
             const isActive = tab.id === active
+            const labelText = tab.label.toUpperCase()
             return (
-              <button
-                key={tab.id}
-                onClick={() => setActive(tab.id)}
+              <div 
+                key={tab.id} 
                 className={cn(
-                  'rounded-full px-6 py-2.5 text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer',
-                  isActive
-                    ? 'bg-red-600 text-white shadow-lg shadow-red-600/30'
-                    : 'bg-neutral-900/80 text-neutral-400 hover:text-white hover:bg-neutral-800 border border-white/10'
+                  "flex items-center h-full",
+                  idx === 0 ? "justify-start" : idx === 2 ? "justify-end" : "justify-center"
                 )}
               >
-                {tab.label}
-              </button>
+                <button
+                  type="button"
+                  aria-current={isActive ? 'page' : undefined}
+                  onClick={() => setActive(tab.id)}
+                  className={cn(
+                    'group relative h-full flex items-center text-[9px] sm:text-[11px] uppercase tracking-[0.2em] transition-colors cursor-pointer bg-transparent',
+                    isActive ? 'text-red-500 font-medium' : 'text-neutral-400 hover:text-white'
+                  )}
+                >
+                  <span className={cn('transition-opacity duration-300 mr-1.5', isActive ? 'opacity-100' : 'opacity-0')}>[</span>
+                  <span>{labelText}</span>
+                  <span className={cn('transition-opacity duration-300 ml-1.5', isActive ? 'opacity-100' : 'opacity-0')}>]</span>
+                </button>
+              </div>
             )
           })}
         </div>
 
-        <div className="mt-10 relative w-full p-6 sm:p-10">
-          {/* MIRE COMPLÈTE */}
+        {/* MIRE DE CADRAGE */}
+        <div className="mt-10 relative w-full p-6 sm:p-10 flex flex-col">
           <div className="absolute top-0 left-0 w-10 h-10 border-t-2 border-l-2 border-neutral-400/70 pointer-events-none z-20" />
           <div className="absolute top-0 right-0 w-10 h-10 border-t-2 border-r-2 border-neutral-400/70 pointer-events-none z-20" />
           <div className="absolute bottom-0 left-0 w-10 h-10 border-b-2 border-l-2 border-neutral-400/70 pointer-events-none z-20" />
@@ -278,56 +300,64 @@ export function FactoryView() {
           <div className="absolute top-1/2 left-0 w-3 h-px bg-neutral-500/50 -translate-y-1/2 pointer-events-none z-20" />
           <div className="absolute top-1/2 right-0 w-3 h-px bg-neutral-500/50 -translate-y-1/2 pointer-events-none z-20" />
 
-          <div className="relative z-10 bg-neutral-900/60 px-6 sm:px-10 pt-12 sm:pt-16 pb-6 sm:pb-8 mx-auto max-w-4xl backdrop-blur-md border border-white/5">
-            {/* Vidéo */}
-            <div className="flex items-center gap-2 sm:gap-4">
-              <div className="w-10 sm:w-14 shrink-0 flex justify-center">
-                {current.videos.length > 1 && (
-                  <button onClick={prevVideo} className="text-white opacity-40 hover:opacity-100 transition-opacity p-1 sm:p-2 cursor-pointer">
-                    <ChevronLeft size={48} strokeWidth={1} />
-                  </button>
-                )}
-              </div>
-              <div className="flex-1 relative w-full aspect-video rounded-[2rem] border border-white/10 bg-neutral-900/40 p-2 sm:p-3 shadow-2xl backdrop-blur-md">
-                <div className="relative h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 flex items-center justify-center cursor-pointer group/vid" onClick={() => setIsVideoPlaying(true)}>
-                  {!isVideoPlaying ? (
-                    <>
-                      <img src={`https://i.ytimg.com/vi/${current.videos[videoIndex]}/hqdefault.jpg`} alt="Lancer la vidéo" className="absolute inset-0 h-full w-full object-cover opacity-80" />
-                      <div className="absolute inset-0 bg-black/20" />
-                      <button className="relative z-10 flex h-16 w-24 items-center justify-center rounded-2xl bg-red-600 shadow-xl transition-transform duration-300 group-hover/vid:scale-110">
-                        <svg className="h-8 w-8 text-white fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                      </button>
-                    </>
-                  ) : (
-                    <iframe className="absolute inset-0 h-full w-full bg-black" src={`https://www.youtube.com/embed/${current.videos[videoIndex]}?autoplay=1`} allowFullScreen />
+          {/* CONTENEUR GLOBAL CENTRÉ */}
+          <div className="relative z-10 pt-2 pb-4 mx-auto max-w-4xl w-full flex flex-col gap-8">
+            
+            {/* SECTION VIDÉO */}
+            <div className="px-6 sm:px-10">
+              <div className="flex items-center gap-2 sm:gap-4">
+                <div className="w-10 sm:w-14 shrink-0 flex justify-center">
+                  {current.videos.length > 1 && (
+                    <button onClick={prevVideo} className="p-1 sm:p-2 cursor-pointer">
+                      <SharpLeftArrow />
+                    </button>
+                  )}
+                </div>
+                <div className="flex-1 relative w-full aspect-video rounded-[2rem] border border-white/10 bg-neutral-900/40 p-2 sm:p-3 shadow-2xl backdrop-blur-md">
+                  <div className="absolute inset-2 sm:inset-3 rounded-2xl diagonal-stripes z-0 pointer-events-none" />
+                  <div className="relative h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 flex items-center justify-center cursor-pointer group/vid z-10" onClick={() => setIsVideoPlaying(true)}>
+                    {!isVideoPlaying ? (
+                      <>
+                        <img src={`https://i.ytimg.com/vi/${current.videos[videoIndex]}/hqdefault.jpg`} alt="Lancer la vidéo" className="absolute inset-0 h-full w-full object-cover opacity-80" />
+                        <div className="absolute inset-0 bg-black/20" />
+                        <button className="relative z-10 flex h-16 w-24 items-center justify-center rounded-2xl bg-red-600 shadow-xl transition-transform duration-300 group-hover/vid:scale-110">
+                          <svg className="h-8 w-8 text-white fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                        </button>
+                      </>
+                    ) : (
+                      <iframe className="absolute inset-0 h-full w-full bg-black" src={`https://www.youtube.com/embed/${current.videos[videoIndex]}?autoplay=1`} allowFullScreen />
+                    )}
+                  </div>
+                </div>
+                <div className="w-10 sm:w-14 shrink-0 flex justify-center">
+                  {current.videos.length > 1 && (
+                    <button onClick={nextVideo} className="p-1 sm:p-2 cursor-pointer">
+                      <SharpRightArrow />
+                    </button>
                   )}
                 </div>
               </div>
-              <div className="w-10 sm:w-14 shrink-0 flex justify-center">
-                {current.videos.length > 1 && (
-                  <button onClick={nextVideo} className="text-white opacity-40 hover:opacity-100 transition-opacity p-1 sm:p-2 cursor-pointer">
-                    <ChevronRight size={48} strokeWidth={1} />
-                  </button>
-                )}
-              </div>
             </div>
             
-            <div className="mt-8 w-full mx-auto">
-              {current.additionalContent && currentModule && (
-                <div className="mt-6 w-full">
-                  <div className="text-center pb-6">
-                    <h3 className="font-serif italic text-3xl sm:text-5xl tracking-tight text-white mb-2">Public visé</h3>
-                    <p className="text-xs sm:text-sm text-neutral-400 italic">{current.additionalContent.public}</p>
-                  </div>
+            {/* SECTION CONTENU & MODULES */}
+            {current.additionalContent && currentModule && (
+              <div className="w-full flex flex-col gap-6">
+                <div className="border-t border-white/10 mx-6 sm:mx-10" />
 
-                  <div className="border-t border-white/10" />
+                <div className="text-center">
+                  <p 
+                    className="text-xs sm:text-sm text-neutral-400 italic"
+                    dangerouslySetInnerHTML={{ __html: current.additionalContent.public }}
+                  />
+                </div>
 
-                  {/* ZONE CARROUSEL MODULES */}
-                  <div className="py-8 flex items-center gap-2 sm:gap-4 w-full">
+                {/* SECTION MODULES */}
+                <div className="px-6 sm:px-10">
+                  <div className="flex items-center gap-2 sm:gap-4 w-full">
                     <div className="w-10 sm:w-14 shrink-0 flex justify-center">
                       {hasMultipleModules && (
-                        <button onClick={prevModule} className="text-white opacity-40 hover:opacity-100 transition-opacity p-1 sm:p-2 cursor-pointer">
-                          <ChevronLeft size={48} strokeWidth={1} />
+                        <button onClick={prevModule} className="p-1 sm:p-2 cursor-pointer">
+                          <SharpLeftArrow />
                         </button>
                       )}
                     </div>
@@ -335,7 +365,7 @@ export function FactoryView() {
                     <div 
                       key={moduleIndex} 
                       className={cn(
-                        "flex-1 flex flex-col justify-start pt-2 overflow-hidden", 
+                        "flex-1 flex flex-col justify-start p-6 sm:p-8 rounded-none border border-white/10 bg-neutral-900/40 shadow-2xl backdrop-blur-md overflow-hidden", 
                         moduleHeightClass,
                         slideDirection === 'right' ? 'animate-slide-right' : 'animate-slide-left'
                       )}
@@ -368,21 +398,27 @@ export function FactoryView() {
 
                     <div className="w-10 sm:w-14 shrink-0 flex justify-center">
                       {hasMultipleModules && (
-                        <button onClick={nextModule} className="text-white opacity-40 hover:opacity-100 transition-opacity p-1 sm:p-2 cursor-pointer">
-                          <ChevronRight size={48} strokeWidth={1} />
+                        <button onClick={nextModule} className="p-1 sm:p-2 cursor-pointer">
+                          <SharpRightArrow />
                         </button>
                       )}
                     </div>
                   </div>
-
-                  <div className="pt-6 pb-2 border-t border-white/10 flex justify-center">
-                    <button className="px-8 py-3 rounded-full border border-white/20 bg-white/[0.08] text-neutral-200 font-medium text-xs sm:text-sm tracking-wide hover:bg-red-600 hover:border-red-600 hover:text-white transition-all duration-300 cursor-pointer">
-                      {current.additionalContent.ctaButton}
-                    </button>
-                  </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+
+            {/* ZONE DU BOUTON CTA */}
+            {current.additionalContent && (
+              <div className="border-t border-white/10 pt-8 pb-2 flex items-center justify-center mx-6 sm:mx-10">
+                <button 
+                  className="px-8 py-3 rounded-full border border-white/20 bg-white/[0.08] text-neutral-200 font-medium text-xs sm:text-sm tracking-wide hover:bg-red-600 hover:border-red-600 hover:text-white transition-all duration-300 cursor-pointer shadow-lg"
+                >
+                  {current.additionalContent.ctaButton}
+                </button>
+              </div>
+            )}
+
           </div>
         </div>
       </div>
