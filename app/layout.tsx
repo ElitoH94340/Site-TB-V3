@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Instrument_Serif, Geist } from 'next/font/google'
+import { SiteHeader } from '@/components/site-header'
 import './globals.css'
 
 const geist = Geist({
@@ -15,9 +16,11 @@ const instrumentSerif = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  title: 'Voxa — Studio de doublage',
+  title: {
+    default: 'Tournez Bobines — Le doublage pour tous',
+    template: '%s — Tournez Bobines',
+  },
   description: 'Le doublage pour tous. Studio, événements et savoir-faire.',
-  generator: 'v0.app',
   icons: {
     icon: [
       {
@@ -53,7 +56,8 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`bg-background ${geist.variable} ${instrumentSerif.variable}`}>
       <body className="font-sans antialiased">
-        {children}
+        <SiteHeader />
+        <main>{children}</main>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
