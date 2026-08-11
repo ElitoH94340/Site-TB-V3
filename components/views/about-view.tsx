@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { withBasePath } from '@/lib/paths'
 
 // Séquence rythmo pour le fond
 const rythmoSequence = [
@@ -26,7 +27,7 @@ export function AboutView() {
 
     if (!wantsContact) return
 
-    window.history.replaceState(null, '', '/qui-sommes-nous#contact')
+    window.history.replaceState(null, '', `${withBasePath('/qui-sommes-nous')}/#contact`.replace(/\/+#/, '/#'))
 
     const previousRestoration = window.history.scrollRestoration
     window.history.scrollRestoration = 'manual'

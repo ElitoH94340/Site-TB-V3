@@ -1,10 +1,21 @@
+const repo = 'TBWebsite'
+const isGithubPages = process.env.GITHUB_PAGES === 'true'
+const basePath = isGithubPages ? `/${repo}` : ''
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  basePath: basePath || undefined,
+  assetPrefix: basePath ? `${basePath}/` : undefined,
+  images: {
+    unoptimized: true,
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
-  images: {
-    unoptimized: true,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
   },
 }
 

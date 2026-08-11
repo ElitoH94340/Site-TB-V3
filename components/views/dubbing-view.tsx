@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { withBasePath } from '@/lib/paths'
 
 // Séquence rythmo pour le fond
 const rythmoSequence = [
@@ -151,7 +152,7 @@ export function DubbingView() {
     if (!wantsFormulas) return
 
     // URL propre : un seul #formulas, sans ?to=
-    window.history.replaceState(null, '', '/doublage#formulas')
+    window.history.replaceState(null, '', `${withBasePath('/doublage')}/#formulas`.replace(/\/+#/, '/#'))
 
     const previousRestoration = window.history.scrollRestoration
     window.history.scrollRestoration = 'manual'
@@ -282,7 +283,7 @@ export function DubbingView() {
             <div key={index} className="flex flex-col">
               <div className="relative w-full aspect-video rounded-2xl border border-white/10 bg-neutral-900/40 p-2 shadow-xl backdrop-blur-md overflow-hidden">
                 <img 
-                  src={photo} 
+                  src={withBasePath(photo)} 
                   alt={`Animation ${index + 1}`} 
                   className="h-full w-full object-cover rounded-xl"
                 />

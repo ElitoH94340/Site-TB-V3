@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { NAV_ITEMS } from '@/lib/views'
-import Image from 'next/image'
+import { withBasePath } from '@/lib/paths'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -36,8 +36,8 @@ export function SiteHeader() {
         >
           <span className="relative flex size-[56px] items-center justify-center">
             <span className="absolute inset-0 flex items-center justify-center animate-spin-slow">
-              <Image
-                src="/tournez bobines logo 3.png"
+              <img
+                src={withBasePath('/tournez bobines logo 3.png')}
                 alt="Logo Tournez Bobines"
                 width={56}
                 height={56}
@@ -53,7 +53,8 @@ export function SiteHeader() {
         <nav aria-label="Navigation principale" className="h-full">
           <ul className="flex h-full items-center gap-9 sm:gap-16">
             {NAV_ITEMS.map((item) => {
-              const isActive = pathname === item.href
+              const isActive =
+                pathname === item.href || pathname === `${item.href}/`
               return (
                 <li key={item.id} className="h-full flex items-center">
                   <Link

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { X } from 'lucide-react'
+import { withBasePath } from '@/lib/paths'
 
 // Séquence rythmo pour le fond
 const rythmoSequence = [
@@ -438,7 +439,7 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
                   >
                     <div className="relative w-full sm:w-28 h-20 shrink-0 rounded-none overflow-hidden border border-white/10 bg-neutral-900">
                       <Image
-                        src={ev.images[0]?.src || '/placeholder.svg'}
+                        src={withBasePath(ev.images[0]?.src || '/placeholder.svg')}
                         alt={ev.images[0]?.alt || ev.title}
                         fill
                         className="object-cover opacity-85 group-hover/item:opacity-100"
@@ -519,7 +520,7 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
                   >
                     <div className="relative w-full sm:w-28 h-20 shrink-0 rounded-none overflow-hidden border border-white/10 bg-neutral-900">
                       <Image
-                        src={ev.images[0]?.src || '/placeholder.svg'}
+                        src={withBasePath(ev.images[0]?.src || '/placeholder.svg')}
                         alt={ev.images[0]?.alt || ev.title}
                         fill
                         className="object-cover opacity-85 group-hover/item:opacity-100"
@@ -622,7 +623,7 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
                   <div className="flex flex-row justify-between gap-3">
                     <div className="relative flex-1 aspect-square rounded-none border border-white/10 bg-neutral-900 shadow-md overflow-hidden">
                       <Image
-                        src={activeEvent.images[0]?.src || '/placeholder.svg'}
+                        src={withBasePath(activeEvent.images[0]?.src || '/placeholder.svg')}
                         alt={activeEvent.images[0]?.alt || activeEvent.title}
                         fill
                         className="object-cover opacity-90"
@@ -630,7 +631,7 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
                     </div>
                     <div className="relative flex-1 aspect-square rounded-none border border-white/10 bg-neutral-900 shadow-md overflow-hidden">
                       <Image
-                        src={activeEvent.images[1]?.src || activeEvent.images[0]?.src || '/placeholder.svg'}
+                        src={withBasePath(activeEvent.images[1]?.src || activeEvent.images[0]?.src || '/placeholder.svg')}
                         alt={activeEvent.images[1]?.alt || activeEvent.title}
                         fill
                         className="object-cover opacity-90"

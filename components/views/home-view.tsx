@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { Volume2, VolumeX } from 'lucide-react'
+import { withBasePath } from '@/lib/paths'
 
 const partners = [
   { name: 'Cinélux', src: '/partners/cinelux.png' },
@@ -185,7 +186,7 @@ export function HomeView() {
                   playsInline
                   className="h-full w-full object-cover scale-110"
                 >
-                  <source src="/TB_VIDEO_PRESENTATION.mp4" type="video/mp4" />
+                  <source src={withBasePath('/TB_VIDEO_PRESENTATION.mp4')} type="video/mp4" />
                   Votre navigateur ne supporte pas la lecture de vidéos.
                 </video>
               </div>
@@ -221,7 +222,7 @@ export function HomeView() {
           {partners.map((partner) => (
             <img
               key={partner.name}
-              src={partner.src || "/placeholder.svg"}
+              src={withBasePath(partner.src || '/placeholder.svg')}
               alt={`Logo ${partner.name}`}
               className="h-4 w-auto object-contain opacity-70 transition-opacity hover:opacity-100 sm:h-5"
             />
