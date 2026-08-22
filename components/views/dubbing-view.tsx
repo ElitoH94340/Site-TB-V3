@@ -29,7 +29,7 @@ const FORMULAS = [
   {
     id: 'immersion',
     title: "L'Immersion",
-    videoId: 'vIL9_X07YtY',
+    videoId: 'spMb_CFn0hQ',
     steps: [
       {
         num: '1',
@@ -55,7 +55,7 @@ const FORMULAS = [
   {
     id: 'immersion-filmee',
     title: "L'Immersion filmée",
-    videoId: 'LObCGbBQ-NM',
+    videoId: 'Kqx12yrOUPs',
     steps: [
       {
         num: '1',
@@ -92,7 +92,7 @@ const FORMULAS = [
   {
     id: 'captation',
     title: 'La Captation',
-    videoId: 'g7ht4ijWM4I',
+    videoId: 'eB0vnr_s5cw',
     steps: [
       {
         num: '1',
@@ -138,7 +138,6 @@ const FORMULAS = [
 export function DubbingView() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
   const [isVideo1Playing, setIsVideo1Playing] = useState(false)
-  const [isVideo2Playing, setIsVideo2Playing] = useState(false)
   const [isHowItWorksVideoPlaying, setIsHowItWorksVideoPlaying] = useState(false)
 
   const [playingColumnVideos, setPlayingColumnVideos] = useState<{ [key: string]: boolean }>({})
@@ -311,7 +310,7 @@ export function DubbingView() {
               {!isVideoPlaying ? (
                 <>
                   <img 
-                    src="https://i.ytimg.com/vi/MVnlE2gv8mI/hqdefault.jpg" 
+                    src="https://i.ytimg.com/vi/ejoMCZcqU_s/hqdefault.jpg" 
                     alt="Présentation Vidéo" 
                     className="absolute inset-0 h-full w-full object-cover opacity-80"
                   />
@@ -328,7 +327,7 @@ export function DubbingView() {
               ) : (
                 <iframe
                   className="absolute top-0 left-0 h-full w-full bg-black"
-                  src="https://www.youtube.com/embed/MVnlE2gv8mI?autoplay=1&rel=0"
+                  src="https://www.youtube.com/embed/ejoMCZcqU_s?autoplay=1&rel=0"
                   title="Lecteur vidéo YouTube"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -357,9 +356,9 @@ export function DubbingView() {
             S&apos;amuser à doubler
           </h3>
 
-          {/* DEUX VIDÉOS CÔTE À CÔTE */}
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div className="flex flex-col">
+          {/* VIDÉO S'AMUSER À DOUBLER */}
+          <div className="mt-8">
+            <div className="flex flex-col max-w-3xl mx-auto">
               <div className="relative w-full aspect-video rounded-2xl border border-white/10 bg-neutral-900/40 p-2 shadow-xl backdrop-blur-md overflow-hidden">
                 <div 
                   className="relative h-full w-full overflow-hidden rounded-xl border border-white/10 bg-neutral-950 flex items-center justify-center cursor-pointer group"
@@ -368,8 +367,8 @@ export function DubbingView() {
                   {!isVideo1Playing ? (
                     <>
                       <img 
-                        src="https://i.ytimg.com/vi/6u-WZguMxbA/hqdefault.jpg" 
-                        alt="Indications de jeu Jacquouille" 
+                        src="https://i.ytimg.com/vi/573IoaBcqlU/hqdefault.jpg" 
+                        alt="S'amuser à doubler" 
                         className="absolute inset-0 h-full w-full object-cover opacity-80"
                       />
                       <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
@@ -385,45 +384,8 @@ export function DubbingView() {
                   ) : (
                     <iframe
                       className="absolute top-0 left-0 h-full w-full bg-black"
-                      src="https://www.youtube.com/embed/6u-WZguMxbA?autoplay=1&rel=0"
-                      title="Indications de jeu Jacquouille"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    ></iframe>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col">
-              <div className="relative w-full aspect-video rounded-2xl border border-white/10 bg-neutral-900/40 p-2 shadow-xl backdrop-blur-md overflow-hidden">
-                <div 
-                  className="relative h-full w-full overflow-hidden rounded-xl border border-white/10 bg-neutral-950 flex items-center justify-center cursor-pointer group"
-                  onClick={() => setIsVideo2Playing(true)}
-                >
-                  {!isVideo2Playing ? (
-                    <>
-                      <img 
-                        src="https://i.ytimg.com/vi/RdC2cKCVK3c/hqdefault.jpg" 
-                        alt="Quand vous riez" 
-                        className="absolute inset-0 h-full w-full object-cover opacity-80"
-                      />
-                      <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
-                      <button 
-                        className="relative z-10 flex h-12 w-16 items-center justify-center rounded-xl bg-red-600 shadow-xl transition-transform duration-300 group-hover:scale-110"
-                        aria-label="Lancer la vidéo"
-                      >
-                        <svg className="h-6 w-6 text-white fill-current ml-0.5" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      </button>
-                    </>
-                  ) : (
-                    <iframe
-                      className="absolute top-0 left-0 h-full w-full bg-black"
-                      src="https://www.youtube.com/embed/RdC2cKCVK3c?autoplay=1&rel=0"
-                      title="Quand vous riez"
+                      src="https://www.youtube.com/embed/573IoaBcqlU?autoplay=1&rel=0"
+                      title="S'amuser à doubler"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
@@ -498,8 +460,8 @@ export function DubbingView() {
               {!isHowItWorksVideoPlaying ? (
                 <>
                   <img 
-                    src="https://i.ytimg.com/vi/kyNIwEB_s7E/hqdefault.jpg" 
-                    alt="Comment ça marche" 
+                    src="https://i.ytimg.com/vi/gl0dyMWsEo0/hqdefault.jpg"
+                    alt="Comment ça marche"
                     className="absolute inset-0 h-full w-full object-cover opacity-80"
                   />
                   <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
@@ -515,7 +477,7 @@ export function DubbingView() {
               ) : (
                 <iframe
                   className="absolute top-0 left-0 h-full w-full bg-black"
-                  src="https://www.youtube.com/embed/kyNIwEB_s7E?autoplay=1&rel=0"
+                  src="https://www.youtube.com/embed/gl0dyMWsEo0?autoplay=1&rel=0"
                   title="Comment ça marche"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

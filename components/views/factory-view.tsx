@@ -42,7 +42,7 @@ const TABS = [
       ],
       ctaButton: "Découvrir nos offres"
     },
-    videos: ['mf5Myk1WICg', '01iF8VGlwV8'],
+    videos: ['h9PUPFVQnCw'],
   },
   {
     id: 'Collège',
@@ -68,7 +68,7 @@ const TABS = [
       ],
       ctaButton: "Découvrir nos offres"
     },
-    videos: ['CiTiIp-AMB4', '01iF8VGlwV8'],
+    videos: ['gHUpG7URmts'],
   },
   {
     id: 'Lycée',
@@ -126,7 +126,7 @@ const TABS = [
       ],
       ctaButton: "Découvrir nos offres"
     },
-    videos: ['boroSb-TslU', 'VvkDpYYPAI4'],
+    videos: ['bChA-kDtfhA'],
   },
 ]
 

@@ -143,7 +143,7 @@ export function AboutView() {
             {!isVideoPlaying ? (
               <>
                 <img 
-                  src="https://i.ytimg.com/vi/xWPUCj3E9xU/maxresdefault.jpg" 
+                  src="https://i.ytimg.com/vi/BVycG1JWfW4/maxresdefault.jpg" 
                   alt="Présentation Vidéo" 
                   className="absolute inset-0 h-full w-full object-cover opacity-80"
                 />
@@ -160,7 +160,7 @@ export function AboutView() {
             ) : (
               <iframe
                 className="absolute top-0 left-0 h-full w-full bg-black"
-                src="https://www.youtube.com/embed/xWPUCj3E9xU?autoplay=1&rel=0"
+                src="https://www.youtube.com/embed/BVycG1JWfW4?autoplay=1&rel=0"
                 title="Lecteur vidéo YouTube"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
