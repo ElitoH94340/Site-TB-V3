@@ -81,6 +81,7 @@ const TABS = [
           title: "Découverte Immersion/ adaptation",
           desc: "Une préparation ludique pour les lycéens.",
           subDesc: "Plusieurs séances de travail en co-organisation avec l'enseignant.",
+          videoId: 'FnSRfW1HKck',
           objectives: [
             "Découvrir une œuvre cinématographique, Histoire des Arts",
             "S’entraîner à la lecture : rythme, intonation, fluence",
@@ -92,6 +93,7 @@ const TABS = [
           prefix: "Module 2",
           title: "Découverte Immersion/ adaptation",
           desc: "Plusieurs séances de travail en co- organisation avec les professeurs d’anglais et de français",
+          videoId: 'FnSRfW1HKck',
           objectives: [
             "Travailler à la traduction de dialogues et à leur adaptation",
             "Découvrir un métier",
@@ -102,6 +104,7 @@ const TABS = [
           prefix: "Module 3",
           title: "Préparation au grand oral du bac",
           desc: "Une préparation ludique reservée au classes de Terminale",
+          videoId: '-tBG28oNqAU',
           objectives: [
             "Travailler la posture",
             "Gagner en aisance à l’oral",
@@ -146,18 +149,26 @@ export function FactoryView() {
   const [active, setActive] = useState(TABS[0].id)
   const [videoIndex, setVideoIndex] = useState(0)
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+  const [isModuleVideoPlaying, setIsModuleVideoPlaying] = useState(false)
   const [moduleIndex, setModuleIndex] = useState(0)
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right')
 
   const current = TABS.find((t) => t.id === active) ?? TABS[0]
   const currentModule = current.additionalContent?.modules[moduleIndex]
+  const moduleVideoId =
+    currentModule && 'videoId' in currentModule ? currentModule.videoId : undefined
 
   useEffect(() => {
     setVideoIndex(0)
     setIsVideoPlaying(false)
+    setIsModuleVideoPlaying(false)
     setModuleIndex(0)
     setSlideDirection('right')
   }, [active])
+
+  useEffect(() => {
+    setIsModuleVideoPlaying(false)
+  }, [moduleIndex])
 
   const nextVideo = () => setVideoIndex((prev) => (prev + 1) % current.videos.length)
   const prevVideo = () => setVideoIndex((prev) => (prev - 1 + current.videos.length) % current.videos.length)
@@ -378,6 +389,45 @@ export function FactoryView() {
                         </div>
                       </div>
 
+                      {moduleVideoId && (
+                        <div className="mb-8 w-full max-w-xl mx-auto">
+                          <div className="relative w-full aspect-video rounded-2xl border border-white/10 bg-neutral-950 overflow-hidden shadow-xl">
+                            <div
+                              className="relative h-full w-full flex items-center justify-center cursor-pointer group/module-vid"
+                              onClick={() => setIsModuleVideoPlaying(true)}
+                            >
+                              {!isModuleVideoPlaying ? (
+                                <>
+                                  <img
+                                    src={`https://i.ytimg.com/vi/${moduleVideoId}/hqdefault.jpg`}
+                                    alt={`Vidéo ${currentModule.prefix ?? currentModule.title}`}
+                                    className="absolute inset-0 h-full w-full object-cover opacity-80"
+                                  />
+                                  <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover/module-vid:bg-transparent" />
+                                  <button
+                                    type="button"
+                                    className="relative z-10 flex h-12 w-16 items-center justify-center rounded-xl bg-red-600 shadow-xl transition-transform duration-300 group-hover/module-vid:scale-110"
+                                    aria-label="Lancer la vidéo"
+                                  >
+                                    <svg className="h-6 w-6 text-white fill-current ml-0.5" viewBox="0 0 24 24">
+                                      <path d="M8 5v14l11-7z" />
+                                    </svg>
+                                  </button>
+                                </>
+                              ) : (
+                                <iframe
+                                  className="absolute inset-0 h-full w-full bg-black"
+                                  src={`https://www.youtube.com/embed/${moduleVideoId}?autoplay=1&rel=0`}
+                                  title={`Vidéo ${currentModule.prefix ?? currentModule.title}`}
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                  allowFullScreen
+                                />
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
                       <div className="text-left pt-2">
                         <h3 className="text-lg text-red-500 italic mb-4 text-center">objectifs</h3>
                         <div className="space-y-4 sm:space-y-5 max-w-xl mx-auto">
@@ -408,7 +458,7 @@ export function FactoryView() {
 
             {/* ZONE DU BOUTON CTA */}
             {current.additionalContent && (
-              <div className="border-t border-white/10 pt-8 pb-2 flex items-center justify-center mx-6 sm:mx-10">
+              <div className="pt-8 pb-2 flex items-center justify-center mx-6 sm:mx-10">
                 <Link
                   href="/doublage?to=formulas"
                   scroll={false}

@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { X } from 'lucide-react'
-import { withBasePath } from '@/lib/paths'
 
 // Séquence rythmo pour le fond
 const rythmoSequence = [
@@ -21,246 +20,188 @@ const rythmoSequence = [
 const LUDIC_EVENTS = [
   {
     id: 'l1',
-    title: 'Nuit du doublage — Paris',
-    date: '14/03/2026',
-    desc: 'Soirée de projections, masterclass et échanges privilégiés avec les voix de l’ombre qui donnent vie aux plus grands personnages.',
-    longText: 'Cet événement exceptionnel réunit sur scène les comédiens et directeurs artistiques les plus emblématiques de la profession.\nAu programme de cette grande soirée : masterclass en direct, démonstrations de synchronisation sur bande rythmo et table ronde.\nLes participants pourront échanger librement avec les intervenants et découvrir les secrets de fabrication des VF.\nUn moment unique de partage et de célébration de la culture du doublage francophone ouvert à tous les passionnés.\nClôture de la soirée avec une remise des prix et un cocktail dînatoire pour prolonger les échanges en toute convivialité.',
-    images: [
-      { src: '/event-stage.png', alt: 'Scène de l’événement Nuit du doublage' },
-      { src: '/recording-session.png', alt: 'Démonstration de doublage en direct' },
-    ],
-    videoId: 'mf5Myk1WICg',
+    title: 'Festival Les Infatigables',
+    date: '28/03/2026 - 29/03/2026',
+    desc: 'Fontenay-sous-Bois',
+    longText: 'Festival Les Infatigables à Fontenay-sous-Bois.\nLes 28 et 29 mars 2026.',
+
+    videoId: 'ew3o4ZZpU-c',
   },
   {
     id: 'l2',
-    title: 'Atelier initiation voix off — Lyon',
-    date: '02/04/2026',
-    desc: 'Découverte des techniques de studio et du jeu micro, encadrée par des professionnels en conditions réelles.',
-    longText: 'Un atelier pratique conçu pour appréhender le placement de la voix, la respiration et l’intonation face au micro.\nChaque participant bénéficie d’un passage en cabine individuelle pour s’essayer à l’exercice sur un extrait court.\nLes conseils personnalisés du formateur permettent de corriger la diction et d’ajuster l’intonation dramatique.\nPlaces strictement limitées à douze participants pour garantir un accompagnement technique optimal du micro au mixage.\nUne attestation de participation ainsi qu’un enregistrement souvenir seront remis à chaque stagiaire en fin de session.',
-    images: [
-      { src: '/studio-booth.png', alt: 'Cabine d’enregistrement de l’atelier' },
-      { src: '/mixing-console.png', alt: 'Console utilisée pendant l’atelier' },
-    ],
-    videoId: '01iF8VGlwV8',
+    title: 'Festival Les Infatigables',
+    date: '12/10/2024 - 13/10/2024',
+    desc: 'Fontenay-sous-Bois',
+    longText: 'Festival Les Infatigables à Fontenay-sous-Bois.\nLes 12 et 13 octobre 2024.',
+
+    videoId: 'ew3o4ZZpU-c',
   },
   {
     id: 'l3',
-    title: 'Masterclass Découverte — Marseille',
-    date: '18/04/2026',
-    desc: 'S’initier au rythme visuel et à la synchro labiale au cœur d’un véritable studio de post-production.',
-    longText: 'Approche immersive des méthodes professionnelles de doublage, alliant analyse textuelle et exercices pratiques.\nLe formateur détaille l’utilisation des bandes rythmo et l’importance cruciale des repères visuels pour la synchro.\nLes inscrits découvrent les contraintes techniques du métier et la rigueur nécessaire en plateau d’enregistrement.\nUn temps d’échange est également prévu pour aborder les aspects administratifs et les voies d’accès à la profession.\nIdéal pour les comédiens en herbe souhaitant confronter leur pratique aux exigences réelles de la post-production.',
-    images: [
-      { src: '/event-stage.png', alt: 'Masterclass Marseille vue de scène' },
-      { src: '/studio-booth.png', alt: 'Cabine technique Marseille' },
-    ],
-    videoId: 'CiTiIp-AMB4',
+    title: 'Festival Les Infatigables',
+    date: '02/04/2023',
+    desc: 'Fontenay-sous-Bois',
+    longText: 'Festival Les Infatigables à Fontenay-sous-Bois.\nLe 2 avril 2023.',
+
+    videoId: 'ew3o4ZZpU-c',
   },
   {
     id: 'l4',
-    title: 'Ciné-Quiz Doublage — Nantes',
-    date: '05/05/2026',
-    desc: 'Reconnaître les voix cultes du cinéma d’animation et tester ses connaissances lors d’un tournoi ludique.',
-    longText: 'Une soirée conviviale ouverte à tous pour célébrer la culture des séries et des films à travers leurs VF iconiques.\nLe tournoi s’articule autour de plusieurs manches thématiques : blind tests vocaux, répliques cultes et devinettes.\nDe nombreux lots et cadeaux exclusifs offerts par nos partenaires sont à gagner tout au long de la compétition.\nVenez tester votre oreille et partager votre passion dans une ambiance chaleureuse et résolument festive.\nLe nombre de places étant limité, la réservation en ligne est fortement conseillée pour garantir votre participation.',
-    images: [
-      { src: '/recording-session.png', alt: 'Session jeu et quiz' },
-      { src: '/mixing-console.png', alt: 'Animation sonore' },
-    ],
-    videoId: 'boroSb-TslU',
+    title: 'Festival de doublage de Savonnières',
+    date: '05/10/2024',
+    desc: 'Savonnières',
+    longText: 'Festival de doublage de Savonnières.\nLe 5 octobre 2024.',
+
+    videoId: 'aWFopHNTChA',
   },
   {
     id: 'l5',
-    title: 'Rencontre artistique — Bordeaux',
-    date: '20/05/2026',
-    desc: 'Table ronde ouverte sur les métiers d’adaptation, de traduction et de direction artistique.',
-    longText: 'Échangez avec les artisans de l’ombre qui façonnent l’adaptation française des œuvres cinématographiques.\nCette conférence aborde les défis de la traduction culturelle et le respect de la vision originale des auteurs.\nLes directeurs artistiques partagent leur expérience sur le casting des voix et la direction des comédiens.\nUn dialogue constructif s’installe entre les professionnels et le public curieux de comprendre les coulisses du secteur.\nLa rencontre se conclura par un temps de questions-réponses et une séance de dédicaces de scripts originaux.',
-    images: [
-      { src: '/event-stage.png', alt: 'Table ronde Bordeaux' },
-      { src: '/studio-booth.png', alt: 'Espace d’échange' },
-    ],
-    videoId: 'VvkDpYYPAI4',
+    title: 'Hors les murs — Quartier des Ardrets',
+    date: '11/07/2023',
+    desc: 'Brétigny-sur-Orge',
+    longText: 'Animation hors les murs dans le Quartier des Ardrets à Brétigny-sur-Orge.\nLe 11 juillet 2023.',
+
   },
   {
     id: 'l6',
-    title: 'Immersion micro famille — Toulouse',
-    date: '03/06/2026',
-    desc: 'Atelier ludique parent-enfant pour doubler ensemble un extrait court de dessin animé.',
-    longText: 'Une initiation joyeuse et collaborative pour découvrir les coulisses du doublage en famille et partager un moment unique.\nParents et enfants s’amusent à prêter leurs voix aux personnages farfelus d’un extrait spécialement sélectionné.\nL’intervenant guide le duo avec bienveillance pour accorder les voix et respecter le timing de l’animation.\nChaque famille repart avec sa propre capsule audio mixée et prête à être partagée auprès des proches.\nUne belle façon de lier complicité familiale et découverte artistique au sein d’un véritable studio.',
-    images: [
-      { src: '/recording-session.png', alt: 'Atelier famille micro' },
-      { src: '/event-stage.png', alt: 'Restitution atelier' },
-    ],
-    videoId: 'mf5Myk1WICg',
+    title: 'Espace Nelson Mandela',
+    date: '02/03/2022',
+    desc: 'Brétigny-sur-Orge',
+    longText: 'Animation à l’Espace Nelson Mandela, Brétigny-sur-Orge.\nLe 2 mars 2022.',
+
+    videoId: '1Yv4Ka62yb8',
   },
   {
     id: 'l7',
-    title: 'Journée portes ouvertes — Lille',
-    date: '15/06/2026',
-    desc: 'Visite guidée des cabines d’enregistrement et démonstrations en direct par nos équipes.',
-    longText: 'Découvrez l’envers du décor, le matériel de pointe et les secrets de fabrication des versions françaises.\nNos ingénieurs du son et directeurs artistiques ouvrent leurs portes pour des démonstrations commentées.\nVous assisterez en direct à une séance de travail sur l’enregistrement d’une réplique en conditions réelles.\nL’occasion idéale pour poser toutes vos questions sur l’acoustique, le matériel et l’organisation du travail en studio.\nEntrée libre et gratuite tout au long de la journée, dans la limite des places disponibles en cabine.',
-    images: [
-      { src: '/studio-booth.png', alt: 'Cabine Lille' },
-      { src: '/mixing-console.png', alt: 'Regie son Lille' },
-    ],
-    videoId: '01iF8VGlwV8',
+    title: 'Festival de doublage Apt face au virus',
+    date: '14/08/2020',
+    desc: 'Apt',
+    longText: 'Festival de doublage Apt face au virus.\nLe 14 août 2020.',
+
+    videoId: 'GdG4JR9Ht5k',
   },
   {
     id: 'l8',
-    title: 'Scène ouverte doublage — Strasbourg',
-    date: '01/07/2026',
-    desc: 'Venez prêter votre voix en direct à des scènes mythiques du répertoire cinématographique.',
-    longText: 'Un micro ouvert à tous les passionnés désireux de s’essayer à l’exercice du doublage en public.\nSous les conseils bienveignants d’un professionnel, monte sur scène et jette-toi à l’eau face à l’écran.\nL’exercice permet de lâcher prise, de travailler sa respiration et de s’amuser avec des textes cultes.\nUne ambiance bienveillante et stimulante pour libérer sa voix et vivre un grand moment de scène.\nInscriptions directement sur place dès le début de la soirée pour constituer l’ordre des passages.',
-    images: [
-      { src: '/event-stage.png', alt: 'Scène ouverte Strasbourg' },
-      { src: '/recording-session.png', alt: 'Micro ouvert' },
-    ],
-    videoId: 'CiTiIp-AMB4',
+    title: 'Mâcon Festival Effervescence',
+    date: 'Octobre 2018',
+    desc: 'Mâcon',
+    longText: 'Festival Effervescence à Mâcon.\nOctobre 2018.',
+
+    videoId: '0FRf2DVrxT4',
   },
   {
     id: 'l9',
-    title: 'Stage découverte ados — Rennes',
-    date: '10/07/2026',
-    desc: 'Première approche ludique du jeu micro, de la diction et de l’expression orale pour adolescents.',
-    longText: 'Un stage intensif de plusieurs jours pour gagner en aisance à l’oral et s’amuser avec les textes.\nLes jeunes participants découvrent le placement de la voix, l’écoute des autres et la cohésion de groupe.\nÀ travers des jeux théâtraux et des exercices face au micro, ils se familiarisent avec l’expression scénique.\nL’encadrement est assuré par des professionnels pédagogues habitués à travailler avec un public adolescent.\nUne restitution finale est organisée devant les parents pour fêter l’aboutissement de cette belle semaine.',
-    images: [
-      { src: '/recording-session.png', alt: 'Stage ados micro' },
-      { src: '/studio-booth.png', alt: 'Studio Rennes' },
-    ],
-    videoId: 'boroSb-TslU',
+    title: 'Centre Paris Anim',
+    date: '17/02/2018',
+    desc: 'Paris 19ème',
+    longText: 'Animation au Centre Paris Anim, Paris 19ème.\nLe 17 février 2018.',
+
+    videoId: 'iomLA6-5LDk',
   },
   {
     id: 'l10',
-    title: 'Grand Festival Voix & Cinéma — Nice',
-    date: '25/07/2026',
-    desc: 'Clôture estivale avec projections en plein air, concerts de bandes originales et rencontres inédites.',
-    longText: 'Le point d’orgue de la saison estivale célébrant les arts de la voix et du doublage sur la Côte d’Azur.\nAu programme : projections nocturnes en plein air, ciné-concerts symphoniques et masterclass géantes.\nDe nombreux invités d’honneur, comédiens et adaptateurs, viendront partager leur passion avec le public.\nUn village d’animations accueillera les festivaliers pour des initiations gratuites tout au long du week-end.\nUn événement grandiose pour clôturer l’été sous le signe de la cinéphilie et du partage artistique.',
-    images: [
-      { src: '/event-stage.png', alt: 'Festival Nice plein air' },
-      { src: '/recording-session.png', alt: 'Concert et voix' },
-    ],
-    videoId: 'VvkDpYYPAI4',
+    title: 'Fête scolaire de fin d’année',
+    date: '07/07/2017',
+    desc: 'Mardeuil',
+    longText: 'Fête scolaire de fin d’année à Mardeuil.\nLe 7 juillet 2017.',
+
+    videoId: 'aui1hA8_GS4',
+  },
+  {
+    id: 'l11',
+    title: 'Fête du Court Métrage',
+    date: '17/12/2016 - 18/12/2016',
+    desc: 'Carreau du Temple — Paris 11ème',
+    longText: 'Fête du Court Métrage au Carreau du Temple, Paris 11ème.\nLes 17 et 18 décembre 2016.',
+
+    videoId: 'u56qoOOZksA',
+  },
+  {
+    id: 'l12',
+    title: 'Festival l’été frappé',
+    date: '30/08/2016 - 31/08/2016',
+    desc: 'Mâcon',
+    longText: 'Festival l’été frappé à Mâcon.\nLes 30 et 31 août 2016.',
+
+    videoId: 'yq44n0JngmQ',
+  },
+  {
+    id: 'l13',
+    title: 'Festival de l’humour de résistance',
+    date: '17/04/2016',
+    desc: 'Chalon-sur-Saône',
+    longText: 'Festival de l’humour de résistance à Chalon-sur-Saône.\nLe 17 avril 2016.',
+
+    videoId: 'SLIQDuVI12s',
+  },
+  {
+    id: 'l14',
+    title: 'Apt Captation',
+    date: '08/08/2015',
+    desc: 'Première animation doublage de l’association',
+    longText: 'Apt Captation — première animation doublage de l’association.\nLe 8 août 2015.',
+
+    videoId: 'cFaV3rzLHnw',
   },
 ]
 
 const FACTORY_EVENTS = [
   {
     id: 'f1',
-    title: 'Cycle primaire : Immersion CM1-CM2',
-    date: '01/01/2026',
-    desc: 'Découverte de l’Histoire des Arts et travail de lecture à voix haute en Réseau d’Éducation Prioritaire.',
-    longText: 'Un projet pédagogique mené main dans la main avec les enseignants pour faciliter l’expression orale des élèves.\nÀ travers la découverte de l’outil cinématographique, les enfants reprennent confiance en leur voix.\nLe travail de lecture dialoguée aide à lutter contre les difficultés de fluence et d’articulation en classe.\nChaque élève participe activement à l’enregistrement d’une capsule audio collective valorisante.\nUne action concrète qui dynamise l’apprentissage de la langue française de manière ludique et artistique.',
-    images: [
-      { src: '/event-stage.png', alt: 'Classe primaire atelier' },
-      { src: '/recording-session.png', alt: 'Enfants au micro' },
-    ],
-    videoId: 'mf5Myk1WICg',
+    title: 'École Philippe de Girard',
+    date: 'Année 2023',
+    desc: 'Classe de CM1/CM2 — Paris 18ème',
+    longText: 'La Fabrique à doublage à l’école Philippe de Girard, Paris 18ème.\nClasse de CM1/CM2 — année 2023.',
+
   },
   {
     id: 'f2',
-    title: 'Collège : Atelier écriture & fluence',
-    date: '01/09/2026',
-    desc: 'Travail approfondi sur le rythme, l’intonation, la lecture dialoguée et le sens des textes littéraires.',
-    longText: 'Destiné aux collégiens, ce module associe l’analyse de séquences filmiques à l’apprentissage de la lecture.\nLes élèves découvrent comment le ton et l’intonation modifient totalement le sens d’une phrase.\nUn travail rigoureux est mené sur la respiration, le souffle et la posture pour porter sa voix avec assurance.\nLes textes étudiés font écho au programme de français pour créer des ponts stimulants entre école et culture.\nLe projet aboutit à la création d’une version doublée d’un court-métrage patrimonial ou contemporain.',
-    images: [
-      { src: '/studio-booth.png', alt: 'Atelier collège studio' },
-      { src: '/mixing-console.png', alt: 'Console et textes' },
-    ],
-    videoId: '01iF8VGlwV8',
+    title: 'Conférence ESRA Paris',
+    date: '17/07/2022',
+    desc: 'Présentation du métier d’adaptateur de doublage',
+    longText: 'Conférence ESRA Paris.\nPrésentation du métier d’adaptateur de doublage.\nLe 17 juillet 2022.',
+
   },
   {
     id: 'f3',
-    title: 'Lycée Module 1 : Découverte & Adaptation',
-    date: '15/09/2026',
-    desc: 'Préparation ludique et sensibilisation aux métiers de la post-production pour les lycéens.',
-    longText: 'Une approche interactive pour explorer le jeu d’acteur face au micro et comprendre la synchro labiale.\nLes lycéens s’approprient les techniques de l’acteur de doublage pour incarner des personnages variés.\nL’exercice stimule la concentration, l’écoute active et la réactivité au sein d’un groupe de travail.\nUn bilan personnalisé est dressé pour chaque élève à l’issue des sessions pratiques en cabine.\nUne ouverture concrète vers les métiers de l’audiovisuel et des industries culturelles et créatives.',
-    images: [
-      { src: '/event-stage.png', alt: 'Lycée module 1' },
-      { src: '/recording-session.png', alt: 'Enregistrement lycéens' },
-    ],
-    videoId: 'CiTiIp-AMB4',
+    title: 'École Philippe de Girard',
+    date: 'Année 2022',
+    desc: 'Classe de CM1/CM2 — Paris 18ème',
+    longText: 'La Fabrique à doublage à l’école Philippe de Girard, Paris 18ème.\nClasse de CM1/CM2 — année 2022.',
+
   },
   {
     id: 'f4',
-    title: 'Lycée Module 2 : Traduction & Dialogues',
-    date: '20/09/2026',
-    desc: 'Co-organisation transversale avec les professeurs d’anglais, de langues vivantes et de français.',
-    longText: 'Travail minutieux sur la transposition linguistique, l’adaptation rythmique et le respect des dynamiques.\nLes élèves traduisent et adaptent des dialogues étrangers en veillant à conserver la fluidité du propos.\nCet atelier interdisciplinaire valorise la maîtrise des langues vivantes à travers un cas pratique concret.\nLa contrainte du format rythmique oblige à faire des choix d’écriture précis et percutants.\nUne excellente préparation aux exigences de rigueur rédactionnelle attendue dans le supérieur.',
-    images: [
-      { src: '/studio-booth.png', alt: 'Traduction studio' },
-      { src: '/mixing-console.png', alt: 'Écriture et mixage' },
-    ],
-    videoId: 'boroSb-TslU',
+    title: 'Atelier du Quetzal',
+    date: 'Novembre 2022',
+    desc: 'Centre Jean Vilar — Champigny-sur-Marne',
+    longText: 'Atelier du Quetzal au Centre Jean Vilar, Champigny-sur-Marne.\nAdaptation, écriture et doublage.\nNovembre 2022.',
+
+    videoId: 'FnSRfW1HKck',
   },
   {
     id: 'f5',
-    title: 'Lycée Module 3 : Grand Oral du Bac',
-    date: '01/10/2026',
-    desc: 'Maîtrise de la posture, placement de la voix, respiration et aisance oratoire pour l’examen.',
-    longText: 'Un accompagnement spécifique réservé aux classes de Terminale pour réussir l’épreuve du Grand Oral.\nÀ travers des techniques issues du théâtre et du doublage, les élèves apprennent à maîtriser leur trac.\nLe travail porte sur le timbre, la clarté de l’articulation et la capacité à capter l’attention du jury.\nDes simulations d’entretien sont réalisées et filmées pour analyser les points forts et axes d’amélioration.\nUn coach vocal professionnel guide chaque candidat vers une expression assurée et naturelle.',
-    images: [
-      { src: '/event-stage.png', alt: 'Préparation grand oral' },
-      { src: '/recording-session.png', alt: 'Posture et voix' },
-    ],
-    videoId: 'VvkDpYYPAI4',
+    title: 'École Philippe de Girard',
+    date: 'Année 2021',
+    desc: 'Classe de CM1/CM2 — Paris 18ème',
+    longText: 'La Fabrique à doublage à l’école Philippe de Girard, Paris 18ème.\nClasse de CM1/CM2 — année 2021.',
+
   },
   {
     id: 'f6',
-    title: 'Option Cinéma : Interprétation face micro',
-    date: '10/10/2026',
-    desc: 'Exploration poussée du jeu d’acteur et des exigences des conditions professionnelles de doublage.',
-    longText: 'Destiné aux élèves en option cinéma, ce module intègre la lecture rigoureuse de scripts exigeants.\nLes jeunes cinéphiles découvrent les contraintes techniques du mixage et de la synchro en studio.\nL’interprétation doit être juste, subtile et calée au millimètre près sur le jeu des acteurs à l’écran.\nLe projet annuel se concrétise par la post-synchronisation complète d’une séquence complexe.\nUne véritable immersion professionnelle reconnue dans le cadre du parcours artistique et culturel.',
-    images: [
-      { src: '/studio-booth.png', alt: 'Option cinéma cabine' },
-      { src: '/mixing-console.png', alt: 'Mixage option cinéma' },
-    ],
-    videoId: 'mf5Myk1WICg',
+    title: 'École Philippe de Girard',
+    date: 'Année 2019',
+    desc: 'Classe de CM1/CM2 — Paris 18ème',
+    longText: 'La Fabrique à doublage à l’école Philippe de Girard, Paris 18ème.\nClasse de CM1/CM2 — année 2019.',
+
   },
   {
     id: 'f7',
-    title: 'Séminaire pédagogique enseignants',
-    date: '30/08/2026',
-    desc: 'Présentation officielle des outils de la Fabrique à Doublage au service des apprentissages scolaires.',
-    longText: 'Journée d’information et d’atelier à destination du corps enseignant souhaitant innover dans leurs pratiques.\nDécouvrez comment intégrer le doublage et la lecture audio dans vos projets interdisciplinaires annuels.\nDémonstration des kits pédagogiques clés en main et des logiciels simplifiés pour les classes.\nTemps d’échange entre pairs pour partager les retours d’expérience menés dans différentes académies.\nUne solution inspirante pour dynamiser l’engagement des élèves dès la rentrée de septembre.',
-    images: [
-      { src: '/event-stage.png', alt: 'Séminaire enseignants' },
-      { src: '/studio-booth.png', alt: 'Démonstration pédagogique' },
-    ],
-    videoId: '01iF8VGlwV8',
-  },
-  {
-    id: 'f8',
-    title: 'Atelier synchro rythmo avancée',
-    date: '12/09/2026',
-    desc: 'Maîtrise rigoureuse des bandes rythmo, des repères temporels et de la rigueur de studio.',
-    longText: 'Formation technique dédiée à la précision du découpage, du méTRAGE et au respect des repères de temps.\nLes participants apprennent à lire et à anticiper les ondes visuelles et les flèches de direction.\nLa concentration doit être absolue pour maintenir le synchronisme labial sans lisser l’émotion.\nUn module technique indispensable pour les étudiants en son et les futurs professionnels de la post-synchro.\nValidation des acquis par un exercice chronométré en conditions réelles de plateau.',
-    images: [
-      { src: '/mixing-console.png', alt: 'Rythmo et console' },
-      { src: '/studio-booth.png', alt: 'Cabine technique avancée' },
-    ],
-    videoId: 'CiTiIp-AMB4',
-  },
-  {
-    id: 'f9',
-    title: 'Restitution œuvre commune — Région',
-    date: '18/10/2026',
-    desc: 'Projection publique et festive des projets de doublage réalisés en milieu scolaire durant l’année.',
-    longText: 'Célébration du travail accompli par les élèves, projection sur grand écran des capsules doublées.\nUn moment fort en émotion pour les enfants, fiers de voir leur travail diffusé dans une vraie salle.\nRemise officielle des diplômes d’honneur de la Fabrique à Doublage en présence des élus locaux.\nLa soirée se poursuit par un verre de l’amitié ouvert aux familles, enseignants et partenaires.\nUne belle reconnaissance institutionnelle pour valoriser l’investissement des jeunes talents.',
-    images: [
-      { src: '/event-stage.png', alt: 'Projection restitution' },
-      { src: '/recording-session.png', alt: 'Applaudissements élèves' },
-    ],
-    videoId: 'boroSb-TslU',
-  },
-  {
-    id: 'f10',
-    title: 'Colloque national Voix & Éducation',
-    date: '05/11/2026',
-    desc: 'Bilan, tables rondes et perspectives de la pédagogie par le doublage en milieu scolaire.',
-    longText: 'Un événement institutionnel rassemblant chercheurs, pédagogues et professionnels du secteur.\nBilan chiffré des actions menées dans les écoles et perspectives de développement pour l’année à venir.\nTables rondes thématiques sur l’impact de la voix dans la lutte contre l’échec scolaire et l’illettrisme.\nPrésentation des travaux de recherche universitaire portant sur la fluence et l’expression orale.\nClôture du colloque par un grand débat prospectif sur l’avenir de l’éducation artistique et culturelle.',
-    images: [
-      { src: '/event-stage.png', alt: 'Colloque national scène' },
-      { src: '/studio-booth.png', alt: 'Conférence et débats' },
-    ],
-    videoId: 'VvkDpYYPAI4',
+    title: 'Conférence Université de Rennes',
+    date: 'Mars 2019',
+    desc: 'Master 2 d’anglais — Présentation du métier d’adaptateur de doublage',
+    longText: 'Conférence à l’Université de Rennes, Master 2 d’anglais.\nPrésentation du métier d’adaptateur de doublage.\nMars 2019.',
+
   },
 ]
 
@@ -270,8 +211,8 @@ interface EventItem {
   date: string
   desc: string
   longText: string
-  images: { src: string; alt: string }[]
-  videoId: string
+
+  videoId?: string
 }
 
 interface EventsViewProps {
@@ -437,21 +378,23 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
                     onClick={() => handleOpenModal(ev)}
                     className="group/item flex flex-col sm:flex-row items-center gap-4 p-4 rounded-none bg-neutral-950/60 border border-white/10 hover:border-red-500/60 hover:bg-neutral-900/85 transition-all duration-300 cursor-pointer shadow-md"
                   >
-                    <div className="relative w-full sm:w-28 h-20 shrink-0 rounded-none overflow-hidden border border-white/10 bg-neutral-900">
-                      <Image
-                        src={withBasePath(ev.images[0]?.src || '/placeholder.svg')}
-                        alt={ev.images[0]?.alt || ev.title}
-                        fill
-                        className="object-cover opacity-85 group-hover/item:opacity-100"
-                      />
-                    </div>
+                    {ev.videoId && (
+                      <div className="relative w-full sm:w-28 h-20 shrink-0 rounded-none overflow-hidden border border-white/10 bg-neutral-900">
+                        <Image
+                          src={`https://i.ytimg.com/vi/${ev.videoId}/hqdefault.jpg`}
+                          alt={ev.title}
+                          fill
+                          className="object-cover opacity-85 group-hover/item:opacity-100"
+                        />
+                      </div>
+                    )}
 
                     <div className="flex-1 min-w-0 text-center sm:text-left">
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 mb-1">
-                        <h3 className="font-serif italic text-base text-neutral-100 group-hover/item:text-red-400 transition-colors truncate">
+                      <div className="flex flex-col gap-1 mb-1">
+                        <h3 className="font-serif italic text-base text-neutral-100 group-hover/item:text-red-400 transition-colors text-balance">
                           {ev.title}
                         </h3>
-                        <span className="mb-2.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-red-500 shrink-0">
+                        <span className="text-[11px] sm:text-xs font-medium tracking-wide text-red-500/90">
                           {ev.date}
                         </span>
                       </div>
@@ -518,21 +461,23 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
                     onClick={() => handleOpenModal(ev)}
                     className="group/item flex flex-col sm:flex-row items-center gap-4 p-4 rounded-none bg-neutral-950/60 border border-white/10 hover:border-red-500/60 hover:bg-neutral-900/85 transition-all duration-300 cursor-pointer shadow-md"
                   >
-                    <div className="relative w-full sm:w-28 h-20 shrink-0 rounded-none overflow-hidden border border-white/10 bg-neutral-900">
-                      <Image
-                        src={withBasePath(ev.images[0]?.src || '/placeholder.svg')}
-                        alt={ev.images[0]?.alt || ev.title}
-                        fill
-                        className="object-cover opacity-85 group-hover/item:opacity-100"
-                      />
-                    </div>
+                    {ev.videoId && (
+                      <div className="relative w-full sm:w-28 h-20 shrink-0 rounded-none overflow-hidden border border-white/10 bg-neutral-900">
+                        <Image
+                          src={`https://i.ytimg.com/vi/${ev.videoId}/hqdefault.jpg`}
+                          alt={ev.title}
+                          fill
+                          className="object-cover opacity-85 group-hover/item:opacity-100"
+                        />
+                      </div>
+                    )}
 
                     <div className="flex-1 min-w-0 text-center sm:text-left">
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 mb-1">
-                        <h3 className="font-serif italic text-base text-neutral-100 group-hover/item:text-red-400 transition-colors truncate">
+                      <div className="flex flex-col gap-1 mb-1">
+                        <h3 className="font-serif italic text-base text-neutral-100 group-hover/item:text-red-400 transition-colors text-balance">
                           {ev.title}
                         </h3>
-                        <span className="mb-2.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-red-500 shrink-0">
+                        <span className="text-[11px] sm:text-xs font-medium tracking-wide text-red-500/90">
                           {ev.date}
                         </span>
                       </div>
@@ -590,22 +535,20 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
                 <h2 className="font-serif italic text-xl sm:text-2xl text-white mt-1">{activeEvent.title}</h2>
               </div>
 
-              {/* GRILLE PLEIN ESPACE : Vidéo, Photos et Bloc de texte alignés */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-                
-                {/* Colonne Gauche : Vidéo large (8 colonnes) */}
-                <div className="lg:col-span-8 flex flex-col">
+              {/* Contenu : vidéo YouTube si dispo, sinon texte seul */}
+              <div className="flex flex-col gap-5">
+                {activeEvent.videoId && (
                   <div className="relative w-full aspect-video rounded-none overflow-hidden bg-neutral-950 flex items-center justify-center shadow-md">
                     {!isVideoPlaying ? (
-                      <div 
-                        className="relative h-full w-full overflow-hidden rounded-none bg-neutral-950 flex items-center justify-center cursor-pointer group/vid" 
+                      <div
+                        className="relative h-full w-full overflow-hidden rounded-none bg-neutral-950 flex items-center justify-center cursor-pointer group/vid"
                         onClick={() => setIsVideoPlaying(true)}
                       >
-                        <Image 
-                          src={`https://i.ytimg.com/vi/${activeEvent.videoId}/hqdefault.jpg`} 
-                          alt={activeEvent.title} 
-                          fill 
-                          className="absolute inset-0 h-full w-full object-cover opacity-80" 
+                        <Image
+                          src={`https://i.ytimg.com/vi/${activeEvent.videoId}/hqdefault.jpg`}
+                          alt={activeEvent.title}
+                          fill
+                          className="absolute inset-0 h-full w-full object-cover opacity-80"
                         />
                         <div className="absolute inset-0 bg-black/20" />
                         <button className="relative z-10 flex h-14 w-20 items-center justify-center rounded-xl bg-red-600 shadow-xl transition-transform duration-300 group-hover/vid:scale-110">
@@ -613,44 +556,24 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
                         </button>
                       </div>
                     ) : (
-                      <iframe className="absolute inset-0 h-full w-full bg-black rounded-none" src={`https://www.youtube.com/embed/${activeEvent.videoId}?autoplay=1`} allowFullScreen />
+                      <iframe
+                        className="absolute inset-0 h-full w-full bg-black rounded-none"
+                        src={`https://www.youtube.com/embed/${activeEvent.videoId}?autoplay=1`}
+                        allowFullScreen
+                      />
                     )}
                   </div>
-                </div>
+                )}
 
-                {/* Colonne Droite : 2 petites photos côte à côte (4 colonnes) + Bloc de texte en dessous */}
-                <div className="lg:col-span-4 flex flex-col gap-5">
-                  <div className="flex flex-row justify-between gap-3">
-                    <div className="relative flex-1 aspect-square rounded-none border border-white/10 bg-neutral-900 shadow-md overflow-hidden">
-                      <Image
-                        src={withBasePath(activeEvent.images[0]?.src || '/placeholder.svg')}
-                        alt={activeEvent.images[0]?.alt || activeEvent.title}
-                        fill
-                        className="object-cover opacity-90"
-                      />
-                    </div>
-                    <div className="relative flex-1 aspect-square rounded-none border border-white/10 bg-neutral-900 shadow-md overflow-hidden">
-                      <Image
-                        src={withBasePath(activeEvent.images[1]?.src || activeEvent.images[0]?.src || '/placeholder.svg')}
-                        alt={activeEvent.images[1]?.alt || activeEvent.title}
-                        fill
-                        className="object-cover opacity-90"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Bloc de texte sans fond ni bordure */}
-                  <div className="w-full bg-transparent p-0">
-                    <div className="space-y-1.5 text-xs text-neutral-300 leading-relaxed font-sans">
-                      {activeEvent.longText.split('\n').slice(0, 4).map((line, index) => (
-                        <p key={index} className="line-clamp-2">
-                          {line}
-                        </p>
-                      ))}
-                    </div>
+                <div className="w-full bg-transparent p-0 max-w-2xl mx-auto">
+                  <div className="space-y-1.5 text-xs text-neutral-300 leading-relaxed font-sans text-center sm:text-left">
+                    {activeEvent.longText.split('\n').slice(0, 4).map((line, index) => (
+                      <p key={index} className="line-clamp-2">
+                        {line}
+                      </p>
+                    ))}
                   </div>
                 </div>
-
               </div>
 
             </div>

@@ -24,19 +24,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/icon-light-32x32.png`,
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/icon-dark-32x32.png`,
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/icon.svg`,
-        type: 'image/svg+xml',
+        url: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/tournez bobines logo 3.png`,
+        type: 'image/png',
       },
     ],
-    apple: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/apple-icon.png`,
+    apple: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/tournez bobines logo 3.png`,
   },
 }
 
