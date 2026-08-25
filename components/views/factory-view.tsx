@@ -133,14 +133,14 @@ const TABS = [
   },
 ]
 
-const SharpLeftArrow = () => (
-  <svg className="w-12 h-12 text-red-500 opacity-80 hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
+const SharpLeftArrow = ({ className }: { className?: string }) => (
+  <svg className={cn('w-8 h-8 sm:w-12 sm:h-12 text-red-500 opacity-80 hover:opacity-100 transition-opacity', className)} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
     <polyline points="15 18 9 12 15 6" />
   </svg>
 )
 
-const SharpRightArrow = () => (
-  <svg className="w-12 h-12 text-red-500 opacity-80 hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
+const SharpRightArrow = ({ className }: { className?: string }) => (
+  <svg className={cn('w-8 h-8 sm:w-12 sm:h-12 text-red-500 opacity-80 hover:opacity-100 transition-opacity', className)} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
     <polyline points="9 18 15 12 9 6" />
   </svg>
 )
@@ -186,7 +186,7 @@ export function FactoryView() {
   }
 
   return (
-    <section className="relative min-h-screen w-full bg-neutral-950 text-neutral-50 overflow-hidden pt-32 pb-24 select-none">
+    <section className="relative min-h-screen w-full bg-neutral-950 text-neutral-50 overflow-x-hidden pt-28 sm:pt-32 pb-24 select-none">
       <style jsx>{`
         @keyframes rythmoScroll { 
           0% { transform: translate3d(0, 0, 0); } 
@@ -299,11 +299,11 @@ export function FactoryView() {
         </div>
 
         {/* MIRE DE CADRAGE */}
-        <div className="mt-10 relative w-full p-6 sm:p-10 flex flex-col">
-          <div className="absolute top-0 left-0 w-10 h-10 border-t-2 border-l-2 border-neutral-400/70 pointer-events-none z-20" />
-          <div className="absolute top-0 right-0 w-10 h-10 border-t-2 border-r-2 border-neutral-400/70 pointer-events-none z-20" />
-          <div className="absolute bottom-0 left-0 w-10 h-10 border-b-2 border-l-2 border-neutral-400/70 pointer-events-none z-20" />
-          <div className="absolute bottom-0 right-0 w-10 h-10 border-b-2 border-r-2 border-neutral-400/70 pointer-events-none z-20" />
+        <div className="mt-8 sm:mt-10 relative w-full p-3 sm:p-10 flex flex-col">
+          <div className="absolute top-0 left-0 w-8 h-8 sm:w-10 sm:h-10 border-t-2 border-l-2 border-neutral-400/70 pointer-events-none z-20" />
+          <div className="absolute top-0 right-0 w-8 h-8 sm:w-10 sm:h-10 border-t-2 border-r-2 border-neutral-400/70 pointer-events-none z-20" />
+          <div className="absolute bottom-0 left-0 w-8 h-8 sm:w-10 sm:h-10 border-b-2 border-l-2 border-neutral-400/70 pointer-events-none z-20" />
+          <div className="absolute bottom-0 right-0 w-8 h-8 sm:w-10 sm:h-10 border-b-2 border-r-2 border-neutral-400/70 pointer-events-none z-20" />
           
           <div className="absolute top-0 left-1/2 w-px h-3 bg-neutral-500/50 -translate-x-1/2 pointer-events-none z-20" />
           <div className="absolute bottom-0 left-1/2 w-px h-3 bg-neutral-500/50 -translate-x-1/2 pointer-events-none z-20" />
@@ -311,39 +311,60 @@ export function FactoryView() {
           <div className="absolute top-1/2 right-0 w-3 h-px bg-neutral-500/50 -translate-y-1/2 pointer-events-none z-20" />
 
           {/* CONTENEUR GLOBAL CENTRÉ */}
-          <div className="relative z-10 pt-2 pb-4 mx-auto max-w-4xl w-full flex flex-col gap-8">
+          <div className="relative z-10 pt-2 pb-4 mx-auto max-w-4xl w-full flex flex-col gap-6 sm:gap-8">
             
-            {/* SECTION VIDÉO */}
-            <div className="px-6 sm:px-10">
-              <div className="flex items-center gap-2 sm:gap-4">
-                <div className="w-10 sm:w-14 shrink-0 flex justify-center">
-                  {current.videos.length > 1 && (
-                    <button onClick={prevVideo} className="p-1 sm:p-2 cursor-pointer">
-                      <SharpLeftArrow />
-                    </button>
-                  )}
-                </div>
-                <div className="flex-1 relative w-full aspect-video rounded-[2rem] border border-white/10 bg-neutral-900/40 p-2 sm:p-3 shadow-2xl backdrop-blur-md">
-                  <div className="absolute inset-2 sm:inset-3 rounded-2xl diagonal-stripes z-0 pointer-events-none" />
-                  <div className="relative h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 flex items-center justify-center cursor-pointer group/vid z-10" onClick={() => setIsVideoPlaying(true)}>
-                    {!isVideoPlaying ? (
-                      <>
-                        <img src={`https://i.ytimg.com/vi/${current.videos[videoIndex]}/hqdefault.jpg`} alt="Lancer la vidéo" className="absolute inset-0 h-full w-full object-cover opacity-80" />
-                        <div className="absolute inset-0 bg-black/20" />
-                        <button className="relative z-10 flex h-16 w-24 items-center justify-center rounded-2xl bg-red-600 shadow-xl transition-transform duration-300 group-hover/vid:scale-110">
-                          <svg className="h-8 w-8 text-white fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                        </button>
-                      </>
-                    ) : (
-                      <iframe className="absolute inset-0 h-full w-full bg-black" src={`https://www.youtube.com/embed/${current.videos[videoIndex]}?autoplay=1`} allowFullScreen />
-                    )}
-                  </div>
-                </div>
-                <div className="w-10 sm:w-14 shrink-0 flex justify-center">
-                  {current.videos.length > 1 && (
-                    <button onClick={nextVideo} className="p-1 sm:p-2 cursor-pointer">
-                      <SharpRightArrow />
-                    </button>
+            {/* SECTION VIDÉO — pleine largeur, flèches en overlay */}
+            <div className="relative w-full">
+              {current.videos.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={prevVideo}
+                    className="absolute left-0 top-1/2 z-20 -translate-y-1/2 -translate-x-1 p-1 sm:p-2 cursor-pointer"
+                    aria-label="Vidéo précédente"
+                  >
+                    <SharpLeftArrow />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={nextVideo}
+                    className="absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-1 p-1 sm:p-2 cursor-pointer"
+                    aria-label="Vidéo suivante"
+                  >
+                    <SharpRightArrow />
+                  </button>
+                </>
+              )}
+              <div className="relative w-full aspect-video rounded-xl sm:rounded-[2rem] border border-white/10 bg-neutral-900/40 p-1.5 sm:p-3 shadow-2xl backdrop-blur-md">
+                <div className="absolute inset-1.5 sm:inset-3 rounded-lg sm:rounded-2xl diagonal-stripes z-0 pointer-events-none" />
+                <div
+                  className="relative h-full w-full overflow-hidden rounded-lg sm:rounded-2xl border border-white/10 bg-neutral-950 flex items-center justify-center cursor-pointer group/vid z-10"
+                  onClick={() => setIsVideoPlaying(true)}
+                >
+                  {!isVideoPlaying ? (
+                    <>
+                      <img
+                        src={`https://i.ytimg.com/vi/${current.videos[videoIndex]}/hqdefault.jpg`}
+                        alt="Lancer la vidéo"
+                        className="absolute inset-0 h-full w-full object-cover opacity-90 md:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-black/15" />
+                      <button
+                        type="button"
+                        className="relative z-10 flex h-9 w-12 sm:h-14 sm:w-20 items-center justify-center rounded-lg sm:rounded-2xl bg-red-600/90 shadow-lg transition-transform duration-300 group-hover/vid:scale-110"
+                        aria-label="Lancer la vidéo"
+                      >
+                        <svg className="h-4 w-4 sm:h-7 sm:w-7 text-white fill-current ml-0.5" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </button>
+                    </>
+                  ) : (
+                    <iframe
+                      className="absolute inset-0 h-full w-full bg-black md:scale-105"
+                      src={`https://www.youtube.com/embed/${current.videos[videoIndex]}?autoplay=1`}
+                      allowFullScreen
+                    />
                   )}
                 </div>
               </div>
@@ -351,105 +372,126 @@ export function FactoryView() {
             
             {/* SECTION CONTENU & MODULES */}
             {current.additionalContent && currentModule && (
-              <div className="w-full flex flex-col gap-6">
-                <div className="border-t border-white/10 mx-6 sm:mx-10" />
+              <div className="w-full flex flex-col gap-5 sm:gap-6">
+                <div className="border-t border-white/10" />
 
-                <div className="text-center">
+                <div className="text-center px-1">
                   <p 
                     className="text-xs sm:text-sm text-neutral-400 italic"
                     dangerouslySetInnerHTML={{ __html: current.additionalContent.public }}
                   />
                 </div>
 
-                {/* SECTION MODULES */}
-                <div className="px-6 sm:px-10">
-                  <div className="flex items-center gap-2 sm:gap-4 w-full">
-                    <div className="w-10 sm:w-14 shrink-0 flex justify-center">
-                      {hasMultipleModules && (
-                        <button onClick={prevModule} className="p-1 sm:p-2 cursor-pointer">
-                          <SharpLeftArrow />
-                        </button>
+                {/* SECTION MODULES — encart centré, flèches en overlay */}
+                <div className="relative w-full mx-auto">
+                  {hasMultipleModules && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={prevModule}
+                        className="absolute left-0 top-8 z-20 -translate-x-1 p-1 sm:top-1/2 sm:-translate-y-1/2 sm:p-2 cursor-pointer"
+                        aria-label="Module précédent"
+                      >
+                        <SharpLeftArrow />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={nextModule}
+                        className="absolute right-0 top-8 z-20 translate-x-1 p-1 sm:top-1/2 sm:-translate-y-1/2 sm:p-2 cursor-pointer"
+                        aria-label="Module suivant"
+                      >
+                        <SharpRightArrow />
+                      </button>
+                    </>
+                  )}
+
+                  <div 
+                    key={moduleIndex} 
+                    className={cn(
+                      'mx-auto w-full max-w-3xl flex flex-col justify-start h-auto p-4 sm:p-8 rounded-none border border-white/10 bg-neutral-900/40 shadow-2xl backdrop-blur-md',
+                      slideDirection === 'right' ? 'animate-slide-right' : 'animate-slide-left'
+                    )}
+                  >
+                    <div className="text-center mb-5 sm:mb-6">
+                      {currentModule.prefix && (
+                        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
+                          {currentModule.prefix}
+                        </p>
                       )}
+                      <h3 className="font-serif italic text-2xl sm:text-5xl tracking-tight text-white mb-2 text-balance">
+                        {currentModule.title}
+                      </h3>
+                      
+                      <div className="min-h-14 sm:min-h-20 flex flex-col justify-center items-center gap-1 px-1 sm:px-4">
+                        {currentModule.desc && (
+                          <p className="text-sm sm:text-base text-neutral-300 max-w-lg leading-snug">
+                            {currentModule.desc}
+                          </p>
+                        )}
+                        {currentModule.subDesc && (
+                          <p className="text-sm sm:text-base text-neutral-300 max-w-lg leading-snug">
+                            {currentModule.subDesc}
+                          </p>
+                        )}
+                      </div>
                     </div>
 
-                    <div 
-                      key={moduleIndex} 
-                      className={cn(
-                        "flex-1 flex flex-col justify-start h-auto p-6 sm:p-8 rounded-none border border-white/10 bg-neutral-900/40 shadow-2xl backdrop-blur-md overflow-visible",
-                        slideDirection === 'right' ? 'animate-slide-right' : 'animate-slide-left'
-                      )}
-                    >
-                      <div className="text-center mb-6">
-                        {currentModule.prefix && <p className="mb-2 text-xs font-semibold uppercase tracking-[0.3em] text-red-500">{currentModule.prefix}</p>}
-                        <h3 className="font-serif italic text-3xl sm:text-5xl tracking-tight text-white mb-2">{currentModule.title}</h3>
-                        
-                        <div className="h-16 sm:h-20 flex flex-col justify-center items-center px-4">
-                          {currentModule.desc && <p className="text-base text-neutral-300 max-w-lg leading-tight">{currentModule.desc}</p>}
-                          {currentModule.subDesc && <p className="text-base text-neutral-300 max-w-lg mt-1 leading-tight">{currentModule.subDesc}</p>}
-                        </div>
-                      </div>
-
-                      {moduleVideoId && (
-                        <div className="mb-8 w-full max-w-xl mx-auto">
-                          <div className="relative w-full aspect-video rounded-2xl border border-white/10 bg-neutral-950 overflow-hidden shadow-xl">
-                            <div
-                              className="relative h-full w-full flex items-center justify-center cursor-pointer group/module-vid"
-                              onClick={() => setIsModuleVideoPlaying(true)}
-                            >
-                              {!isModuleVideoPlaying ? (
-                                <>
-                                  <img
-                                    src={`https://i.ytimg.com/vi/${moduleVideoId}/hqdefault.jpg`}
-                                    alt={`Vidéo ${currentModule.prefix ?? currentModule.title}`}
-                                    className="absolute inset-0 h-full w-full object-cover opacity-80"
-                                  />
-                                  <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover/module-vid:bg-transparent" />
-                                  <button
-                                    type="button"
-                                    className="relative z-10 flex h-12 w-16 items-center justify-center rounded-xl bg-red-600 shadow-xl transition-transform duration-300 group-hover/module-vid:scale-110"
-                                    aria-label="Lancer la vidéo"
-                                  >
-                                    <svg className="h-6 w-6 text-white fill-current ml-0.5" viewBox="0 0 24 24">
-                                      <path d="M8 5v14l11-7z" />
-                                    </svg>
-                                  </button>
-                                </>
-                              ) : (
-                                <iframe
-                                  className="absolute inset-0 h-full w-full bg-black"
-                                  src={`https://www.youtube.com/embed/${moduleVideoId}?autoplay=1&rel=0`}
-                                  title={`Vidéo ${currentModule.prefix ?? currentModule.title}`}
-                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                  allowFullScreen
+                    {moduleVideoId && (
+                      <div className="mb-6 sm:mb-8 w-full mx-auto">
+                        <div className="relative w-full aspect-video rounded-xl sm:rounded-2xl border border-white/10 bg-neutral-950 overflow-hidden shadow-xl">
+                          <div
+                            className="relative h-full w-full flex items-center justify-center cursor-pointer group/module-vid"
+                            onClick={() => setIsModuleVideoPlaying(true)}
+                          >
+                            {!isModuleVideoPlaying ? (
+                              <>
+                                <img
+                                  src={`https://i.ytimg.com/vi/${moduleVideoId}/hqdefault.jpg`}
+                                  alt={`Vidéo ${currentModule.prefix ?? currentModule.title}`}
+                                  className="absolute inset-0 h-full w-full object-cover opacity-90 md:scale-105"
                                 />
-                              )}
-                            </div>
+                                <div className="absolute inset-0 bg-black/15 transition-colors duration-300 group-hover/module-vid:bg-transparent" />
+                                <button
+                                  type="button"
+                                  className="relative z-10 flex h-9 w-12 sm:h-12 sm:w-16 items-center justify-center rounded-lg sm:rounded-xl bg-red-600/90 shadow-lg transition-transform duration-300 group-hover/module-vid:scale-110"
+                                  aria-label="Lancer la vidéo"
+                                >
+                                  <svg className="h-4 w-4 sm:h-6 sm:w-6 text-white fill-current ml-0.5" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z" />
+                                  </svg>
+                                </button>
+                              </>
+                            ) : (
+                              <iframe
+                                className="absolute inset-0 h-full w-full bg-black md:scale-105"
+                                src={`https://www.youtube.com/embed/${moduleVideoId}?autoplay=1&rel=0`}
+                                title={`Vidéo ${currentModule.prefix ?? currentModule.title}`}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen
+                              />
+                            )}
                           </div>
                         </div>
-                      )}
-
-                      <div className="text-left pt-2">
-                        <h3 className="text-lg text-red-500 italic mb-4 text-center">objectifs</h3>
-                        <div className="space-y-4 sm:space-y-5 max-w-xl mx-auto">
-                          {currentModule.objectives.map((obj, i) => (
-                            <div key={i} className="flex items-center gap-3 sm:gap-4 group cursor-default">
-                              <div className="relative flex items-center justify-end shrink-0 w-6 h-6">
-                                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white transition-colors duration-300 group-hover:bg-red-500" />
-                              </div>
-                              <div className="flex items-center shrink-0 w-12 sm:w-20"><div className="w-full h-px bg-neutral-700/80"></div></div>
-                              <p className="text-base text-neutral-300 leading-snug pt-0.5 group-hover:text-white transition-colors">{obj}</p>
-                            </div>
-                          ))}
-                        </div>
                       </div>
-                    </div>
+                    )}
 
-                    <div className="w-10 sm:w-14 shrink-0 flex justify-center">
-                      {hasMultipleModules && (
-                        <button onClick={nextModule} className="p-1 sm:p-2 cursor-pointer">
-                          <SharpRightArrow />
-                        </button>
-                      )}
+                    <div className="text-left pt-2">
+                      <h3 className="text-base sm:text-lg text-red-500 italic mb-4 text-center">objectifs</h3>
+                      <div className="space-y-3 sm:space-y-5 max-w-xl mx-auto">
+                        {currentModule.objectives.map((obj, i) => (
+                          <div key={i} className="flex items-start sm:items-center gap-2.5 sm:gap-4 group cursor-default">
+                            <div className="relative flex items-center justify-end shrink-0 w-5 h-5 sm:w-6 sm:h-6 mt-0.5 sm:mt-0">
+                              <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-white transition-colors duration-300 group-hover:bg-red-500" />
+                            </div>
+                            <div className="hidden sm:flex items-center shrink-0 w-20">
+                              <div className="w-full h-px bg-neutral-700/80" />
+                            </div>
+                            <p className="text-sm sm:text-base text-neutral-300 leading-snug group-hover:text-white transition-colors min-w-0">
+                              {obj}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -458,7 +500,7 @@ export function FactoryView() {
 
             {/* ZONE DU BOUTON CTA */}
             {current.additionalContent && (
-              <div className="pt-8 pb-2 flex items-center justify-center mx-6 sm:mx-10">
+              <div className="pt-6 sm:pt-8 pb-2 flex items-center justify-center">
                 <Link
                   href="/doublage?to=formulas"
                   scroll={false}

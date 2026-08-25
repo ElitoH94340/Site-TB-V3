@@ -145,7 +145,7 @@ export function AboutView() {
                 <img 
                   src="https://i.ytimg.com/vi/BVycG1JWfW4/maxresdefault.jpg" 
                   alt="Présentation Vidéo" 
-                  className="absolute inset-0 h-full w-full object-cover opacity-80"
+                  className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
                 />
                 <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
                 <button 
@@ -159,7 +159,7 @@ export function AboutView() {
               </>
             ) : (
               <iframe
-                className="absolute top-0 left-0 h-full w-full bg-black"
+                className="absolute top-0 left-0 h-full w-full bg-black md:scale-105"
                 src="https://www.youtube.com/embed/BVycG1JWfW4?autoplay=1&rel=0"
                 title="Lecteur vidéo YouTube"
                 frameBorder="0"

@@ -37,7 +37,7 @@ export function HomeView() {
   }
 
   return (
-    <section className="relative h-screen w-full bg-neutral-950 text-neutral-50 flex flex-col justify-between overflow-hidden pt-20">
+    <section className="relative min-h-screen w-full bg-neutral-950 text-neutral-50 flex flex-col justify-between pt-20 pb-8">
       
       {/* Animations CSS fluides */}
       <style jsx>{`

@@ -312,7 +312,7 @@ export function DubbingView() {
                   <img 
                     src="https://i.ytimg.com/vi/ejoMCZcqU_s/hqdefault.jpg" 
                     alt="Présentation Vidéo" 
-                    className="absolute inset-0 h-full w-full object-cover opacity-80"
+                    className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
                   />
                   <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
                   <button 
@@ -326,7 +326,7 @@ export function DubbingView() {
                 </>
               ) : (
                 <iframe
-                  className="absolute top-0 left-0 h-full w-full bg-black"
+                  className="absolute top-0 left-0 h-full w-full bg-black md:scale-105"
                   src="https://www.youtube.com/embed/ejoMCZcqU_s?autoplay=1&rel=0"
                   title="Lecteur vidéo YouTube"
                   frameBorder="0"
@@ -369,7 +369,7 @@ export function DubbingView() {
                       <img 
                         src="https://i.ytimg.com/vi/573IoaBcqlU/hqdefault.jpg" 
                         alt="S'amuser à doubler" 
-                        className="absolute inset-0 h-full w-full object-cover opacity-80"
+                        className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
                       />
                       <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
                       <button 
@@ -383,7 +383,7 @@ export function DubbingView() {
                     </>
                   ) : (
                     <iframe
-                      className="absolute top-0 left-0 h-full w-full bg-black"
+                      className="absolute top-0 left-0 h-full w-full bg-black md:scale-105"
                       src="https://www.youtube.com/embed/573IoaBcqlU?autoplay=1&rel=0"
                       title="S'amuser à doubler"
                       frameBorder="0"
@@ -462,7 +462,7 @@ export function DubbingView() {
                   <img 
                     src="https://i.ytimg.com/vi/gl0dyMWsEo0/hqdefault.jpg"
                     alt="Comment ça marche"
-                    className="absolute inset-0 h-full w-full object-cover opacity-80"
+                    className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
                   />
                   <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
                   <button 
@@ -476,7 +476,7 @@ export function DubbingView() {
                 </>
               ) : (
                 <iframe
-                  className="absolute top-0 left-0 h-full w-full bg-black"
+                  className="absolute top-0 left-0 h-full w-full bg-black md:scale-105"
                   src="https://www.youtube.com/embed/gl0dyMWsEo0?autoplay=1&rel=0"
                   title="Comment ça marche"
                   frameBorder="0"
@@ -567,7 +567,7 @@ export function DubbingView() {
                     <div className="relative w-full aspect-video overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 flex items-center justify-center">
                       {isPlaying ? (
                         <iframe
-                          className="absolute top-0 left-0 h-full w-full bg-black"
+                          className="absolute top-0 left-0 h-full w-full bg-black md:scale-105"
                           src={`https://www.youtube.com/embed/${formula.videoId}?autoplay=1&rel=0`}
                           title={formula.title}
                           frameBorder="0"
@@ -579,7 +579,7 @@ export function DubbingView() {
                           <img 
                             src={`https://i.ytimg.com/vi/${formula.videoId}/hqdefault.jpg`} 
                             alt={formula.title} 
-                            className="absolute inset-0 h-full w-full object-cover opacity-80"
+                            className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
                           />
                           <div className="absolute inset-0 bg-black/20" />
                           <button 

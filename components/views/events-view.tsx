@@ -33,34 +33,30 @@ const LUDIC_EVENTS = [
     date: '12/10/2024 - 13/10/2024',
     desc: 'Fontenay-sous-Bois',
     longText: 'Festival Les Infatigables à Fontenay-sous-Bois.\nLes 12 et 13 octobre 2024.',
-
     videoId: 'ew3o4ZZpU-c',
   },
   {
     id: 'l3',
-    title: 'Festival Les Infatigables',
-    date: '02/04/2023',
-    desc: 'Fontenay-sous-Bois',
-    longText: 'Festival Les Infatigables à Fontenay-sous-Bois.\nLe 2 avril 2023.',
-
-    videoId: 'ew3o4ZZpU-c',
-  },
-  {
-    id: 'l4',
     title: 'Festival de doublage de Savonnières',
     date: '05/10/2024',
     desc: 'Savonnières',
     longText: 'Festival de doublage de Savonnières.\nLe 5 octobre 2024.',
-
     videoId: 'aWFopHNTChA',
   },
   {
-    id: 'l5',
+    id: 'l4',
     title: 'Hors les murs — Quartier des Ardrets',
     date: '11/07/2023',
     desc: 'Brétigny-sur-Orge',
     longText: 'Animation hors les murs dans le Quartier des Ardrets à Brétigny-sur-Orge.\nLe 11 juillet 2023.',
-
+  },
+  {
+    id: 'l5',
+    title: 'Festival Les Infatigables',
+    date: '02/04/2023',
+    desc: 'Fontenay-sous-Bois',
+    longText: 'Festival Les Infatigables à Fontenay-sous-Bois.\nLe 2 avril 2023.',
+    videoId: 'ew3o4ZZpU-c',
   },
   {
     id: 'l6',
@@ -68,7 +64,6 @@ const LUDIC_EVENTS = [
     date: '02/03/2022',
     desc: 'Brétigny-sur-Orge',
     longText: 'Animation à l’Espace Nelson Mandela, Brétigny-sur-Orge.\nLe 2 mars 2022.',
-
     videoId: '1Yv4Ka62yb8',
   },
   {
@@ -538,7 +533,7 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
               {/* Contenu : vidéo YouTube si dispo, sinon texte seul */}
               <div className="flex flex-col gap-5">
                 {activeEvent.videoId && (
-                  <div className="relative w-full aspect-video rounded-none overflow-hidden bg-neutral-950 flex items-center justify-center shadow-md">
+                  <div className="relative w-full lg:w-3/4 lg:mx-auto aspect-video rounded-none overflow-hidden bg-neutral-950 flex items-center justify-center shadow-md">
                     {!isVideoPlaying ? (
                       <div
                         className="relative h-full w-full overflow-hidden rounded-none bg-neutral-950 flex items-center justify-center cursor-pointer group/vid"
