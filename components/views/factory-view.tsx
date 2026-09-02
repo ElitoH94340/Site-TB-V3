@@ -4,18 +4,6 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
-const rythmoSequence = [
-  { track: 1, cue: '68', timecode: '01:22:38:12', width: 'w-64 sm:w-80' },
-  { track: 2, cue: '69', timecode: '01:22:40:00', width: 'w-80 sm:w-96' },
-  { track: 3, cue: '70', timecode: '01:22:44:15', width: 'w-72 sm:w-[26rem]' },
-  { track: 1, cue: '71', timecode: '01:22:48:02', width: 'w-80 sm:w-[32rem]' },
-  { track: 2, cue: '72', timecode: '01:22:52:10', width: 'w-56 sm:w-72' },
-  { track: 3, cue: '73', timecode: '01:22:56:18', width: 'w-96 sm:w-[34rem]' },
-  { track: 1, cue: '74', timecode: '01:23:01:00', width: 'w-68 sm:w-84' },
-  { track: 2, cue: '75', timecode: '01:23:05:14', width: 'w-76 sm:w-[26rem]' },
-  { track: 3, cue: '76', timecode: '01:23:10:22', width: 'w-64 sm:w-88' },
-]
-
 const TABS = [
   {
     id: 'Primaire',
@@ -188,14 +176,6 @@ export function FactoryView() {
   return (
     <section className="relative min-h-screen w-full bg-neutral-950 text-neutral-50 overflow-x-hidden pt-28 sm:pt-32 pb-24 select-none">
       <style jsx>{`
-        @keyframes rythmoScroll { 
-          0% { transform: translate3d(0, 0, 0); } 
-          100% { transform: translate3d(-50%, 0, 0); } 
-        }
-        .animate-rythmo-scroll { 
-          animation: rythmoScroll 28s linear infinite; 
-          will-change: transform; 
-        }
         @keyframes slideFromRight { 
           0% { opacity: 0; transform: translateX(30px); } 
           100% { opacity: 1; transform: translateX(0); } 
@@ -223,44 +203,6 @@ export function FactoryView() {
         }
       `}</style>
 
-      {/* BACKGROUND TEXTURE */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none flex items-center opacity-[0.15] blur-[3px]">
-        <div className="absolute inset-x-0 h-[34rem] bg-neutral-900/30 border-y border-neutral-800/40 flex flex-col justify-between py-2">
-          <div className="w-full border-t border-dashed border-white/30"></div>
-          <div className="w-full border-t border-dashed border-neutral-700/30"></div>
-          <div className="w-full border-t border-dashed border-white/30"></div>
-        </div>
-        <div className="absolute inset-0 flex flex-col justify-center items-center opacity-20 space-y-28">
-          <div className="h-px w-full bg-neutral-500"></div>
-          <div className="h-px w-full bg-neutral-500"></div>
-        </div>
-        <div className="absolute top-0 bottom-0 left-[25%] w-0.5 bg-red-600/80 z-20 flex flex-col items-center justify-center">
-          <span className="text-red-600 font-normal text-[2.5rem] leading-none">×</span>
-        </div>
-        <div className="flex w-max animate-rythmo-scroll px-[25vw] relative z-10 items-center">
-          {[1, 2].map((loopIndex) => (
-            <div key={loopIndex} className="flex items-center gap-12 sm:gap-20">
-              {rythmoSequence.map((item, index) => {
-                let trackTransform = 'translate-y-0'
-                if (item.track === 1) trackTransform = '-translate-y-36 sm:-translate-y-48'
-                if (item.track === 3) trackTransform = 'translate-y-36 sm:translate-y-48'
-                return (
-                  <div key={`${loopIndex}-${index}`} className={`flex items-center gap-2.5 shrink-0 transition-transform ${trackTransform}`}>
-                    <div className="px-1.5 py-0.5 border border-red-500/70 bg-red-950/60 rounded-[3px] font-mono text-[10px] sm:text-xs text-red-300 tracking-wider shrink-0 text-center">
-                      {item.cue}
-                    </div>
-                    <div className={`h-11 sm:h-14 bg-neutral-800/95 rounded-md ${item.width} border border-neutral-700/70 shadow-md shrink-0`} />
-                    <div className="px-1.5 py-0.5 border border-red-500/70 bg-red-950/60 rounded-[3px] font-mono text-[9px] sm:text-[11px] text-red-300 tracking-wider shrink-0">
-                      {item.timecode}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div className="mx-auto max-w-5xl px-5 sm:px-8 relative z-10 animate-fade-in-up">
         <header className="mx-auto max-w-3xl text-center">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-red-500">La fabrique à doublage</p>
@@ -285,13 +227,11 @@ export function FactoryView() {
                   aria-current={isActive ? 'page' : undefined}
                   onClick={() => setActive(tab.id)}
                   className={cn(
-                    'group relative h-full flex items-center text-[9px] sm:text-[11px] uppercase tracking-[0.2em] transition-colors cursor-pointer bg-transparent',
+                    'group relative h-full flex items-center text-[14px] sm:text-[16px] uppercase tracking-[0.2em] transition-colors cursor-pointer bg-transparent',
                     isActive ? 'text-red-500 font-medium' : 'text-neutral-400 hover:text-white'
                   )}
                 >
-                  <span className={cn('transition-opacity duration-300 mr-1.5', isActive ? 'opacity-100' : 'opacity-0')}>[</span>
                   <span>{labelText}</span>
-                  <span className={cn('transition-opacity duration-300 ml-1.5', isActive ? 'opacity-100' : 'opacity-0')}>]</span>
                 </button>
               </div>
             )
@@ -408,7 +348,7 @@ export function FactoryView() {
                   <div 
                     key={moduleIndex} 
                     className={cn(
-                      'mx-auto w-full max-w-3xl flex flex-col justify-start h-auto p-4 sm:p-8 rounded-none border border-white/10 bg-neutral-900/40 shadow-2xl backdrop-blur-md',
+                      'w-full flex flex-col justify-start h-auto p-4 sm:p-8 rounded-none border border-white/10 bg-neutral-900/40 shadow-2xl backdrop-blur-md',
                       slideDirection === 'right' ? 'animate-slide-right' : 'animate-slide-left'
                     )}
                   >
@@ -502,8 +442,7 @@ export function FactoryView() {
             {current.additionalContent && (
               <div className="pt-6 sm:pt-8 pb-2 flex items-center justify-center">
                 <Link
-                  href="/doublage?to=formulas"
-                  scroll={false}
+                  href="/formules"
                   className="px-8 py-3 rounded-full border border-white/20 bg-white/[0.08] text-neutral-200 font-medium text-xs sm:text-sm tracking-wide hover:bg-red-600 hover:border-red-600 hover:text-white transition-all duration-300 cursor-pointer shadow-lg"
                 >
                   {current.additionalContent.ctaButton}

@@ -57,7 +57,7 @@ export function SiteHeader() {
         }
       `}</style>
 
-      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 sm:px-8">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
         <Link
           href="/"
           aria-label="Retour à l'accueil"
@@ -80,8 +80,8 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav aria-label="Navigation principale" className="hidden md:block h-full">
-          <ul className="flex h-full items-center gap-16">
+        <nav aria-label="Navigation principale" className="hidden lg:block h-full">
+          <ul className="flex h-full items-center gap-6 xl:gap-10">
             {NAV_ITEMS.map((item) => {
               const isActive =
                 pathname === item.href || pathname === `${item.href}/`
@@ -97,9 +97,7 @@ export function SiteHeader() {
                         : 'text-neutral-400 hover:text-white',
                     )}
                   >
-                    <span aria-hidden="true">[ </span>
                     {item.label}
-                    <span aria-hidden="true"> ]</span>
 
                     {isActive && (
                       <div className="absolute bottom-0 left-1/2 z-10 flex -translate-x-1/2 translate-y-1/2 items-center justify-center">
@@ -118,7 +116,7 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <div ref={menuRef} className="relative md:hidden">
+        <div ref={menuRef} className="relative lg:hidden">
           <button
             type="button"
             className="flex size-11 items-center justify-center text-white cursor-pointer"
@@ -181,7 +179,7 @@ export function SiteHeader() {
                       {isActive && (
                         <span className="size-1.5 shrink-0 rounded-full bg-red-600 animate-pulse-glow" />
                       )}
-                      [ {item.label} ]
+                      {item.label}
                     </Link>
                   </li>
                 )

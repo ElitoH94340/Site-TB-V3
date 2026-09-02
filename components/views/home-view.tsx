@@ -12,19 +12,6 @@ const partners = [
   { name: 'Echo Media', src: '/partners/echo-media.png' },
 ]
 
-// Séquence rythmo avec des rectangles de dialogue rallongés
-const rythmoSequence = [
-  { track: 1, cue: '68', timecode: '01:22:38:12', width: 'w-64 sm:w-80' },
-  { track: 2, cue: '69', timecode: '01:22:40:00', width: 'w-80 sm:w-96' },
-  { track: 3, cue: '70', timecode: '01:22:44:15', width: 'w-72 sm:w-[26rem]' },
-  { track: 1, cue: '71', timecode: '01:22:48:02', width: 'w-80 sm:w-[32rem]' },
-  { track: 2, cue: '72', timecode: '01:22:52:10', width: 'w-56 sm:w-72' },
-  { track: 3, cue: '73', timecode: '01:22:56:18', width: 'w-96 sm:w-[34rem]' },
-  { track: 1, cue: '74', timecode: '01:23:01:00', width: 'w-68 sm:w-84' },
-  { track: 2, cue: '75', timecode: '01:23:05:14', width: 'w-76 sm:w-[26rem]' },
-  { track: 3, cue: '76', timecode: '01:23:10:22', width: 'w-64 sm:w-88' },
-]
-
 export function HomeView() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isMuted, setIsMuted] = useState(true)
@@ -49,77 +36,7 @@ export function HomeView() {
           animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           opacity: 0;
         }
-
-        /* Défilement fluide et accéléré des pistes rythmo (28s) */
-        @keyframes rythmoScroll {
-          0% { transform: translate3d(0, 0, 0); }
-          100% { transform: translate3d(-50%, 0, 0); }
-        }
-        .animate-rythmo-scroll {
-          animation: rythmoScroll 28s linear infinite;
-          will-change: transform;
-        }
       `}</style>
-
-      {/* BACKGROUND TEXTURE : Bande rythmo authentique et dynamique */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none flex items-center opacity-[0.2]">
-        
-        {/* Lignes directrices des 3 pistes (imitation de la bande perforée/grise) */}
-        <div className="absolute inset-x-0 h-[34rem] bg-neutral-900/30 border-y border-neutral-800/40 flex flex-col justify-between py-2">
-          <div className="w-full border-t border-dashed border-white/30"></div>
-          <div className="w-full border-t border-dashed border-neutral-700/30"></div>
-          <div className="w-full border-t border-dashed border-white/30"></div>
-        </div>
-
-        {/* Lignes horizontales de séparation des pistes */}
-        <div className="absolute inset-0 flex flex-col justify-center items-center opacity-20 space-y-28">
-          <div className="h-px w-full bg-neutral-500"></div>
-          <div className="h-px w-full bg-neutral-500"></div>
-        </div>
-
-        {/* LIGNE ROUGE DE SYNCHRO CENTRALE AVEC LA CROIX ROUGE (TRAITS AFFINÉS) */}
-        <div className="absolute top-0 bottom-0 left-[25%] w-0.5 bg-red-600/80 z-20 flex flex-col items-center justify-center">
-          <span className="text-red-600 font-normal text-[2.5rem] select-none leading-none">
-            ×
-          </span>
-        </div>
-
-        {/* Conteneur défilant fluide */}
-        <div className="flex w-max animate-rythmo-scroll px-[25vw] relative z-10 items-center">
-          {[1, 2].map((loopIndex) => (
-            <div key={loopIndex} className="flex items-center gap-12 sm:gap-20">
-              {rythmoSequence.map((item, index) => {
-                // Position verticale selon la piste (1, 2 ou 3)
-                let trackTransform = 'translate-y-0'
-                if (item.track === 1) trackTransform = '-translate-y-36 sm:-translate-y-48'
-                if (item.track === 3) trackTransform = 'translate-y-36 sm:translate-y-48'
-
-                return (
-                  <div 
-                    key={`${loopIndex}-${index}`}
-                    className={`flex items-center gap-2.5 shrink-0 transition-transform ${trackTransform}`}
-                  >
-                    {/* Numéro de ligne encadré en rouge */}
-                    <div className="px-1.5 py-0.5 border border-red-500/70 bg-red-950/60 rounded-[3px] font-mono text-[10px] sm:text-xs text-red-300 tracking-wider shrink-0 text-center">
-                      {item.cue}
-                    </div>
-
-                    {/* Rectangle de dialogue rallongé et épuré */}
-                    <div className={`h-11 sm:h-14 bg-neutral-800/90 rounded-md ${item.width} border border-neutral-700/70 shadow-md shrink-0`} />
-
-                    {/* Time-code encadré en rouge */}
-                    <div className="px-1.5 py-0.5 border border-red-500/70 bg-red-950/60 rounded-[3px] font-mono text-[9px] sm:text-[11px] text-red-300 tracking-wider shrink-0">
-                      {item.timecode}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          ))}
-        </div>
-      </div>
-      {/* FIN BACKGROUND */}
-
 
       {/* Conteneur principal centré verticalement */}
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center px-5 sm:px-8 py-4">
