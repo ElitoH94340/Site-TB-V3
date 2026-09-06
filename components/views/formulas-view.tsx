@@ -28,7 +28,6 @@ export function FormulasView() {
     const videoEl = document.getElementById(`video-${formulaId}`) as HTMLVideoElement | null
     if (videoEl) {
       if (videoEl.paused) {
-        // Mettre en pause toutes les autres vidéos avant de lancer celle-ci
         FORMULAS.forEach((f) => {
           if (f.id !== formulaId) {
             const otherVideo = document.getElementById(`video-${f.id}`) as HTMLVideoElement | null
@@ -55,7 +54,6 @@ export function FormulasView() {
           animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           opacity: 0;
         }
-        /* Texture de papier mat / grain subtil */
         .bg-textured-paper {
           background-color: #f3f4f6;
           background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
@@ -85,21 +83,18 @@ export function FormulasView() {
           const isActive = activeFormulaId === formula.id
           const isVideoPlaying = isPlaying[formula.id] || false
           
-          // Attribution des vidéos locales selon l'index
           const videoSrc = index === 0 
             ? '/T-B-Immersion.mov' 
             : index === 1 
             ? '/T-B-Immersion-filmée.mov' 
             : '/T-B-Captation.mov'
 
-          // Attribution des images de couverture selon l'index
           const coverSrc = index === 0
             ? '/couverture-immersion.png'
             : index === 1
             ? '/couverture-immersion-filmée.png'
             : '/couverture-captation.png'
 
-          // Configuration de la DA par colonne
           let colTheme = {
             bg: 'bg-black text-white',
             title: 'text-neutral-100',
@@ -108,7 +103,6 @@ export function FormulasView() {
             highlight: 'text-white',
             text: 'text-neutral-400',
             border: 'border-white/10',
-            footerText: 'text-neutral-500',
           }
 
           if (index === 0) {
@@ -120,7 +114,6 @@ export function FormulasView() {
               highlight: 'text-neutral-900',
               text: 'text-neutral-600',
               border: 'border-neutral-200',
-              footerText: 'text-neutral-400',
             }
           } else if (index === 1) {
             colTheme = {
@@ -131,7 +124,6 @@ export function FormulasView() {
               highlight: 'text-neutral-900',
               text: 'text-neutral-700',
               border: 'border-neutral-300',
-              footerText: 'text-neutral-500',
             }
           }
 
@@ -155,7 +147,7 @@ export function FormulasView() {
                 </div>
               )}
 
-              {/* LECTEUR VIDÉO + LISERÉ */}
+              {/* LECTEUR VIDÉO */}
               <div className="relative z-10 w-full mb-10 shadow-2xl flex flex-col">
                 <div 
                   className={`relative w-full aspect-video overflow-hidden flex items-center justify-center bg-black ${!isVideoPlaying ? 'cursor-pointer' : ''}`}
@@ -163,8 +155,6 @@ export function FormulasView() {
                     if (!isVideoPlaying) togglePlay(e, formula.id)
                   }}
                 >
-                  
-                  {/* BALISE VIDEO NATIVE */}
                   <video
                     id={`video-${formula.id}`}
                     className={`absolute inset-0 h-full w-full outline-none transition-all duration-700 ${isActive ? 'object-contain' : 'object-cover'}`}
@@ -176,13 +166,11 @@ export function FormulasView() {
                     onPause={() => setIsPlaying(prev => ({ ...prev, [formula.id]: false }))}
                   />
 
-                  {/* OVERLAY IMAGE DE COUVERTURE ET BOUTON PLAY */}
                   <div 
                     className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-500 ${
                       isVideoPlaying ? 'opacity-0 pointer-events-none' : 'opacity-100'
                     }`}
                   >
-                    {/* Image */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img 
                       src={coverSrc} 
@@ -190,10 +178,8 @@ export function FormulasView() {
                       className="absolute inset-0 h-full w-full object-cover"
                     />
 
-                    {/* Voile sombre léger pour détacher le bouton blanc */}
                     <div className="absolute inset-0 bg-black/10 transition-colors duration-300" />
                     
-                    {/* Bouton Play */}
                     <button
                       type="button"
                       onClick={(e) => togglePlay(e, formula.id)}
@@ -205,23 +191,15 @@ export function FormulasView() {
                       </svg>
                     </button>
                   </div>
-
                 </div>
-
-                {/* Liseré indicateur de sélection positionné juste en dessous de la vidéo */}
-                <div 
-                  className={`w-full h-1.5 transition-all duration-500 ${
-                    isActive ? 'bg-red-600 shadow-[0_0_20px_rgba(220,38,38,0.6)]' : 'bg-transparent'
-                  }`} 
-                />
               </div>
 
               {/* CONTENU TEXTUEL */}
               <div className="relative z-10 flex flex-col flex-1 px-6 sm:px-12 lg:px-10 xl:px-16 w-full">
                 
-                {/* TITRE */}
+                {/* TITRE DE LA COLONNE */}
                 <div className="mb-10 text-center flex items-center justify-center">
-                  <h2 className={`font-serif text-xl sm:text-2xl tracking-tight italic drop-shadow-sm transition-transform duration-500 ${colTheme.title}`}>
+                  <h2 className={`text-balance font-serif text-3xl leading-tight tracking-tight italic drop-shadow-md sm:text-4xl lg:text-5xl transition-transform duration-500 ${colTheme.title}`}>
                     {formula.title}
                   </h2>
                 </div>
@@ -238,7 +216,7 @@ export function FormulasView() {
                       <div className="mt-3 flex w-4 shrink-0 items-center">
                         <div className={`h-px w-full transition-colors duration-300 group-hover:bg-red-500/50 ${colTheme.line}`} />
                       </div>
-                      <div className="pt-0.5 text-xs sm:text-sm leading-relaxed">
+                      <div className="pt-0.5 text-pretty text-base leading-relaxed">
                         {step.highlight && (
                           <span className={`mb-1 block font-medium ${colTheme.highlight}`}>
                             {step.highlight}
@@ -254,9 +232,9 @@ export function FormulasView() {
                   ))}
                 </div>
 
-                {/* Mention devis */}
+                {/* Mention devis modifiée avec la classe rouge demandée */}
                 <div className={`mt-12 pt-5 border-t text-center transition-colors duration-300 ${colTheme.border}`}>
-                  <p className={`text-[10px] uppercase tracking-[0.15em] ${colTheme.footerText}`}>
+                  <p className="mb-2.5 text-[10px] font-semibold tracking-[0.3em] text-red-500 uppercase sm:text-xs">
                     Devis disponible sur demande
                   </p>
                 </div>

@@ -176,16 +176,16 @@ export function DubbingView() {
                 Nos objectifs
               </h2>
               
-<ul className="flex flex-col items-center gap-3 text-black text-[24px] leading-[1.618] font-light list-none mb-0 w-full max-w-4xl mx-auto">
-  <li className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 w-full">
-    <span className="w-8 h-[2px] bg-red-500 justify-self-end"></span>
-    <span className="text-center">Fédérer un groupe de collaborateurs</span>
-    <span className="w-8 h-[2px] bg-red-500 justify-self-start"></span>
+<ul className="flex flex-col items-center gap-5 text-black font-serif italic text-2xl sm:text-3xl tracking-normal text-balance list-none mb-0">
+  <li>
+    <span className="text-black mr-3">—</span> 
+    Fédérer un groupe de <span className="text-red-500 font-medium">collaborateurs</span> 
+    <span className="text-black ml-3">—</span>
   </li>
-  <li className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 w-full">
-    <span className="w-8 h-[2px] bg-red-500 justify-self-end"></span>
-    <span className="text-center">Donner une dimension festive et cinématographique à un événement</span>
-    <span className="w-8 h-[2px] bg-red-500 justify-self-start"></span>
+  <li>
+    <span className="text-black mr-3">—</span> 
+    Donner une dimension <span className="text-red-500 font-medium">festive et cinématographique</span> à un événement 
+    <span className="text-black ml-3">—</span>
   </li>
 </ul>
             </div>
