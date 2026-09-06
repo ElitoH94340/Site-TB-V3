@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { X, Play, Pause, Volume2, VolumeX, Maximize } from 'lucide-react'
 import { VideoPlayButton } from '@/components/video-play-button'
 import { FormulaFrame } from '@/components/formula-frame'
+import { withBasePath } from '@/lib/paths'
 
 interface EventItem {
   id: string
@@ -153,7 +154,7 @@ const FACTORY_EVENTS: EventItem[] = [
     date: '17/07/2022',
     desc: 'Présentation du métier d’adaptateur de doublage',
     longText: 'Conférence ESRA Paris.\nPrésentation du métier d’adaptateur de doublage.\nLe 17 juillet 2022.',
-    image: '/Conférence-ESRA école-de-cinéma-2021-22.jpg',
+    image: '/conference-esra-ecole-de-cinema-2021-22.jpg',
   },
   {
     id: 'f3',
@@ -294,7 +295,7 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
     if (ev.image) {
       return (
         <Image
-          src={ev.image}
+          src={withBasePath(ev.image)}
           alt={ev.title}
           fill
           className="object-cover scale-110 origin-center transition-opacity duration-300"
@@ -449,7 +450,7 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
                   {activeEvent.image && (
                     <div className="relative h-[220px] sm:h-[280px] w-[200px] sm:w-[240px] shrink-0 flex items-center justify-center">
                       <Image
-                        src={activeEvent.image}
+                        src={withBasePath(activeEvent.image)}
                         alt={activeEvent.title}
                         fill
                         className="object-contain shadow-lg"
