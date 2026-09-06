@@ -33,11 +33,13 @@ export function SiteHeader() {
 
   return (
     <header className="site-header">
-      <div className="site-header-bar">
+      {/* 1. La barre devient un conteneur flex prenant toute la largeur */}
+      <div className={cn("site-header-bar", "flex items-center w-full")}>
         <Link
           href="/"
           aria-label="Retour à l'accueil"
-          className="site-header-brand"
+          /* 2. Le logo garde sa taille (shrink-0) et on lui ajoute une marge à droite (mr-12) */
+          className={cn("site-header-brand", "shrink-0 mr-8 lg:mr-16")}
           onClick={() => setMenuOpen(false)}
         >
           <span className="site-header-logo">
@@ -51,8 +53,10 @@ export function SiteHeader() {
           <span className="site-header-title">Tournez Bobines</span>
         </Link>
 
-        <nav aria-label="Navigation principale" className="site-nav-desktop">
-          <ul>
+        {/* 3. Le <nav> prend tout l'espace restant (flex-1) */}
+        <nav aria-label="Navigation principale" className={cn("site-nav-desktop", "flex-1")}>
+          {/* 4. Le <ul> répartit les éléments uniformément (justify-evenly) sur toute sa largeur */}
+          <ul className="flex items-center justify-evenly w-full">
             {NAV_ITEMS.map((item) => {
               const isActive =
                 pathname === item.href || pathname === `${item.href}/`
@@ -79,7 +83,8 @@ export function SiteHeader() {
 
         <button
           type="button"
-          className="site-nav-burger"
+          /* Ajout d'un ml-auto au cas où la barre serait en flex pour pousser le bouton à droite sur mobile */
+          className={cn("site-nav-burger", "ml-auto")}
           aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
