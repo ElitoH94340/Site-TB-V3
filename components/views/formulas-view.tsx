@@ -83,17 +83,17 @@ export function FormulasView() {
           const isActive = activeFormulaId === formula.id
           const isVideoPlaying = isPlaying[formula.id] || false
           
-          const videoSrc = index === 0 
-            ? '/T-B-Immersion.mov' 
-            : index === 1 
-            ? '/T-B-Immersion-filmée.mov' 
-            : '/T-B-Captation.mov'
+const videoSrc = index === 0
+  ? `${basePath}/T-B-Immersion.mov`
+  : index === 1
+  ? `${basePath}/T-B-Immersion-filmee.mov`
+  : `${basePath}/T-B-Captation.mov`
 
-          const coverSrc = index === 0
-            ? '/couverture-immersion.png'
-            : index === 1
-            ? '/couverture-immersion-filmée.png'
-            : '/couverture-captation.png'
+const coverSrc = index === 0
+  ? `${basePath}/couverture-immersion.png`
+  : index === 1
+  ? `${basePath}/couverture-immersion-filmee.png`
+  : `${basePath}/couverture-captation.png`
 
           let colTheme = {
             bg: 'bg-black text-white',
