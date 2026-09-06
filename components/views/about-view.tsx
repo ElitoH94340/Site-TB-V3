@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { FormulaFrame } from '@/components/formula-frame'
+import { VideoPlayButton } from '@/components/video-play-button'
 import { withBasePath } from '@/lib/paths'
 
 export function AboutView() {
@@ -175,14 +176,7 @@ export function AboutView() {
                       className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
-                    <button 
-                      className="relative z-10 flex h-14 w-20 sm:h-16 sm:w-24 items-center justify-center rounded-xl sm:rounded-2xl bg-red-600 shadow-xl transition-transform duration-300 group-hover:scale-110"
-                      aria-label="Lancer la vidéo"
-                    >
-                      <svg className="h-6 w-6 sm:h-8 sm:w-8 text-white fill-current ml-1" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </button>
+                    <VideoPlayButton />
                   </>
                 ) : (
                   <iframe

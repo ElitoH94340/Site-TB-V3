@@ -223,7 +223,6 @@
 }
 
 .site-header-title {
-  overflow: hidden;
   color: #fff;
   font-family: var(--font-instrument-serif), ui-serif, Georgia, serif;
   font-size: 1.15rem;

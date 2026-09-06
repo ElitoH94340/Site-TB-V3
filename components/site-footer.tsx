@@ -11,12 +11,12 @@ const partners = [
 
 export function SiteFooter() {
   return (
-    <footer className="bg-black py-6 sm:py-8 px-4 sm:px-12 lg:px-20 border-t border-neutral-900">
+    <footer className="bg-black py-4 px-4 sm:px-12 lg:px-20 border-t border-neutral-900">
       <div className="w-full grid grid-cols-5 gap-3 sm:gap-6 md:gap-8 items-center justify-items-center">
         {partners.map((partner) => (
           <div
             key={partner.name}
-            className="relative w-full h-8 sm:h-12 md:h-16 lg:h-20 flex items-center justify-center"
+            className="relative flex h-16 w-full items-center justify-center"
           >
             <Image
               src={withBasePath(partner.src)}
