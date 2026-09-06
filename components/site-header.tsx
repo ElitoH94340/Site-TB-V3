@@ -33,7 +33,7 @@ export function SiteHeader() {
 
   return (
     <header className="site-header">
-      <div className={cn("site-header-bar", "flex items-center !w-full")}>
+      <div className={cn("site-header-bar", "flex items-center w-full")}>
         <Link
           href="/"
           aria-label="Retour à l'accueil"
@@ -51,8 +51,17 @@ export function SiteHeader() {
           <span className="site-header-title">Tournez Bobines</span>
         </Link>
 
-        <nav aria-label="Navigation principale" className={cn("site-nav-desktop", "!flex-1")}>
-          <ul className="flex items-center !justify-evenly !w-full">
+        {/* FORCAGE EN LIGNE ICI : flex: 1 garantit que le nav prend tout l'espace restant */}
+        <nav 
+          aria-label="Navigation principale" 
+          className="site-nav-desktop"
+          style={{ flex: 1, display: 'flex' }}
+        >
+          {/* FORCAGE EN LIGNE ICI : on s'assure que le ul prend 100% du nav et répartit les items */}
+          <ul 
+            className="flex items-center w-full"
+            style={{ justifyContent: 'space-evenly' }}
+          >
             {NAV_ITEMS.map((item) => {
               const isActive =
                 pathname === item.href || pathname === `${item.href}/`
