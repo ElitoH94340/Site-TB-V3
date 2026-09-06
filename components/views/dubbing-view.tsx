@@ -176,10 +176,18 @@ export function DubbingView() {
                 Nos objectifs
               </h2>
               
-              <ul className="flex flex-col items-center gap-3 text-neutral-600 text-[16px] leading-[1.618] font-light text-balance list-none mb-0">
-                <li>— Fédérer un groupe de collaborateurs —</li>
-                <li>— Donner une dimension festive et cinématographique à un événement —</li>
-              </ul>
+<ul className="flex flex-col items-center gap-3 text-black text-[24px] leading-[1.618] font-light list-none mb-0 w-full max-w-4xl mx-auto">
+  <li className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 w-full">
+    <span className="w-8 h-[2px] bg-red-500 justify-self-end"></span>
+    <span className="text-center">Fédérer un groupe de collaborateurs</span>
+    <span className="w-8 h-[2px] bg-red-500 justify-self-start"></span>
+  </li>
+  <li className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 w-full">
+    <span className="w-8 h-[2px] bg-red-500 justify-self-end"></span>
+    <span className="text-center">Donner une dimension festive et cinématographique à un événement</span>
+    <span className="w-8 h-[2px] bg-red-500 justify-self-start"></span>
+  </li>
+</ul>
             </div>
 
             {/* VIDÉO OBJECTIFS DE RÉFÉRENCE */}
