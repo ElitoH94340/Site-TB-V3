@@ -1,4 +1,4 @@
-const repo = 'TBWebsite-v2'
+const repo = process.env.NEXT_PUBLIC_REPO_NAME || 'Site-TB-V3'
 const isGithubPages = process.env.GITHUB_PAGES === 'true'
 const basePath = isGithubPages ? `/${repo}` : ''
 
