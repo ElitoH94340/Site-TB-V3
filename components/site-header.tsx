@@ -32,12 +32,17 @@ export function SiteHeader() {
   }, [menuOpen])
 
   return (
-    <header className="site-header">
-      <div className={cn("site-header-bar", "flex items-center w-full")}>
+    <header className="site-header" style={{ width: '100%' }}>
+      {/* On force le parent en display flex sur toute la largeur */}
+      <div 
+        className="site-header-bar" 
+        style={{ display: 'flex', alignItems: 'center', width: '100%', boxSizing: 'border-box' }}
+      >
         <Link
           href="/"
           aria-label="Retour à l'accueil"
-          className={cn("site-header-brand", "shrink-0 mr-8 lg:mr-24")}
+          className="site-header-brand"
+          style={{ flexShrink: 0, marginRight: '3rem' }}
           onClick={() => setMenuOpen(false)}
         >
           <span className="site-header-logo">
@@ -51,16 +56,24 @@ export function SiteHeader() {
           <span className="site-header-title">Tournez Bobines</span>
         </Link>
 
-        {/* FORCAGE EN LIGNE ICI : flex: 1 garantit que le nav prend tout l'espace restant */}
+        {/* On force le nav à prendre tout l'espace restant */}
         <nav 
           aria-label="Navigation principale" 
           className="site-nav-desktop"
-          style={{ flex: 1, display: 'flex' }}
+          style={{ flex: 1, display: 'flex', minWidth: 0 }}
         >
-          {/* FORCAGE EN LIGNE ICI : on s'assure que le ul prend 100% du nav et répartit les items */}
+          {/* On force la liste à occuper 100% et à étaler les liens */}
           <ul 
-            className="flex items-center w-full"
-            style={{ justifyContent: 'space-evenly' }}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              width: '100%', 
+              justify: 'space-evenly', 
+              justifyContent: 'space-evenly',
+              listStyle: 'none',
+              margin: 0,
+              padding: 0 
+            }}
           >
             {NAV_ITEMS.map((item) => {
               const isActive =
@@ -88,7 +101,8 @@ export function SiteHeader() {
 
         <button
           type="button"
-          className={cn("site-nav-burger", "ml-auto")}
+          className="site-nav-burger"
+          style={{ marginLeft: 'auto' }}
           aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
