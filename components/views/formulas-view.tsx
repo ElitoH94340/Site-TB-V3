@@ -84,15 +84,15 @@ export function FormulasView() {
           const isVideoPlaying = isPlaying[formula.id] || false
           
           const videoSrc = index === 0 
-            ? '/T-B-Immersion.mov' 
+            ? '/Site-TB-V3/T-B-Immersion.mov' 
             : index === 1 
-            ? '/T-B-Immersion-filmée.mov' 
+            ? '/ElitoH94340/Site-TB-V3/T-B-Immersion-filmée.mov' 
             : '/T-B-Captation.mov'
 
           const coverSrc = index === 0
-            ? '/couverture-immersion.png'
+            ? '/Site-TB-V3/couverture-immersion.png'
             : index === 1
-            ? '/couverture-immersion-filmée.png'
+            ? '/ElitoH94340/Site-TB-V3/couverture-immersion-filmée.png'
             : '/couverture-captation.png'
 
           let colTheme = {
