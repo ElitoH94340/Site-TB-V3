@@ -33,12 +33,10 @@ export function SiteHeader() {
 
   return (
     <header className="site-header">
-      {/* Ajout de !w-full pour forcer la largeur maximale */}
       <div className={cn("site-header-bar", "flex items-center !w-full")}>
         <Link
           href="/"
           aria-label="Retour à l'accueil"
-          {/* Ajout d'une marge droite plus large (lg:mr-24) pour distancer le logo du menu */}
           className={cn("site-header-brand", "shrink-0 mr-8 lg:mr-24")}
           onClick={() => setMenuOpen(false)}
         >
@@ -53,9 +51,7 @@ export function SiteHeader() {
           <span className="site-header-title">Tournez Bobines</span>
         </Link>
 
-        {/* Ajout de !flex-1 pour écraser le CSS de site-nav-desktop */}
         <nav aria-label="Navigation principale" className={cn("site-nav-desktop", "!flex-1")}>
-          {/* Ajout de !justify-evenly et !w-full pour forcer l'espacement */}
           <ul className="flex items-center !justify-evenly !w-full">
             {NAV_ITEMS.map((item) => {
               const isActive =
