@@ -94,7 +94,7 @@ const videoSrc = index === 0
 const coverSrc = index === 0
   ? `${basePath}/couverture-immersion.png`
   : index === 1
-  ? `${basePath}/couverture-immersion-filmee.png`
+  ? `${basePath}/couverture-immersion-filmée.png`
   : `${basePath}/couverture-captation.png`
 
           let colTheme = {
