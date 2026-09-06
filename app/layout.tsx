@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Instrument_Serif, Geist } from 'next/font/google'
 import { SiteHeader } from '@/components/site-header'
+import { SiteFooter } from '@/components/site-footer'
 import './globals.css'
 
 const geist = Geist({
@@ -50,6 +51,7 @@ export default function RootLayout({
       <body className="bg-neutral-950 font-sans antialiased text-neutral-50">
         <SiteHeader />
         <main>{children}</main>
+        <SiteFooter />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

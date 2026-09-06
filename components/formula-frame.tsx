@@ -4,18 +4,19 @@ export function FormulaFrame({
   children,
   className,
   active = false,
+  hover = true,
 }: {
   children: React.ReactNode
   className?: string
   active?: boolean
+  hover?: boolean
 }) {
   return (
     <div
-      // On ajoute un attribut data-active pour pouvoir forcer les états du groupe en CSS si besoin, ou on gère les classes directement
       data-active={active}
       className={cn(
-        'group/frame relative z-10 flex h-full flex-col justify-between bg-transparent p-6 transition-all duration-300 ease-out sm:p-8',
-        // Si active est true, on force le comportement des enfants du groupe comme s'ils étaient survolés
+        'relative z-10 flex h-full flex-col justify-between bg-transparent p-6 transition-all duration-300 ease-out sm:p-8',
+        hover && 'group/frame',
         active && '[&_*]:pointer-events-auto',
         className,
       )}

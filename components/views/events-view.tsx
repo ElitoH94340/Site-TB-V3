@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { X, Play, Pause, Volume2, VolumeX, Maximize } from 'lucide-react'
+import { VideoPlayButton } from '@/components/video-play-button'
+import { FormulaFrame } from '@/components/formula-frame'
 
 interface EventItem {
   id: string
@@ -385,29 +387,33 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
 
         <div className="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
           {/* COLONNE 1 - ANIMATIONS */}
-          <div className="group relative z-10 flex flex-col justify-between p-6 sm:p-8 bg-transparent transition-all duration-300 ease-out animate-text-sweep">
-            <div className="relative z-10 flex flex-col h-full">
-              <div className="text-center mb-8">
-                <p className="mb-2.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-red-500">Animations</p>
-                <h2 className="font-serif italic text-2xl sm:text-3xl tracking-tight text-white drop-shadow-sm transition-colors duration-300">
-                  Doublage pour tous
-                </h2>
+          <div className="animate-text-sweep h-full">
+            <FormulaFrame hover={false}>
+              <div className="flex h-full flex-col">
+                <div className="text-center mb-8">
+                  <p className="mb-2.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-red-500">Animations</p>
+                  <h2 className="font-serif italic text-2xl sm:text-3xl tracking-tight text-white drop-shadow-sm">
+                    Doublage pour tous
+                  </h2>
+                </div>
+                {renderEventList(LUDIC_EVENTS)}
               </div>
-              {renderEventList(LUDIC_EVENTS)}
-            </div>
+            </FormulaFrame>
           </div>
 
           {/* COLONNE 2 - PÉDAGOGIE */}
-          <div className="group relative z-10 flex flex-col justify-between p-6 sm:p-8 bg-transparent transition-all duration-300 ease-out animate-text-sweep" style={{ animationDelay: '200ms' }}>
-            <div className="relative z-10 flex flex-col h-full">
-              <div className="text-center mb-8">
-                <p className="mb-2.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-red-500">Pédagogie</p>
-                <h2 className="font-serif italic text-2xl sm:text-3xl tracking-tight text-white drop-shadow-sm transition-colors duration-300">
-                  La Fabrique à Doublage
-                </h2>
+          <div className="animate-text-sweep h-full" style={{ animationDelay: '200ms' }}>
+            <FormulaFrame hover={false}>
+              <div className="flex h-full flex-col">
+                <div className="text-center mb-8">
+                  <p className="mb-2.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-red-500">Pédagogie</p>
+                  <h2 className="font-serif italic text-2xl sm:text-3xl tracking-tight text-white drop-shadow-sm">
+                    La Fabrique à Doublage
+                  </h2>
+                </div>
+                {renderEventList(FACTORY_EVENTS)}
               </div>
-              {renderEventList(FACTORY_EVENTS)}
-            </div>
+            </FormulaFrame>
           </div>
         </div>
 
@@ -472,9 +478,7 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
                             className="absolute inset-0 h-full w-full object-cover opacity-80"
                           />
                           <div className="absolute inset-0 bg-black/20" />
-                          <button className="relative z-10 flex h-14 w-20 items-center justify-center rounded-xl bg-red-600 shadow-xl transition-transform group-hover/vid:scale-105">
-                            <Play className="h-7 w-7 text-white fill-current ml-0.5" />
-                          </button>
+                          <VideoPlayButton className="pointer-events-none" />
                         </div>
                       ) : (
                         <div className="relative w-full h-full overflow-hidden bg-black flex items-center justify-center">
@@ -495,12 +499,10 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
 
                           {/* Bouton Play au centre lors d'une pause */}
                           {!isPlaying && (
-                            <button
+                            <VideoPlayButton
                               onClick={togglePlay}
-                              className="absolute z-20 flex h-16 w-16 items-center justify-center rounded-full bg-red-600/90 text-white shadow-2xl backdrop-blur-sm transition-transform hover:scale-110 pointer-events-auto cursor-pointer"
-                            >
-                              <Play className="h-8 w-8 fill-current ml-1" />
-                            </button>
+                              className="pointer-events-auto cursor-pointer"
+                            />
                           )}
 
                           {/* Barre de contrôle personnalisée au survol */}
