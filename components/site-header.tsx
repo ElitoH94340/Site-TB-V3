@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { NAV_ITEMS } from '@/lib/views'
 import { withBasePath } from '@/lib/paths'
@@ -10,7 +10,6 @@ import { usePathname } from 'next/navigation'
 export function SiteHeader() {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMenuOpen(false)
@@ -23,85 +22,53 @@ export function SiteHeader() {
       if (event.key === 'Escape') setMenuOpen(false)
     }
 
-    const onPointerDown = (event: PointerEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setMenuOpen(false)
-      }
-    }
-
+    document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', onKeyDown)
-    window.addEventListener('pointerdown', onPointerDown)
 
     return () => {
+      document.body.style.overflow = ''
       window.removeEventListener('keydown', onKeyDown)
-      window.removeEventListener('pointerdown', onPointerDown)
     }
   }, [menuOpen])
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-neutral-800 bg-neutral-950">
-      <style jsx>{`
-        @keyframes spinSlow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-          animation: spinSlow 8s linear infinite;
-        }
-      `}</style>
-
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
+    <header className="site-header">
+      <div className="site-header-bar">
         <Link
           href="/"
           aria-label="Retour à l'accueil"
-          className="flex shrink-0 items-center gap-3 cursor-pointer group"
+          className="site-header-brand"
           onClick={() => setMenuOpen(false)}
         >
-          <span className="relative flex size-11 sm:size-14 shrink-0 items-center justify-center">
-            <span className="absolute inset-0 flex items-center justify-center animate-spin-slow">
-              <img
-                src={withBasePath('/tournez bobines logo 3.png')}
-                alt="Logo Tournez Bobines"
-                width={56}
-                height={56}
-                className="size-11 sm:size-14 object-contain"
-              />
-            </span>
+          <span className="site-header-logo">
+            <img
+              src={withBasePath('/tournez bobines logo 3.png')}
+              alt="Logo Tournez Bobines"
+              width={56}
+              height={56}
+            />
           </span>
-          <span className="whitespace-nowrap pr-2 font-serif italic text-xl sm:text-2xl xl:text-3xl leading-tight tracking-tight drop-shadow-md text-white">
-            Tournez Bobines
-          </span>
+          <span className="site-header-title">Tournez Bobines</span>
         </Link>
 
-        {/* Navigation Desktop */}
-        <nav aria-label="Navigation principale" className="hidden lg:block h-full">
-          <ul className="flex h-full items-center gap-4 lg:gap-6 xl:gap-10 2xl:gap-14">
+        <nav aria-label="Navigation principale" className="site-nav-desktop">
+          <ul>
             {NAV_ITEMS.map((item) => {
               const isActive =
                 pathname === item.href || pathname === `${item.href}/`
               return (
-                <li key={item.id} className="flex h-full items-center">
+                <li key={item.id}>
                   <Link
                     href={item.href}
                     aria-current={isActive ? 'page' : undefined}
-                    className={cn(
-                      'group relative flex h-full items-center px-1 text-[10px] xl:text-[11px] uppercase tracking-[0.12em] xl:tracking-[0.18em] transition-colors cursor-pointer whitespace-nowrap',
-                      isActive
-                        ? 'text-white font-medium'
-                        : 'text-neutral-400 hover:text-white',
-                    )}
+                    className={cn('site-nav-link', isActive && 'is-active')}
                   >
                     {item.label}
-
                     {isActive && (
-                      <div className="absolute bottom-0 left-1/2 z-10 flex h-5 w-5 -translate-x-1/2 translate-y-1/2 items-center justify-center">
-                        <div className="absolute h-0.5 w-full bg-red-600" />
-                        <div className="absolute h-full w-0.5 bg-red-600" />
-                      </div>
-                    )}
-
-                    {!isActive && (
-                      <span className="absolute bottom-0 left-0 h-0.5 w-full origin-center scale-x-0 bg-white transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                      <span className="site-nav-cross" aria-hidden>
+                        <span />
+                        <span />
+                      </span>
                     )}
                   </Link>
                 </li>
@@ -110,81 +77,54 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <div ref={menuRef} className="relative lg:hidden">
-          <button
-            type="button"
-            className="flex size-11 items-center justify-center text-white cursor-pointer"
-            aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-nav"
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <span className="sr-only">{menuOpen ? 'Fermer' : 'Menu'}</span>
-            <span className="relative block h-4 w-6">
-              <span
-                className={cn(
-                  'absolute left-0 h-0.5 w-6 bg-current transition-all duration-300',
-                  menuOpen ? 'top-1/2 -translate-y-1/2 rotate-45' : 'top-0',
-                )}
-              />
-              <span
-                className={cn(
-                  'absolute left-0 top-1/2 h-0.5 w-6 -translate-y-1/2 bg-current transition-all duration-300',
-                  menuOpen ? 'scale-x-0 opacity-0' : 'opacity-100',
-                )}
-              />
-              <span
-                className={cn(
-                  'absolute left-0 h-0.5 w-6 bg-current transition-all duration-300',
-                  menuOpen ? 'top-1/2 -translate-y-1/2 -rotate-45' : 'bottom-0',
-                )}
-              />
-            </span>
-          </button>
-
-          <nav
-            id="mobile-nav"
-            aria-label="Navigation mobile"
-            className={cn(
-              'absolute right-0 top-full mt-2 min-w-[16rem] border border-neutral-800 bg-neutral-950 py-3 shadow-xl transition-all duration-200',
-              menuOpen
-                ? 'pointer-events-auto translate-y-0 opacity-100'
-                : 'pointer-events-none -translate-y-1 opacity-0',
-            )}
-            aria-hidden={!menuOpen}
-          >
-            <ul className="flex flex-col">
-              {NAV_ITEMS.map((item) => {
-                const isActive =
-                  pathname === item.href || pathname === `${item.href}/`
-                return (
-                  <li key={item.id}>
-                    <Link
-                      href={item.href}
-                      aria-current={isActive ? 'page' : undefined}
-                      onClick={() => setMenuOpen(false)}
-                      className={cn(
-                        'flex items-center justify-end gap-2.5 px-5 py-3.5 text-right text-[11px] uppercase tracking-[0.15em] transition-colors',
-                        isActive
-                          ? 'font-medium text-white'
-                          : 'text-neutral-400 hover:text-white',
-                      )}
-                    >
-                      {isActive && (
-                        <div className="relative flex h-4 w-4 shrink-0 items-center justify-center">
-                          <div className="absolute h-0.5 w-full bg-red-600" />
-                          <div className="absolute h-full w-0.5 bg-red-600" />
-                        </div>
-                      )}
-                      {item.label}
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
-          </nav>
-        </div>
+        <button
+          type="button"
+          className="site-nav-burger"
+          aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-nav"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span className={cn('site-nav-burger-icon', menuOpen && 'is-open')}>
+            <span />
+            <span />
+            <span />
+          </span>
+        </button>
       </div>
+
+      <nav
+        id="mobile-nav"
+        aria-label="Navigation mobile"
+        className={cn('site-nav-mobile', menuOpen && 'is-open')}
+        aria-hidden={!menuOpen}
+        inert={!menuOpen || undefined}
+      >
+        <ul>
+          {NAV_ITEMS.map((item) => {
+            const isActive =
+              pathname === item.href || pathname === `${item.href}/`
+            return (
+              <li key={item.id}>
+                <Link
+                  href={item.href}
+                  aria-current={isActive ? 'page' : undefined}
+                  onClick={() => setMenuOpen(false)}
+                  className={cn(isActive && 'is-active')}
+                >
+                  {item.label}
+                  {isActive && (
+                    <span className="site-nav-cross" aria-hidden>
+                      <span />
+                      <span />
+                    </span>
+                  )}
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
     </header>
   )
 }

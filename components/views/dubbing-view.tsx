@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { FormulaFrame } from '@/components/formula-frame'
+import { VideoPlayButton } from '@/components/video-play-button'
 import { FORMULAS } from '@/lib/formulas'
 import { withBasePath } from '@/lib/paths'
 
@@ -19,14 +19,6 @@ const MATERIAL_PHOTOS = [
   '/007.jpg',
 ]
 
-const partners = [
-  { name: 'Partenaire 1', src: '/logos-01.svg' },
-  { name: 'Partenaire 2', src: '/logos-02.svg' },
-  { name: 'Partenaire 3', src: '/logos-03.svg' },
-  { name: 'Partenaire 4', src: '/logos-04.svg' },
-  { name: 'Partenaire 5', src: '/logos-05.svg' },
-]
-
 export function DubbingView() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
   const [isVideo1Playing, setIsVideo1Playing] = useState(false)
@@ -34,7 +26,7 @@ export function DubbingView() {
 
   return (
     <>
-      <section className="relative min-h-screen w-full bg-black text-neutral-50 overflow-x-hidden pt-20 pb-24 select-none">
+      <section className="relative w-full bg-black text-neutral-50 overflow-x-hidden pt-20 pb-12 select-none">
         
         <style jsx>{`
           @keyframes fadeUp {
@@ -113,10 +105,10 @@ export function DubbingView() {
         `}</style>
 
         {/* CONTENEUR PRINCIPAL */}
-        <div className="relative z-10 mx-auto max-w-7xl px-5 pt-12 sm:px-8 w-full">
+        <div className="relative z-10 mx-auto max-w-7xl px-5 pt-8 sm:px-8 w-full">
           
           {/* HEADER */}
-          <header className="text-center animate-text-sweep mb-16">
+          <header className="text-center animate-text-sweep mb-8">
             <p className="mb-2.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
               Doublage pour tous
             </p>
@@ -129,7 +121,7 @@ export function DubbingView() {
           <div className="mx-auto max-w-4xl w-full">
             
             {/* TRIPTYQUE PHOTO HEADER */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16 w-full animate-text-sweep" style={{ animationDelay: '200ms' }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 w-full animate-text-sweep" style={{ animationDelay: '200ms' }}>
               <div className="relative w-full aspect-[3/4] md:aspect-auto md:h-full border border-white/10 bg-neutral-900/40 p-2 sm:p-3 shadow-2xl backdrop-blur-md">
                 <div className="relative h-full w-full overflow-hidden border border-white/10 bg-black">
                   <img 
@@ -168,11 +160,11 @@ export function DubbingView() {
         </div>
 
         {/* SECTION NOS OBJECTIFS (BLANC UNI) */}
-        <div className="w-full mt-24 bg-white py-24 px-5 sm:px-8 border-t border-neutral-200 relative">
+        <div className="w-full mt-12 bg-white py-14 px-5 sm:px-8 border-t border-neutral-200 relative">
           <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center w-full">
             
-            <div className="w-full text-center mb-12">
-              <h2 className="text-balance font-serif italic text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight drop-shadow-sm text-neutral-900 mb-6">
+            <div className="w-full text-center mb-8">
+              <h2 className="text-balance font-serif italic text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight drop-shadow-sm text-neutral-900 mb-4">
                 Nos objectifs
               </h2>
               
@@ -197,14 +189,7 @@ export function DubbingView() {
                         className="absolute inset-0 h-full w-full object-cover opacity-90 md:scale-105"
                       />
                       <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
-                      <button 
-                        className="relative z-10 flex h-14 w-20 sm:h-16 sm:w-24 items-center justify-center rounded-xl sm:rounded-2xl bg-red-600 shadow-xl transition-transform duration-300 group-hover:scale-110"
-                        aria-label="Lancer la vidéo"
-                      >
-                        <svg className="h-6 w-6 sm:h-8 sm:w-8 text-white fill-current ml-1" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      </button>
+                      <VideoPlayButton />
                     </>
                   ) : (
                     <iframe
@@ -224,7 +209,7 @@ export function DubbingView() {
         </div>
 
         {/* SECTION S'AMUSER À DOUBLER */}
-        <div className="w-full bg-textured-paper py-24 px-5 sm:px-8 border-b border-neutral-300 overflow-hidden relative">
+        <div className="w-full bg-textured-paper py-14 px-5 sm:px-8 border-b border-neutral-300 overflow-hidden relative">
           <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden opacity-65">
             <div className="absolute top-0 left-0 w-[280px] h-[280px] bg-gradient-to-tr from-neutral-400/50 via-neutral-300/40 to-neutral-500/50 rounded-[30%_70%_60%_40%/50%_50%_50%_50%] blur-[45px] animate-thermal-1" />
             <div className="absolute top-0 left-0 w-[260px] h-[260px] bg-gradient-to-bl from-neutral-500/50 via-neutral-400/45 to-neutral-300/50 rounded-[60%_40%_30%_70%/40%_60%_40%_60%] blur-[40px] animate-thermal-2" />
@@ -234,7 +219,7 @@ export function DubbingView() {
           </div>
 
           <div className="relative z-10 mx-auto max-w-4xl w-full">
-            <h2 className="text-center text-balance font-serif italic text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight text-neutral-900 drop-shadow-sm mb-12">
+            <h2 className="text-center text-balance font-serif italic text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight text-neutral-900 drop-shadow-sm mb-8">
               S&apos;amuser à doubler
             </h2>
 
@@ -251,14 +236,7 @@ export function DubbingView() {
                       className="absolute inset-0 h-full w-full object-cover opacity-90 md:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/25 transition-colors duration-300 group-hover:bg-transparent" />
-                    <button 
-                      className="relative z-10 flex h-14 w-20 sm:h-16 sm:w-24 items-center justify-center rounded-xl sm:rounded-2xl bg-red-600 shadow-xl transition-transform duration-300 group-hover:scale-110"
-                      aria-label="Lancer la vidéo"
-                    >
-                      <svg className="h-6 w-6 sm:h-8 sm:w-8 text-white fill-current ml-1" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </button>
+                    <VideoPlayButton />
                   </>
                 ) : (
                   <iframe
@@ -276,11 +254,11 @@ export function DubbingView() {
         </div>
 
         {/* COMMENT ÇA MARCHE ? - AVEC LA MIRE RÉCUPÉRÉE */}
-        <div className="w-full py-24 px-5 sm:px-8">
+        <div className="w-full py-14 px-5 sm:px-8">
           <div className="relative z-15 max-w-4xl mx-auto">
             
             {/* MIRE INTÉGRÉE : Encadrement avec coins de visée et repères cardinaux */}
-            <div className="relative w-full p-8 sm:p-12 overflow-hidden backdrop-blur-[2px] mb-12">
+            <div className="relative w-full p-6 sm:p-10 overflow-hidden backdrop-blur-[2px] mb-8">
               {/* 4 Coins de visée */}
               <div className="absolute top-3 left-3 w-10 h-10 border-t-2 border-l-2 border-neutral-400/70 pointer-events-none" />
               <div className="absolute top-3 right-3 w-10 h-10 border-t-2 border-r-2 border-neutral-400/70 pointer-events-none" />
@@ -297,7 +275,7 @@ export function DubbingView() {
                 <h2 className="text-balance font-serif italic text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight text-white mb-3">
                   Comment ça marche ?
                 </h2>
-                <p className="mb-12 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
+                <p className="mb-8 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
                   L&apos;immersion & la captation
                 </p>
 
@@ -347,14 +325,7 @@ export function DubbingView() {
                         className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
                       />
                       <div className="absolute inset-0 bg-black/25 transition-colors duration-300 group-hover:bg-transparent" />
-                      <button 
-                        className="relative z-10 flex h-14 w-20 sm:h-16 sm:w-24 items-center justify-center rounded-xl sm:rounded-2xl bg-red-600 shadow-xl transition-transform duration-300 group-hover:scale-110"
-                        aria-label="Lancer la vidéo"
-                      >
-                        <svg className="h-6 w-6 sm:h-8 sm:w-8 text-white fill-current ml-1" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      </button>
+                      <VideoPlayButton />
                     </>
                   ) : (
                     <iframe
@@ -374,9 +345,9 @@ export function DubbingView() {
         </div>
 
         {/* SECTION NOTRE MATÉRIEL (BLANC UNI) */}
-        <div className="w-full bg-white py-24 border-y border-neutral-200 relative">
+        <div className="w-full bg-white py-14 border-y border-neutral-200 relative">
           <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
-            <div className="mb-12 text-center">
+            <div className="mb-8 text-center">
               <h2 className="text-balance font-serif italic text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight drop-shadow-sm text-neutral-900 mb-0">
                 Notre matériel
               </h2>
@@ -420,7 +391,7 @@ export function DubbingView() {
         </div>
 
         {/* SECTION ISOLÉE DU TRIPTYQUE MATÉRIEL SUR LE FOND GRIS TEXTURÉ AVEC FORMES EN NUANCES DE GRIS */}
-        <div className="w-full bg-textured-paper py-24 relative z-10 border-t-0 overflow-hidden">
+        <div className="w-full bg-textured-paper py-14 relative z-10 border-t-0 overflow-hidden">
           <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden opacity-65">
             <div className="absolute top-0 left-0 w-[290px] h-[290px] bg-gradient-to-br from-neutral-500/50 via-neutral-600/45 to-neutral-400/50 rounded-[40%_60%_70%_30%/50%_40%_60%_50%] blur-[45px] animate-thermal-3" />
             <div className="absolute top-0 left-0 w-[260px] h-[260px] bg-gradient-to-tr from-neutral-300/50 via-neutral-500/45 to-neutral-600/45 rounded-[70%_30%_40%_60%/40%_60%_50%_50%] blur-[40px] animate-thermal-4" />
@@ -461,11 +432,11 @@ export function DubbingView() {
         </div>
 
         {/* SECTION NOS FORMULES */}
-        <div className="w-full bg-black py-24 relative z-10" id="formulas">
+        <div className="w-full bg-black py-14 relative z-10" id="formulas">
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
             
-            <div className="mb-14 text-center">
-              <h2 className="text-balance font-serif italic text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight text-white drop-shadow-md mb-6">
+            <div className="mb-8 text-center">
+              <h2 className="text-balance font-serif italic text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight text-white drop-shadow-md mb-4">
                 Nos formules
               </h2>
               <p className="text-pretty text-base leading-relaxed text-neutral-400 max-w-2xl mx-auto mb-0">
@@ -503,27 +474,6 @@ export function DubbingView() {
 
       </section>
 
-      {/* SECTION LOGOS PARTENAIRES EN BAS DE PAGE */}
-      <section className="bg-black py-6 sm:py-8 px-4 sm:px-12 lg:px-20 border-t border-neutral-900">
-        <div className="w-full grid grid-cols-5 gap-3 sm:gap-6 md:gap-8 items-center justify-items-center">
-          {partners.map((partner) => (
-            <div 
-              key={partner.name} 
-              className="relative w-full h-8 sm:h-12 md:h-16 lg:h-20 flex items-center justify-center"
-            >
-              <Image
-                src={withBasePath(partner.src)}
-                alt={partner.name}
-                fill
-                className="object-contain"
-                sizes="(max-width: 640px) 20vw, (max-width: 1024px) 20vw, 200px"
-                quality={100}
-                unoptimized={partner.src.endsWith('.svg')}
-              />
-            </div>
-          ))}
-        </div>
-      </section>
     </>
   )
 }
