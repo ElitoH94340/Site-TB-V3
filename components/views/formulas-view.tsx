@@ -82,7 +82,9 @@ export function FormulasView() {
         {FORMULAS.map((formula, index) => {
           const isActive = activeFormulaId === formula.id
           const isVideoPlaying = isPlaying[formula.id] || false
-          
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';          
+
 const videoSrc = index === 0
   ? `${basePath}/T-B-Immersion.mov`
   : index === 1
