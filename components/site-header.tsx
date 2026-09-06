@@ -33,13 +33,13 @@ export function SiteHeader() {
 
   return (
     <header className="site-header">
-      {/* 1. La barre devient un conteneur flex prenant toute la largeur */}
-      <div className={cn("site-header-bar", "flex items-center w-full")}>
+      {/* Ajout de !w-full pour forcer la largeur maximale */}
+      <div className={cn("site-header-bar", "flex items-center !w-full")}>
         <Link
           href="/"
           aria-label="Retour à l'accueil"
-          /* 2. Le logo garde sa taille (shrink-0) et on lui ajoute une marge à droite (mr-12) */
-          className={cn("site-header-brand", "shrink-0 mr-8 lg:mr-16")}
+          {/* Ajout d'une marge droite plus large (lg:mr-24) pour distancer le logo du menu */}
+          className={cn("site-header-brand", "shrink-0 mr-8 lg:mr-24")}
           onClick={() => setMenuOpen(false)}
         >
           <span className="site-header-logo">
@@ -53,10 +53,10 @@ export function SiteHeader() {
           <span className="site-header-title">Tournez Bobines</span>
         </Link>
 
-        {/* 3. Le <nav> prend tout l'espace restant (flex-1) */}
-        <nav aria-label="Navigation principale" className={cn("site-nav-desktop", "flex-1")}>
-          {/* 4. Le <ul> répartit les éléments uniformément (justify-evenly) sur toute sa largeur */}
-          <ul className="flex items-center justify-evenly w-full">
+        {/* Ajout de !flex-1 pour écraser le CSS de site-nav-desktop */}
+        <nav aria-label="Navigation principale" className={cn("site-nav-desktop", "!flex-1")}>
+          {/* Ajout de !justify-evenly et !w-full pour forcer l'espacement */}
+          <ul className="flex items-center !justify-evenly !w-full">
             {NAV_ITEMS.map((item) => {
               const isActive =
                 pathname === item.href || pathname === `${item.href}/`
@@ -83,7 +83,6 @@ export function SiteHeader() {
 
         <button
           type="button"
-          /* Ajout d'un ml-auto au cas où la barre serait en flex pour pousser le bouton à droite sur mobile */
           className={cn("site-nav-burger", "ml-auto")}
           aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
           aria-expanded={menuOpen}
