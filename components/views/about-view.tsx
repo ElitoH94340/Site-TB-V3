@@ -1,8 +1,17 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { FormulaFrame } from '@/components/formula-frame'
 import { withBasePath } from '@/lib/paths'
+
+const partners = [
+  { name: 'Partenaire 1', src: '/logos-01.svg' },
+  { name: 'Partenaire 2', src: '/logos-02.svg' },
+  { name: 'Partenaire 3', src: '/logos-03.svg' },
+  { name: 'Partenaire 4', src: '/logos-04.svg' },
+  { name: 'Partenaire 5', src: '/logos-05.svg' },
+]
 
 export function AboutView() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
@@ -86,7 +95,7 @@ export function AboutView() {
             A l&apos;origine trois ami.e.s passionné.e.s de cinéma, aux compétences complémentaires.
           </p>
 
-          {/* TRIPYQUE ÉLARGI AVEC ESPACEMENT ACCRU ET SOUS-TITRES SUR UNE SEULE LIGNE */}
+          {/* TRIPTYQUE ÉLARGI AVEC ESPACEMENT ACCRU ET SOUS-TITRES SUR UNE SEULE LIGNE */}
           <div className="grid grid-cols-1 items-stretch gap-10 md:grid-cols-3 lg:gap-14 my-12 w-full text-left">
             {teamRoles.map((role) => (
               <div key={role.id} className="block h-full cursor-default no-underline">
@@ -112,67 +121,60 @@ export function AboutView() {
         {/* CONTENEUR RESTREINT (max-w-4xl) POUR CALER LA VIDÉO ET LE PRINCIPE SUR LA LARGEUR DU FORMULAIRE */}
         <div className="mx-auto max-w-4xl w-full">
           
-          <div className="mt-14 relative w-full aspect-video border border-white/10 bg-neutral-900/40 p-2 sm:p-3 shadow-2xl backdrop-blur-md animate-text-sweep" style={{ animationDelay: '200ms' }}>
-            <div 
-              className="relative h-full w-full overflow-hidden border border-white/10 bg-neutral-950 flex items-center justify-center cursor-pointer group"
-              onClick={() => setIsVideoPlaying(true)}
-            >
-              {!isVideoPlaying ? (
-                <>
-                  <img 
-                    src="https://i.ytimg.com/vi/BVycG1JWfW4/maxresdefault.jpg" 
-                    alt="Présentation Vidéo" 
-                    className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
-                  <button 
-                    className="relative z-10 flex h-14 w-20 sm:h-16 sm:w-24 items-center justify-center rounded-xl sm:rounded-2xl bg-red-600 shadow-xl transition-transform duration-300 group-hover:scale-110"
-                    aria-label="Lancer la vidéo"
-                  >
-                    <svg className="h-6 w-6 sm:h-8 sm:w-8 text-white fill-current ml-1" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </button>
-                </>
-              ) : (
-                <iframe
-                  className="absolute top-0 left-0 h-full w-full bg-black md:scale-105"
-                  src="https://www.youtube.com/embed/BVycG1JWfW4?autoplay=1&rel=0"
-                  title="Lecteur vidéo YouTube"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                ></iframe>
-              )}
+          {/* BLOC VIDÉO AVEC LA DOUBLE BORDURE EXACTE */}
+          <div className="mt-14 relative w-full animate-text-sweep" style={{ animationDelay: '200ms' }}>
+            <div className="relative w-full border border-white/10 bg-neutral-900/40 p-2 sm:p-3 shadow-2xl backdrop-blur-md">
+              <div 
+                className="relative h-full w-full aspect-video overflow-hidden border border-white/10 bg-black flex items-center justify-center cursor-pointer group"
+                onClick={() => setIsVideoPlaying(true)}
+              >
+                {!isVideoPlaying ? (
+                  <>
+                    <img 
+                      src="https://i.ytimg.com/vi/BVycG1JWfW4/maxresdefault.jpg" 
+                      alt="Présentation Vidéo" 
+                      className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
+                    <button 
+                      className="relative z-10 flex h-14 w-20 sm:h-16 sm:w-24 items-center justify-center rounded-xl sm:rounded-2xl bg-red-600 shadow-xl transition-transform duration-300 group-hover:scale-110"
+                      aria-label="Lancer la vidéo"
+                    >
+                      <svg className="h-6 w-6 sm:h-8 sm:w-8 text-white fill-current ml-1" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </button>
+                  </>
+                ) : (
+                  <iframe
+                    className="absolute top-0 left-0 h-full w-full bg-black md:scale-105"
+                    src="https://www.youtube.com/embed/BVycG1JWfW4?autoplay=1&rel=0"
+                    title="Lecteur vidéo YouTube"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* SECTION LE PRINCIPE AVEC LE DESIGN DE BORDURE AVEC MIRE */}
-          <div className="mt-14 relative w-full p-8 sm:p-12 overflow-hidden bg-black backdrop-blur-[2px] animate-text-sweep" style={{ animationDelay: '400ms' }}>
-            {/* 4 Coins de visée */}
-            <div className="absolute top-3 left-3 w-10 h-10 border-t-2 border-l-2 border-neutral-400/70 pointer-events-none" />
-            <div className="absolute top-3 right-3 w-10 h-10 border-t-2 border-r-2 border-neutral-400/70 pointer-events-none" />
-            <div className="absolute bottom-3 left-3 w-10 h-10 border-b-2 border-l-2 border-neutral-400/70 pointer-events-none" />
-            <div className="absolute bottom-3 right-3 w-10 h-10 border-b-2 border-r-2 border-neutral-400/70 pointer-events-none" />
-
-            {/* Réticules et repères de centrage sur les bords */}
-            <div className="absolute top-1/2 left-0 w-3 h-px bg-neutral-500/50 -translate-y-1/2 pointer-events-none" />
-            <div className="absolute top-1/2 right-0 w-3 h-px bg-neutral-500/50 -translate-y-1/2 pointer-events-none" />
-            <div className="absolute top-0 left-1/2 w-px h-3 bg-neutral-500/50 -translate-x-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 left-1/2 w-px h-3 bg-neutral-500/50 -translate-x-1/2 pointer-events-none" />
-
-            <div className="relative z-10 text-center max-w-2xl mx-auto pt-6 pb-2">
-              <h2 className="text-balance font-serif italic text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight drop-shadow-md mb-6">
-                Le principe
-              </h2>
-              <p className="text-pretty text-base leading-relaxed text-neutral-300">
-                Un véritable auditorium de doublage se déplace pour vous proposer de vivre en direct une expérience cinématographique dans les meilleures conditions.
-                <br /><br />
-                A partir de nombreux extraits de films cultes, nous offrons au public la possibilité de se mettre, pendant un temps, dans la peau des comédiens à l&apos;image.
-                <br /><br />
-                Grâce à des moyens techniques professionnels, le public peut choisir parmi plus de 200 extraits de films. La projection et la mise en situation sont alors possibles grâce au texte qui défile sous l&apos;image sur une bande rythmo synchrone.
-              </p>
-            </div>
+          {/* SECTION LE PRINCIPE AVEC LE COMPOSANT FORMULAFRAME */}
+          <div className="mt-14 relative w-full animate-text-sweep cursor-default" style={{ animationDelay: '400ms' }}>
+            <FormulaFrame>
+              <div className="relative z-10 text-center max-w-2xl mx-auto px-6 py-10 sm:py-14">
+                <h2 className="text-balance font-serif italic text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight drop-shadow-md mb-6">
+                  Le principe
+                </h2>
+                <p className="text-pretty text-base leading-relaxed text-neutral-300">
+                  Un véritable auditorium de doublage se déplace pour vous proposer de vivre en direct une expérience cinématographique dans les meilleures conditions.
+                  <br /><br />
+                  A partir de nombreux extraits de films cultes, nous offrons au public la possibilité de se mettre, pendant un temps, dans la peau des comédiens à l&apos;image.
+                  <br /><br />
+                  Grâce à des moyens techniques professionnels, le public peut choisir parmi plus de 200 extraits de films. La projection et la mise en situation sont alors possibles grâce au texte qui défile sous l&apos;image sur une bande rythmo synchrone.
+                </p>
+              </div>
+            </FormulaFrame>
           </div>
 
         </div>
@@ -180,7 +182,7 @@ export function AboutView() {
       </div>
 
       {/* SECTION CONTACT PLEINE LARGEUR EN BLANC */}
-      <div id="contact" className="w-full bg-white text-neutral-900 py-20 mt-14 pb-32 animate-text-sweep" style={{ animationDelay: '600ms' }}>
+      <div id="contact" className="w-full bg-white text-neutral-900 py-20 mt-14 animate-text-sweep" style={{ animationDelay: '600ms' }}>
         <div className="mx-auto max-w-4xl px-5 sm:px-8 w-full">
           
           {/* BLOC CONTACT CLAIR */}
@@ -218,7 +220,7 @@ export function AboutView() {
                 
                 <button 
                   type="button"
-                  className="inline-flex items-center justify-center px-8 py-3 rounded-full border border-neutral-400 bg-neutral-900 text-white font-medium text-xs sm:text-sm tracking-wide shadow-md transition-all duration-300 hover:bg-red-600 hover:border-red-600 hover:text-white cursor-pointer"
+                  className="inline-flex items-center justify-center px-8 py-3 border border-neutral-400 bg-neutral-900 text-white font-medium text-xs sm:text-sm tracking-wide shadow-md transition-all duration-300 hover:bg-red-600 hover:border-red-600 hover:text-white cursor-pointer"
                 >
                   Envoyer le message
                 </button>
@@ -243,7 +245,6 @@ export function AboutView() {
                   </li>
                   <li className="flex flex-col gap-1 pt-2 border-t border-neutral-200">
                     <span className="font-semibold text-neutral-900">Email</span>
-                    {/* Email en rouge */}
                     <a href="mailto:contact@doublagetournezbobines.fr" className="text-red-600 hover:text-red-700 transition-colors break-all">
                       contact@doublagetournezbobines.fr
                     </a>
@@ -256,6 +257,28 @@ export function AboutView() {
 
         </div>
       </div>
+
+      {/* SECTION LOGOS PARTENAIRES EN BAS DE PAGE */}
+      <section className="bg-black py-6 sm:py-8 px-4 sm:px-12 lg:px-20 border-t border-neutral-900">
+        <div className="w-full grid grid-cols-5 gap-3 sm:gap-6 md:gap-8 items-center justify-items-center">
+          {partners.map((partner) => (
+            <div 
+              key={partner.name} 
+              className="relative w-full h-8 sm:h-12 md:h-16 lg:h-20 flex items-center justify-center"
+            >
+              <Image
+                src={withBasePath(partner.src)}
+                alt={partner.name}
+                fill
+                className="object-contain"
+                sizes="(max-width: 640px) 20vw, (max-width: 1024px) 20vw, 200px"
+                quality={100}
+                unoptimized={partner.src.endsWith('.svg')}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
 
     </section>
   )

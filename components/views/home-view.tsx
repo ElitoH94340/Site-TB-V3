@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Volume2, VolumeX, ArrowDown, ArrowUp } from 'lucide-react'
 import { FormulaFrame } from '@/components/formula-frame'
 import { withBasePath } from '@/lib/paths'
@@ -376,16 +377,24 @@ export function HomeView() {
           </div>
         </section>
 
-        {/* SECTION LOGOS : SANS EFFET SURVOL */}
-        <section className="bg-black py-8 px-8 sm:px-16 lg:px-24 border-t border-neutral-900">
-          <div className="w-full flex flex-wrap items-center justify-between gap-8">
+        {/* SECTION LOGOS : GRILLE 5 COLONNES FLUIDE SANS RETOUR À LA LIGNE */}
+        <section className="bg-black py-6 sm:py-8 px-4 sm:px-12 lg:px-20 border-t border-neutral-900">
+          <div className="w-full grid grid-cols-5 gap-3 sm:gap-6 md:gap-8 items-center justify-items-center">
             {partners.map((partner) => (
-              <img
-                key={partner.name}
-                src={withBasePath(partner.src)}
-                alt={partner.name}
-                className="h-[72px] sm:h-[96px] w-auto object-contain"
-              />
+              <div 
+                key={partner.name} 
+                className="relative w-full h-8 sm:h-12 md:h-16 lg:h-20 flex items-center justify-center"
+              >
+                <Image
+                  src={withBasePath(partner.src)}
+                  alt={partner.name}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 640px) 20vw, (max-width: 1024px) 20vw, 200px"
+                  quality={100}
+                  unoptimized={partner.src.endsWith('.svg')}
+                />
+              </div>
             ))}
           </div>
         </section>
