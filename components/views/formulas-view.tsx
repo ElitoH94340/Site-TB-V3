@@ -88,7 +88,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 const videoSrc = index === 0
   ? `${basePath}/T-B-Immersion.mov`
   : index === 1
-  ? `${basePath}/T-B-Immersion-filmee.mov`
+  ? `${basePath}/T-B-Immersion-filmée.mov`
   : `${basePath}/T-B-Captation.mov`
 
 const coverSrc = index === 0
