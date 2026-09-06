@@ -246,29 +246,41 @@ export function FactoryView() {
         {/* CONTENEUR GLOBAL DES 3 COLONNES */}
         <div className="w-full animate-text-sweep grid" style={{ animationDelay: '400ms' }}>
           {[true, false].map((isGhost) => {
-            // Pour le fantôme, on force les données du premier onglet ("Primaire")
-            const tabData = isGhost ? TABS[0] : current;
-            const moduleData = isGhost ? TABS[0].additionalContent?.modules[0] : currentModule;
+            const tallestModule = TABS.reduce((best, tab) => {
+              for (const module of tab.additionalContent.modules) {
+                const score =
+                  module.objectives.length +
+                  (module.desc ? 1 : 0) +
+                  (module.subDesc ? 1 : 0)
+                if (score > best.score) {
+                  return { tab, module, score }
+                }
+              }
+              return best
+            }, { tab: TABS[0], module: TABS[0].additionalContent.modules[0], score: 0 })
+
+            const tabData = isGhost ? tallestModule.tab : current;
+            const moduleData = isGhost ? tallestModule.module : currentModule;
             
             if (!tabData.additionalContent || !moduleData) return null;
 
             const modVideoId = 'videoId' in moduleData ? moduleData.videoId : undefined;
             const actVideoId = modVideoId || tabData.videos[isGhost ? 0 : videoIndex];
-            const tModulesCount = tabData.additionalContent.modules.length;
+            const tModulesCount = current.additionalContent?.modules.length ?? tabData.additionalContent.modules.length;
             const multModules = tModulesCount > 1;
 
             return (
               <div 
                 key={isGhost ? 'ghost' : `${active}-${moduleIndex}`}
                 className={cn(
-                  "col-start-1 row-start-1 w-full",
+                  "col-start-1 row-start-1 w-full h-full",
                   isGhost ? "invisible opacity-0 pointer-events-none" : "relative z-10"
                 )}
                 aria-hidden={isGhost}
               >
                 <div 
                   className={cn(
-                    'mx-auto flex w-full max-w-5xl flex-col gap-6',
+                    'mx-auto flex h-full w-full max-w-5xl flex-col gap-6',
                     !isGhost && (slideDirection === 'right' ? 'animate-slide-right' : 'animate-slide-left')
                   )}
                 >
@@ -317,9 +329,9 @@ export function FactoryView() {
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full flex-1 items-stretch">
                   {/* TEXTE */}
-                  <div className="flex flex-col justify-between bg-neutral-950/80 p-6 lg:p-8 border border-white/10 shadow-2xl h-full text-center">
+                  <div className="flex min-h-[28rem] flex-col justify-between bg-neutral-950/80 p-6 lg:p-8 border border-white/10 shadow-2xl h-full text-center">
                     <div>
                       {multModules && (
                         <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
@@ -368,11 +380,11 @@ export function FactoryView() {
                   </div>
 
                   {/* OBJECTIFS */}
-                  <div className="flex flex-col justify-between bg-neutral-950/80 p-6 lg:p-8 border border-white/10 shadow-2xl h-full">
-                    <div className="flex flex-col items-center">
-                      <h4 className="mb-6 text-xs font-semibold uppercase tracking-[0.3em] text-red-500 text-center">
-                        Objectifs
-                      </h4>
+                  <div className="flex min-h-[28rem] flex-col bg-neutral-950/80 p-6 lg:p-8 border border-white/10 shadow-2xl h-full">
+                    <h4 className="mb-6 shrink-0 text-xs font-semibold uppercase tracking-[0.3em] text-red-500 text-center">
+                      Objectifs
+                    </h4>
+                    <div className="flex flex-1 flex-col items-center justify-center">
                       <div className="mx-auto flex w-fit flex-col items-start gap-3.5">
                         {moduleData.objectives.map((obj, i) => (
                           <div key={i} className="flex items-start gap-3 group cursor-default">
