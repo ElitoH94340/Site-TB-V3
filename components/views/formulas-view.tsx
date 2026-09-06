@@ -2,37 +2,50 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { FormulaFrame } from '@/components/formula-frame'
 import { FORMULAS } from '@/lib/formulas'
 
 export function FormulasView() {
-  const [playingVideos, setPlayingVideos] = useState<Record<string, boolean>>({})
+  const [activeFormulaId, setActiveFormulaId] = useState<string>(FORMULAS[0]?.id || '')
+  const [isPlaying, setIsPlaying] = useState<Record<string, boolean>>({})
 
   useEffect(() => {
     const hash = window.location.hash.replace('#', '')
     if (!hash) return
 
-    const previousRestoration = window.history.scrollRestoration
-    window.history.scrollRestoration = 'manual'
-
-    let cancelled = false
-    const timeoutId = window.setTimeout(() => {
-      if (cancelled) return
-      const target = document.getElementById(hash)
-      if (!target) return
-      const top = target.getBoundingClientRect().top + window.scrollY - 30
-      window.scrollTo({ top, behavior: 'smooth' })
-    }, 250)
-
-    return () => {
-      cancelled = true
-      window.clearTimeout(timeoutId)
-      window.history.scrollRestoration = previousRestoration
+    const matchingFormula = FORMULAS.find((f) => f.id === hash)
+    if (matchingFormula) {
+      setActiveFormulaId(matchingFormula.id)
     }
   }, [])
 
+  const togglePlay = (e: React.MouseEvent, formulaId: string) => {
+    e.stopPropagation()
+    
+    if (activeFormulaId !== formulaId) {
+      setActiveFormulaId(formulaId)
+    }
+
+    const videoEl = document.getElementById(`video-${formulaId}`) as HTMLVideoElement | null
+    if (videoEl) {
+      if (videoEl.paused) {
+        // Mettre en pause toutes les autres vidéos avant de lancer celle-ci
+        FORMULAS.forEach((f) => {
+          if (f.id !== formulaId) {
+            const otherVideo = document.getElementById(`video-${f.id}`) as HTMLVideoElement | null
+            if (otherVideo && !otherVideo.paused) {
+              otherVideo.pause()
+            }
+          }
+        })
+        videoEl.play().catch(err => console.error("Erreur de lecture :", err))
+      } else {
+        videoEl.pause()
+      }
+    }
+  }
+
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-neutral-950 pt-20 pb-24 text-neutral-50 select-none">
+    <section className="relative min-h-screen w-full overflow-x-hidden bg-black pt-20 flex flex-col text-neutral-50 select-none">
       <style jsx>{`
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(30px); }
@@ -42,9 +55,16 @@ export function FormulasView() {
           animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           opacity: 0;
         }
+        /* Texture de papier mat / grain subtil */
+        .bg-textured-paper {
+          background-color: #f3f4f6;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+          color: #171717;
+        }
       `}</style>
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-5 pt-12 sm:px-8">
+      {/* HEADER PAGE */}
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-5 pt-12 pb-8 sm:px-8">
         <header className="animate-text-sweep text-center">
           <p className="mb-2.5 text-[10px] font-semibold tracking-[0.3em] text-red-500 uppercase sm:text-xs">
             Nos formules
@@ -59,106 +79,203 @@ export function FormulasView() {
         </header>
       </div>
 
-      <div className="relative z-10 mx-auto mt-10 w-full max-w-7xl px-4 py-12 sm:px-8">
-        <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-3 lg:gap-12">
-          {FORMULAS.map((formula) => {
-            const isPlaying = playingVideos[formula.id]
+      {/* ZONE 3 COLONNES FULL BLEED (SPLIT SCREEN) AVEC VIDEOS INTEGREES */}
+      <div id="comparateur-formules" className="w-full flex flex-col lg:flex-row items-stretch mt-8 lg:mt-12 border-t border-white/10 flex-1">
+        {FORMULAS.map((formula, index) => {
+          const isActive = activeFormulaId === formula.id
+          const isVideoPlaying = isPlaying[formula.id] || false
+          
+          // Attribution des vidéos locales selon l'index
+          const videoSrc = index === 0 
+            ? '/T-B-Immersion.mov' 
+            : index === 1 
+            ? '/T-B-Immersion-filmée.mov' 
+            : '/T-B-Captation.mov'
 
-            return (
-              <div key={formula.id} id={formula.id} className="scroll-mt-28">
-                <FormulaFrame>
-                  <div>
-                    <div className="mb-4 flex min-h-[3.2rem] items-center justify-center border-b border-white/10 pb-3 text-center transition-colors duration-300 group-hover:border-transparent">
-                      <h2 className="font-serif text-2xl tracking-tight text-neutral-100 italic drop-shadow-sm sm:text-3xl">
-                        {formula.title}
-                      </h2>
-                    </div>
+          // Attribution des images de couverture selon l'index
+          const coverSrc = index === 0
+            ? '/couverture-immersion.png'
+            : index === 1
+            ? '/couverture-immersion-filmée.png'
+            : '/couverture-captation.png'
 
-                    <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-neutral-950">
-                      {isPlaying ? (
-                        <iframe
-                          className="absolute top-0 left-0 h-full w-full bg-black md:scale-105"
-                          src={`https://www.youtube.com/embed/${formula.videoId}?autoplay=1&rel=0`}
-                          title={formula.title}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          allowFullScreen
-                        />
-                      ) : (
-                        <div
-                          className="group/video relative flex h-full w-full cursor-pointer items-center justify-center"
-                          onClick={() =>
-                            setPlayingVideos((prev) => ({ ...prev, [formula.id]: true }))
-                          }
-                        >
-                          <img
-                            src={`https://i.ytimg.com/vi/${formula.videoId}/hqdefault.jpg`}
-                            alt={formula.title}
-                            className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-black/20" />
-                          <button
-                            type="button"
-                            className="relative z-10 flex h-12 w-16 items-center justify-center rounded-xl bg-red-600 shadow-xl transition-transform duration-300 group-hover/video:scale-110"
-                            aria-label={`Lancer la vidéo ${formula.title}`}
-                          >
-                            <svg className="ml-0.5 h-6 w-6 fill-current text-white" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z" />
-                            </svg>
-                          </button>
-                        </div>
-                      )}
-                    </div>
+          // Configuration de la DA par colonne
+          let colTheme = {
+            bg: 'bg-black text-white',
+            title: 'text-neutral-100',
+            num: 'text-neutral-700',
+            line: 'bg-neutral-800',
+            highlight: 'text-white',
+            text: 'text-neutral-400',
+            border: 'border-white/10',
+            footerText: 'text-neutral-500',
+          }
+
+          if (index === 0) {
+            colTheme = {
+              bg: 'bg-white text-neutral-900',
+              title: 'text-neutral-900',
+              num: 'text-neutral-300',
+              line: 'bg-neutral-300',
+              highlight: 'text-neutral-900',
+              text: 'text-neutral-600',
+              border: 'border-neutral-200',
+              footerText: 'text-neutral-400',
+            }
+          } else if (index === 1) {
+            colTheme = {
+              bg: 'bg-textured-paper text-neutral-900',
+              title: 'text-neutral-900',
+              num: 'text-neutral-400',
+              line: 'bg-neutral-400',
+              highlight: 'text-neutral-900',
+              text: 'text-neutral-700',
+              border: 'border-neutral-300',
+              footerText: 'text-neutral-500',
+            }
+          }
+
+          return (
+            <div
+              key={formula.id}
+              id={`formula-${formula.id}`}
+              onClick={() => {
+                if (!isActive) setActiveFormulaId(formula.id)
+              }}
+              className={`relative flex-1 flex flex-col pb-16 lg:pb-20 transition-all duration-500 cursor-default overflow-hidden ${colTheme.bg}`}
+            >
+              {/* Formes d'arrière-plan (Index 1) */}
+              {index === 1 && (
+                <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden opacity-65">
+                  <div className="absolute top-[10%] left-[5%] w-[320px] h-[320px] bg-gradient-to-tr from-neutral-400/50 via-neutral-300/40 to-neutral-500/50 rounded-[30%_70%_60%_40%/50%_50%_50%_50%] blur-[45px] transform rotate-12 scale-110" />
+                  <div className="absolute top-[50%] left-[60%] w-[360px] h-[360px] bg-gradient-to-bl from-neutral-500/50 via-neutral-400/45 to-neutral-300/50 rounded-[60%_40%_30%_70%/40%_60%_40%_60%] blur-[40px] transform -rotate-45 scale-90" />
+                  <div className="absolute top-[20%] left-[70%] w-[300px] h-[300px] bg-gradient-to-r from-neutral-600/45 via-neutral-400/40 to-neutral-300/40 rounded-[50%_50%_40%_60%/60%_40%_50%_50%] blur-[50px] transform rotate-45 scale-125" />
+                  <div className="absolute top-[60%] left-[15%] w-[290px] h-[290px] bg-gradient-to-tl from-neutral-300/45 via-neutral-500/40 to-neutral-600/35 rounded-[40%_60%_30%_70%/50%_50%_70%_30%] blur-[45px] transform -rotate-12 scale-105" />
+                  <div className="absolute top-[35%] left-[35%] w-[340px] h-[340px] bg-gradient-to-br from-neutral-300/40 via-neutral-500/45 to-neutral-400/45 rounded-[70%_30%_50%_50%/30%_70%_50%_50%] blur-[45px] transform rotate-90 scale-95" />
+                </div>
+              )}
+
+              {/* LECTEUR VIDÉO + LISERÉ */}
+              <div className="relative z-10 w-full mb-10 shadow-2xl flex flex-col">
+                <div 
+                  className={`relative w-full aspect-video overflow-hidden flex items-center justify-center bg-black ${!isVideoPlaying ? 'cursor-pointer' : ''}`}
+                  onClick={(e) => {
+                    if (!isVideoPlaying) togglePlay(e, formula.id)
+                  }}
+                >
+                  
+                  {/* BALISE VIDEO NATIVE */}
+                  <video
+                    id={`video-${formula.id}`}
+                    className={`absolute inset-0 h-full w-full outline-none transition-all duration-700 ${isActive ? 'object-contain' : 'object-cover'}`}
+                    src={videoSrc}
+                    preload="metadata"
+                    playsInline
+                    controls={isActive}
+                    onPlay={() => setIsPlaying(prev => ({ ...prev, [formula.id]: true }))}
+                    onPause={() => setIsPlaying(prev => ({ ...prev, [formula.id]: false }))}
+                  />
+
+                  {/* OVERLAY IMAGE DE COUVERTURE ET BOUTON PLAY */}
+                  <div 
+                    className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-500 ${
+                      isVideoPlaying ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                    }`}
+                  >
+                    {/* Image */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img 
+                      src={coverSrc} 
+                      alt={`Couverture de ${formula.title}`} 
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+
+                    {/* Voile sombre léger pour détacher le bouton blanc */}
+                    <div className="absolute inset-0 bg-black/10 transition-colors duration-300" />
+                    
+                    {/* Bouton Play */}
+                    <button
+                      type="button"
+                      onClick={(e) => togglePlay(e, formula.id)}
+                      className="pointer-events-auto relative z-20 flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-white shadow-xl transition-all duration-300 hover:border-red-500 hover:bg-red-600 hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]"
+                      aria-label={`Lancer la vidéo ${formula.title}`}
+                    >
+                      <svg className="h-8 w-8 sm:h-10 sm:w-10 fill-current ml-1" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </button>
                   </div>
 
-                  <div className="mt-5 flex flex-1 flex-col justify-between">
-                    <div className="w-full space-y-4 rounded-2xl border border-white/20 bg-white/8 p-4 shadow-2xl backdrop-blur-md sm:p-5">
-                      {formula.steps.map((step) => (
-                        <div key={step.num} className="flex cursor-default items-start gap-2.5 text-left">
-                          <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-end">
-                            <span className="font-serif text-base text-white italic">{step.num}</span>
-                          </div>
-                          <div className="mt-2.5 flex w-4 shrink-0 items-center">
-                            <div className="h-px w-full bg-neutral-500/80" />
-                          </div>
-                          <p className="pt-0.5 text-xs leading-relaxed text-neutral-200">
-                            {step.highlight ? (
-                              <>
-                                <strong className="font-semibold text-red-500">{step.highlight}</strong>
-                                {step.text ? (
-                                  <>
-                                    <br />
-                                    {step.text}
-                                  </>
-                                ) : null}
-                              </>
-                            ) : (
-                              step.text
-                            )}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
+                </div>
 
-                    <p className="pt-4 text-center text-xs font-semibold text-white italic sm:text-sm">
-                      Devis disponible sur demande
-                    </p>
-                  </div>
-                </FormulaFrame>
+                {/* Liseré indicateur de sélection positionné juste en dessous de la vidéo */}
+                <div 
+                  className={`w-full h-1.5 transition-all duration-500 ${
+                    isActive ? 'bg-red-600 shadow-[0_0_20px_rgba(220,38,38,0.6)]' : 'bg-transparent'
+                  }`} 
+                />
               </div>
-            )
-          })}
-        </div>
 
-        <div className="mt-16 text-center">
-          <Link
-            href="/qui-sommes-nous?to=contact"
-            scroll={false}
-            className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/8 px-8 py-3 text-xs font-medium tracking-wide text-neutral-200 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-red-600 hover:bg-red-600 hover:text-white hover:shadow-[0_0_20px_rgba(220,38,38,0.4)] sm:text-sm"
-          >
-            Contactez-nous pour votre projet
-          </Link>
-        </div>
+              {/* CONTENU TEXTUEL */}
+              <div className="relative z-10 flex flex-col flex-1 px-6 sm:px-12 lg:px-10 xl:px-16 w-full">
+                
+                {/* TITRE */}
+                <div className="mb-10 text-center flex items-center justify-center">
+                  <h2 className={`font-serif text-xl sm:text-2xl tracking-tight italic drop-shadow-sm transition-transform duration-500 ${colTheme.title}`}>
+                    {formula.title}
+                  </h2>
+                </div>
+
+                {/* Déroulé / Étapes */}
+                <div className="flex-1 space-y-5 max-w-sm mx-auto w-full group">
+                  {formula.steps.map((step) => (
+                    <div key={step.num} className="flex items-start gap-3.5 text-left">
+                      <div className="flex shrink-0 items-center justify-end w-4">
+                        <span className={`font-serif text-lg italic transition-colors duration-300 group-hover:${colTheme.highlight.split(' ')[0]} ${colTheme.num}`}>
+                          {step.num}
+                        </span>
+                      </div>
+                      <div className="mt-3 flex w-4 shrink-0 items-center">
+                        <div className={`h-px w-full transition-colors duration-300 group-hover:bg-red-500/50 ${colTheme.line}`} />
+                      </div>
+                      <div className="pt-0.5 text-xs sm:text-sm leading-relaxed">
+                        {step.highlight && (
+                          <span className={`mb-1 block font-medium ${colTheme.highlight}`}>
+                            {step.highlight}
+                          </span>
+                        )}
+                        {step.text && (
+                          <span className={`block ${colTheme.text}`}>
+                            {step.text}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Mention devis */}
+                <div className={`mt-12 pt-5 border-t text-center transition-colors duration-300 ${colTheme.border}`}>
+                  <p className={`text-[10px] uppercase tracking-[0.15em] ${colTheme.footerText}`}>
+                    Devis disponible sur demande
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* CTA FINAL */}
+      <div className="w-full bg-black py-16 text-center border-t border-white/10">
+        <Link
+          href="/qui-sommes-nous?to=contact"
+          scroll={false}
+          className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/5 px-8 py-4 text-sm font-medium tracking-wide text-neutral-200 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-red-600 hover:bg-red-600 hover:text-white hover:shadow-[0_0_30px_rgba(220,38,38,0.4)]"
+        >
+          Contactez-nous pour votre projet
+        </Link>
       </div>
     </section>
   )

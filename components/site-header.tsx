@@ -41,13 +41,6 @@ export function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-neutral-800 bg-neutral-950">
       <style jsx>{`
-        @keyframes pulseGlow {
-          0%, 100% { opacity: 0.4; box-shadow: 0 0 8px rgba(220, 38, 38, 0.4); }
-          50% { opacity: 1; box-shadow: 0 0 16px rgba(220, 38, 38, 0.8); }
-        }
-        .animate-pulse-glow {
-          animation: pulseGlow 2s ease-in-out infinite;
-        }
         @keyframes spinSlow {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
@@ -61,7 +54,7 @@ export function SiteHeader() {
         <Link
           href="/"
           aria-label="Retour à l'accueil"
-          className="flex min-w-0 items-center gap-3 cursor-pointer group"
+          className="flex shrink-0 items-center gap-3 cursor-pointer group"
           onClick={() => setMenuOpen(false)}
         >
           <span className="relative flex size-11 sm:size-14 shrink-0 items-center justify-center">
@@ -75,13 +68,14 @@ export function SiteHeader() {
               />
             </span>
           </span>
-          <span className="truncate text-balance font-serif italic text-xl sm:text-3xl leading-tight tracking-tight drop-shadow-md text-white">
+          <span className="whitespace-nowrap pr-2 font-serif italic text-xl sm:text-2xl xl:text-3xl leading-tight tracking-tight drop-shadow-md text-white">
             Tournez Bobines
           </span>
         </Link>
 
+        {/* Navigation Desktop */}
         <nav aria-label="Navigation principale" className="hidden lg:block h-full">
-          <ul className="flex h-full items-center gap-6 xl:gap-10">
+          <ul className="flex h-full items-center gap-4 lg:gap-6 xl:gap-10 2xl:gap-14">
             {NAV_ITEMS.map((item) => {
               const isActive =
                 pathname === item.href || pathname === `${item.href}/`
@@ -91,7 +85,7 @@ export function SiteHeader() {
                     href={item.href}
                     aria-current={isActive ? 'page' : undefined}
                     className={cn(
-                      'group relative flex h-full items-center text-[11px] uppercase tracking-[0.2em] transition-colors cursor-pointer',
+                      'group relative flex h-full items-center px-1 text-[10px] xl:text-[11px] uppercase tracking-[0.12em] xl:tracking-[0.18em] transition-colors cursor-pointer whitespace-nowrap',
                       isActive
                         ? 'text-white font-medium'
                         : 'text-neutral-400 hover:text-white',
@@ -100,9 +94,9 @@ export function SiteHeader() {
                     {item.label}
 
                     {isActive && (
-                      <div className="absolute bottom-0 left-1/2 z-10 flex -translate-x-1/2 translate-y-1/2 items-center justify-center">
-                        <span className="absolute size-4 rounded-full bg-neutral-950/90 blur-[1px]" />
-                        <span className="relative size-2 rounded-full bg-red-600 animate-pulse-glow" />
+                      <div className="absolute bottom-0 left-1/2 z-10 flex h-5 w-5 -translate-x-1/2 translate-y-1/2 items-center justify-center">
+                        <div className="absolute h-0.5 w-full bg-red-600" />
+                        <div className="absolute h-full w-0.5 bg-red-600" />
                       </div>
                     )}
 
@@ -170,14 +164,17 @@ export function SiteHeader() {
                       aria-current={isActive ? 'page' : undefined}
                       onClick={() => setMenuOpen(false)}
                       className={cn(
-                        'flex items-center justify-end gap-2 px-4 py-3 text-right text-[11px] uppercase tracking-[0.2em] transition-colors',
+                        'flex items-center justify-end gap-2.5 px-5 py-3.5 text-right text-[11px] uppercase tracking-[0.15em] transition-colors',
                         isActive
                           ? 'font-medium text-white'
                           : 'text-neutral-400 hover:text-white',
                       )}
                     >
                       {isActive && (
-                        <span className="size-1.5 shrink-0 rounded-full bg-red-600 animate-pulse-glow" />
+                        <div className="relative flex h-4 w-4 shrink-0 items-center justify-center">
+                          <div className="absolute h-0.5 w-full bg-red-600" />
+                          <div className="absolute h-full w-0.5 bg-red-600" />
+                        </div>
                       )}
                       {item.label}
                     </Link>

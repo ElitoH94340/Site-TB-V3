@@ -1,7 +1,9 @@
 'use client'
 
-import { useState, useRef } from 'react'
-import { Volume2, VolumeX } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
+import Link from 'next/link'
+import { Volume2, VolumeX, ArrowDown, ArrowUp } from 'lucide-react'
+import { FormulaFrame } from '@/components/formula-frame'
 import { withBasePath } from '@/lib/paths'
 
 const partners = [
@@ -12,9 +14,28 @@ const partners = [
   { name: 'Echo Media', src: '/partners/echo-media.png' },
 ]
 
+const dubbingRoles = [
+  {
+    id: 'spectateur',
+    subtitle: 'POUR LE SPECTATEUR',
+    summary: 'C’est croire naturellement que tous les personnages d’une série ou d’un film étranger parlent français.',
+  },
+  {
+    id: 'comedien',
+    subtitle: 'POUR LE COMÉDIEN',
+    summary: 'C’est suivre au plus près le jeu de l’acteur à l’image, respecter le rythme, les émotions, les intentions et la synchronisation labiale.',
+  },
+  {
+    id: 'adaptateur',
+    subtitle: 'POUR L’ADAPTATEUR',
+    summary: 'C’est être au plus près du dialogue en langue étrangère, être le plus synchrone possible en respectant le mouvement des lèvres des comédiens à l’image.',
+  },
+]
+
 export function HomeView() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isMuted, setIsMuted] = useState(true)
+  const [isAtTop, setIsAtTop] = useState(true)
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -23,11 +44,115 @@ export function HomeView() {
     }
   }
 
+  const handleScrollButtonClick = () => {
+    if (!isAtTop) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      const el = document.getElementById('contenu')
+      if (el) {
+        const headerOffset = 80
+        const topPos = el.offsetTop - headerOffset
+        window.scrollTo({ top: topPos, behavior: 'smooth' })
+      }
+    }
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const contenuElement = document.getElementById('contenu')
+      if (contenuElement) {
+        const rect = contenuElement.getBoundingClientRect()
+        setIsAtTop(rect.top > 100)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   return (
-    <section className="relative min-h-screen w-full bg-neutral-950 text-neutral-50 flex flex-col justify-between pt-20 pb-8">
+    <div className="relative w-full bg-black text-neutral-100 selection:bg-neutral-100 selection:text-black select-none">
       
-      {/* Animations CSS fluides */}
       <style jsx>{`
+        /* 1. La croix initiale */
+        @keyframes cross-intro {
+          0% { opacity: 0; transform: scale(0.1); }
+          20% { opacity: 1; transform: scale(1); }
+          70% { opacity: 1; transform: scale(1); }
+          100% { opacity: 0; transform: scale(4); }
+        }
+        .animate-cross {
+          animation: cross-intro 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          opacity: 0;
+        }
+
+        /* 2. La mire éphémère */
+        @keyframes mire-in-out {
+          0% { opacity: 0; transform: scale(0.96); }
+          15% { opacity: 1; transform: scale(1); }
+          70% { opacity: 1; transform: scale(1); }
+          100% { opacity: 0; transform: scale(1.02); }
+        }
+        .animate-transient-mire {
+          animation: mire-in-out 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          animation-delay: 1s;
+          opacity: 0;
+        }
+
+        /* 3. Les points cardinaux */
+        @keyframes fade-in-scale {
+          0% { opacity: 0; transform: scale(0.96); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        .animate-cardinal {
+          animation: fade-in-scale 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          animation-delay: 1s;
+          opacity: 0;
+        }
+
+        /* 4. Révélation de la vidéo */
+        @keyframes video-reveal {
+          0% { 
+            opacity: 0; 
+            transform: scale(0.95); 
+            filter: blur(12px) brightness(0.2); 
+          }
+          100% { 
+            opacity: 1; 
+            transform: scale(1); 
+            filter: blur(0px) brightness(1); 
+          }
+        }
+        .animate-video {
+          animation: video-reveal 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+          animation-delay: 1.8s;
+          opacity: 0;
+        }
+
+        /* Clignotement du point d'enregistrement */
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+        .animate-blink {
+          animation: blink 1.5s infinite;
+        }
+
+        /* Apparition des boutons UI */
+        @keyframes fade-in-up {
+          0% { opacity: 0; transform: translateY(15px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-delay {
+          animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          opacity: 0;
+        }
+
+        /* Effet de balayage (Fade Up) identique à la page Formules */
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(30px); }
           to { opacity: 1; transform: translateY(0); }
@@ -36,116 +161,241 @@ export function HomeView() {
           animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           opacity: 0;
         }
+
+        /* Bande Rythmo */
+        @keyframes rythmo-text {
+          0%, 15% { background-position: 100% 0; }
+          50%, 100% { background-position: 0% 0; }
+        }
+        @keyframes rythmo-bar {
+          0%, 10% { left: 0%; opacity: 0; }
+          15% { left: 0%; opacity: 1; }
+          50% { left: 100%; opacity: 1; }
+          55%, 100% { left: 100%; opacity: 0; }
+        }
+        .animate-rythmo {
+          position: relative;
+          display: inline-block;
+          color: transparent;
+          background: linear-gradient(to right, #0a0a0a 50%, #e5e5e5 50%);
+          background-size: 200% 100%;
+          background-position: 100% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          animation: rythmo-text 6s ease-in-out infinite;
+        }
+        .animate-rythmo::after {
+          content: '';
+          position: absolute;
+          top: 8%;
+          bottom: 8%;
+          width: 3px;
+          background-color: #ef4444;
+          pointer-events: none;
+          animation: rythmo-bar 6s ease-in-out infinite;
+          opacity: 0;
+          transform: skewX(-15deg);
+        }
       `}</style>
 
-      {/* Conteneur principal centré verticalement */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center px-5 sm:px-8 py-4">
+      <section className="relative h-screen w-full z-0 flex flex-col bg-black">
         
-        {/* Layout 2 colonnes */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
+        <div className="relative z-40 flex justify-end pt-10 pr-10 min-h-[80px]" />
+
+        {/* CONTENEUR PRINCIPAL */}
+        <div className="relative z-20 flex-1 flex w-full items-center justify-center p-8 sm:p-16">
           
-          {/* COLONNE GAUCHE : Bloc de textes compacts avec animation */}
-          <div className="flex flex-col gap-6 rounded-2xl bg-neutral-950/60 p-4 backdrop-blur-sm sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
+          <div className="relative w-full max-w-5xl aspect-video">
             
-            {/* BLOC 1 : Accueil */}
-            <div className="animate-text-sweep" style={{ animationDelay: '100ms' }}>
-              <p className="mb-2.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
-                Doublage tournez bobines
-              </p>
-              <h1 className="text-balance font-serif italic text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight drop-shadow-md">
-                Vivez une expérience inoubliable !
-              </h1>
-              <p className="mt-2.5 text-pretty text-base leading-relaxed text-neutral-300">
-                Plongez dans l&apos;univers passionnant du cinéma.
-                <br />
-                Imaginez-vous dans la peau des comédiens à l&apos;image, face à la projection d&apos;extraits de films cultes avec les textes sur bande rythmo synchrone.
-                <br />
-                Les dialogues défilent sous l&apos;image. Vous choisissez un personnage. Vous le « doublez » !
-                <br />
-                Seul prérequis : être lecteur. Toute l&apos;équipe de Tournez Bobines est là pour vous accompagner à la barre de doublage.
-              </p>
+            {/* ETAPE 1 : LA CROIX INITIALE */}
+            <div className="absolute inset-0 z-40 flex items-center justify-center pointer-events-none animate-cross">
+              <div className="absolute w-16 h-px bg-neutral-400/80" />
+              <div className="absolute h-16 w-px bg-neutral-400/80" />
             </div>
 
-            {/* Ligne de séparation */}
-            <hr className="w-12 border-neutral-700 animate-text-sweep" style={{ animationDelay: '300ms' }} />
+            {/* ETAPE 2 : LES 4 POINTS CARDINAUX */}
+            <div className="absolute -inset-[40px] z-30 pointer-events-none animate-cardinal">
+              <div className="absolute top-0 left-1/2 w-px h-6 bg-neutral-400/80 -translate-x-1/2" />
+              <div className="absolute bottom-0 left-1/2 w-px h-6 bg-neutral-400/80 -translate-x-1/2" />
+              <div className="absolute top-1/2 left-0 w-6 h-px bg-neutral-400/80 -translate-y-1/2" />
+              <div className="absolute top-1/2 right-0 w-6 h-px bg-neutral-400/80 -translate-y-1/2" />
+            </div>
 
-            {/* BLOC 2 : Explication */}
-            <div className="animate-text-sweep" style={{ animationDelay: '500ms' }}>
-              <h2 className="text-balance font-serif italic text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight drop-shadow-md">
-                Qu&apos;est-ce que le doublage ?
-              </h2>
-              <div className="mt-2.5 space-y-2 text-pretty text-base leading-relaxed text-neutral-300">
-                <p>
-                  <strong className="font-semibold text-white">Pour le spectateur :</strong> c’est croire que tous les personnages d’une série ou d’un film étranger parlent français.
-                </p>
-                <p>
-                  <strong className="font-semibold text-white">Pour le comédien :</strong> c’est suivre au plus près le jeu de l’acteur à l’image, respecter le rythme, les émotions, les intentions et la synchronisation labiale.
-                </p>
-                <p>
-                  <strong className="font-semibold text-white">Pour l’adaptateur :</strong> c’est être au plus près du dialogue en langue étrangère, être le plus synchrone possible en respectant le mouvement des lèvres des comédiens à l’image : synchronisation labiale.
-                </p>
+            {/* ETAPE 3 : LA MIRE COMPLÈTE */}
+            <div className="absolute -inset-[15px] z-30 pointer-events-none animate-transient-mire">
+              <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-neutral-400/80" />
+              <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-neutral-400/80" />
+              <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-neutral-400/80" />
+              <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-neutral-400/80" />
+
+              <div className="absolute top-1/3 left-0 right-0 h-px bg-neutral-500/20" />
+              <div className="absolute top-2/3 left-0 right-0 h-px bg-neutral-500/20" />
+              <div className="absolute left-1/3 top-0 bottom-0 w-px bg-neutral-500/20" />
+              <div className="absolute left-2/3 top-0 bottom-0 w-px bg-neutral-500/20" />
+
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-20 border border-neutral-500/40 flex items-center justify-center">
+                <div className="w-3 h-px bg-neutral-400/60" />
+                <div className="absolute h-3 w-px bg-neutral-400/60" />
+              </div>
+
+              {/* Point REC rouge positionné à l'intérieur en haut à droite */}
+              <div className="absolute top-4 right-4 flex items-center">
+                <div className="w-3 h-3 bg-red-600 rounded-full animate-blink shadow-[0_0_8px_rgba(220,38,38,0.8)]" />
+              </div>
+
+              {/* Sigle réseau/barres positionné à l'intérieur en bas à gauche */}
+              <div className="absolute bottom-4 left-4 flex items-end gap-1 opacity-70">
+                <div className="w-1.5 h-2 bg-neutral-400" />
+                <div className="w-1.5 h-3 bg-neutral-400" />
+                <div className="w-1.5 h-4 bg-neutral-400" />
+              </div>
+
+              {/* Sigle batterie positionné à l'intérieur en bas à droite */}
+              <div className="absolute bottom-4 right-4 flex items-center gap-0.5 opacity-70">
+                <div className="w-8 h-4 border border-neutral-400 flex p-0.5 gap-0.5">
+                  <div className="h-full w-2 bg-neutral-400" />
+                  <div className="h-full w-2 bg-neutral-400" />
+                  <div className="h-full w-2 bg-neutral-400" />
+                </div>
               </div>
             </div>
 
-          </div>
-
-          {/* COLONNE DROITE : Vidéo locale avec zoom et bouton son externe */}
-          <div className="flex justify-center items-center w-full">
-            <div className="relative w-full aspect-video rounded-[2rem] border border-white/10 bg-neutral-900/40 p-2 sm:p-3 shadow-2xl backdrop-blur-md">
-              
-              {/* Conteneur intérieur de la vidéo */}
-              <div className="relative h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-black">
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="h-full w-full object-cover scale-110"
-                >
-                  <source src={withBasePath('/TB_VIDEO_PRESENTATION.mp4')} type="video/mp4" />
-                  Votre navigateur ne supporte pas la lecture de vidéos.
-                </video>
-              </div>
-
-              {/* Bouton de son externe placé en bas à droite sur le cadre */}
-              <button
-                onClick={toggleMute}
-                className="absolute bottom-5 right-5 z-30 flex items-center gap-2 rounded-full bg-neutral-900/80 px-3.5 py-2 text-xs font-medium text-white backdrop-blur-md border border-white/20 shadow-lg transition-all hover:bg-neutral-800 hover:scale-105 active:scale-95"
-                title={isMuted ? "Activer le son" : "Couper le son"}
+            {/* ETAPE 4 : LA VIDÉO SEULE */}
+            <div className="absolute inset-0 z-20 animate-video bg-black shadow-[0_0_50px_rgba(0,0,0,0.5)] rounded-sm overflow-hidden">
+              <video
+                ref={videoRef}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="h-full w-full object-cover"
               >
-                {isMuted ? (
-                  <>
-                    <VolumeX className="h-4 w-4 text-neutral-400" />
-                    <span>Activer le son</span>
-                  </>
-                ) : (
-                  <>
-                    <Volume2 className="h-4 w-4 text-white" />
-                    <span>Couper le son</span>
-                  </>
-                )}
-              </button>
+                <source src={withBasePath('/TB_VIDEO_PRESENTATION.mp4')} type="video/mp4" />
+              </video>
+            </div>
+            
+          </div>
+        </div>
 
+        {/* BOUTON SON : Positionné en bas à droite de la section */}
+        <div className="absolute bottom-10 right-10 z-50">
+          <button
+            onClick={toggleMute}
+            className="group flex h-[42px] w-[42px] items-center justify-center rounded-full border border-white bg-transparent text-white backdrop-blur-[2px] transition-all duration-300 hover:border-red-600 hover:bg-red-600 hover:text-white cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.5)] animate-fade-in-delay"
+            aria-label={isMuted ? "Activer le son" : "Coupure son"}
+            style={{ animationDelay: '2.5s' }}
+          >
+            {isMuted ? (
+              <VolumeX className="size-4 transition-transform duration-300" />
+            ) : (
+              <Volume2 className="size-4 transition-transform duration-300" />
+            )}
+          </button>
+        </div>
+
+        {/* BOUTON SCROLL INITIAL */}
+        {isAtTop && (
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
+            <button
+              onClick={handleScrollButtonClick}
+              className="group flex h-[42px] w-[42px] items-center justify-center rounded-full border border-white bg-transparent text-white backdrop-blur-[2px] transition-all duration-300 hover:border-red-600 hover:bg-red-600 hover:text-white cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.5)]"
+              aria-label="Descendre au contenu"
+            >
+              <ArrowDown className="size-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+            </button>
+          </div>
+        )}
+
+      </section>
+
+      {/* BOUTON SCROLL FLOTTANT HAUT */}
+      {!isAtTop && (
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 pointer-events-auto animate-fade-in-delay">
+          <button
+            onClick={handleScrollButtonClick}
+            className="group flex h-[42px] w-[42px] items-center justify-center rounded-full border border-neutral-700 bg-black/80 text-white backdrop-blur-md transition-all duration-300 hover:border-red-600 hover:bg-red-600 hover:text-white cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
+            aria-label="Remonter en haut"
+          >
+            <ArrowUp className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
+          </button>
+        </div>
+      )}
+
+      {/* ---------------------------------------------------- */}
+      {/* BALAYAGE AU SCROLL : MANIFESTE & RÔLES (Z-30)      */}
+      {/* ---------------------------------------------------- */}
+      <div id="contenu" className="relative z-30 bg-black shadow-[0_-25px_50px_rgba(0,0,0,1)]">
+
+        <section className="bg-[#f0f0eb] text-neutral-950 py-24 px-6 sm:px-12 lg:px-20 border-b border-neutral-300">
+          <div className="max-w-4xl mx-auto flex flex-col items-center">
+            
+            <div className="animate-text-sweep w-full text-center">
+              <h2 id="experience-title" className="text-[37px] sm:text-[59px] lg:text-[96px] font-serif italic tracking-tight text-neutral-950 leading-[1.05] mb-16 text-balance">
+                Vivez une expérience <span className="animate-rythmo pr-2">inoubliable.</span>
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 pt-12 border-t border-neutral-300 text-neutral-800 text-[16px] leading-[1.618] font-light w-full">
+              <p className="text-balance">
+                Plongez dans l’univers passionnant du cinéma. Imaginez-vous dans la peau des comédiens à l’image, face à la projection d’extraits de films cultes avec les textes sur bande rythmo&nbsp;synchrone.
+              </p>
+              <p className="text-balance">
+                Les dialogues défilent sous l’image. Vous choisissez un personnage. Vous le «&nbsp;doublez&nbsp;»&nbsp;! Seul prérequis&nbsp;: être lecteur. Toute l’équipe de Tournez Bobines est là pour vous accompagner à la barre de&nbsp;doublage.
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+        <section className="bg-black text-white py-24 px-6 sm:px-8 lg:px-12 border-b border-neutral-900">
+          <div className="max-w-6xl mx-auto flex flex-col items-center">
+            
+            <div className="animate-text-sweep w-full text-center">
+              <h2 className="text-[37px] sm:text-[59px] lg:text-[96px] font-serif italic tracking-tight text-white leading-[1.05] mb-16 text-balance">
+                Qu’est-ce que le doublage&nbsp;?
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-3 lg:gap-10 pt-12 border-t border-neutral-900 w-full">
+              {dubbingRoles.map((role) => (
+                <div key={role.id} className="block h-full cursor-default no-underline">
+                  <FormulaFrame>
+                    <div className="flex h-full flex-col items-center text-center px-4 py-2">
+                      <span className="mb-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-red-500">
+                        {role.subtitle}
+                      </span>
+                      <p className="flex-1 text-balance text-neutral-400 text-[16px] leading-[1.618] font-light">
+                        {role.summary}
+                      </p>
+                    </div>
+                  </FormulaFrame>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+
+        <section className="bg-black py-12 px-6 sm:px-12 lg:px-20">
+          <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-neutral-600 shrink-0">
+              PARTENAIRES
+            </span>
+
+            <div className="flex flex-wrap items-center gap-8 sm:gap-16 grayscale opacity-40">
+              {partners.map((partner) => (
+                <img
+                  key={partner.name}
+                  src={withBasePath(partner.src || '/placeholder.svg')}
+                  alt={partner.name}
+                  className="h-4 sm:h-5 w-auto object-contain hover:opacity-100 hover:grayscale-0 transition-all"
+                />
+              ))}
             </div>
           </div>
+        </section>
 
-        </div>
       </div>
-
-      {/* Partner logos row - Collé en bas de page */}
-      <div className="relative z-10 w-full border-t border-white/10 bg-neutral-950/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-6 px-5 py-3 sm:gap-12 sm:px-8">
-          {partners.map((partner) => (
-            <img
-              key={partner.name}
-              src={withBasePath(partner.src || '/placeholder.svg')}
-              alt={`Logo ${partner.name}`}
-              className="h-4 w-auto object-contain opacity-70 transition-opacity hover:opacity-100 sm:h-5"
-            />
-          ))}
-        </div>
-      </div>
-    </section>
+    </div>
   )
 }
