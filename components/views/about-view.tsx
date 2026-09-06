@@ -1,17 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
 import { FormulaFrame } from '@/components/formula-frame'
+import { VideoPlayButton } from '@/components/video-play-button'
 import { withBasePath } from '@/lib/paths'
-
-const partners = [
-  { name: 'Partenaire 1', src: '/logos-01.svg' },
-  { name: 'Partenaire 2', src: '/logos-02.svg' },
-  { name: 'Partenaire 3', src: '/logos-03.svg' },
-  { name: 'Partenaire 4', src: '/logos-04.svg' },
-  { name: 'Partenaire 5', src: '/logos-05.svg' },
-]
 
 export function AboutView() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
@@ -184,14 +176,7 @@ export function AboutView() {
                       className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
-                    <button 
-                      className="relative z-10 flex h-14 w-20 sm:h-16 sm:w-24 items-center justify-center rounded-xl sm:rounded-2xl bg-red-600 shadow-xl transition-transform duration-300 group-hover:scale-110"
-                      aria-label="Lancer la vidéo"
-                    >
-                      <svg className="h-6 w-6 sm:h-8 sm:w-8 text-white fill-current ml-1" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </button>
+                    <VideoPlayButton />
                   </>
                 ) : (
                   <iframe
@@ -320,28 +305,6 @@ export function AboutView() {
           </div>
         </div>
       </div>
-
-      {/* SECTION LOGOS PARTENAIRES EN BAS DE PAGE */}
-      <section className="bg-black py-6 sm:py-8 px-4 sm:px-12 lg:px-20 border-t border-neutral-900">
-        <div className="w-full grid grid-cols-5 gap-3 sm:gap-6 md:gap-8 items-center justify-items-center">
-          {partners.map((partner) => (
-            <div 
-              key={partner.name} 
-              className="relative w-full h-8 sm:h-12 md:h-16 lg:h-20 flex items-center justify-center"
-            >
-              <Image
-                src={withBasePath(partner.src)}
-                alt={partner.name}
-                fill
-                className="object-contain"
-                sizes="(max-width: 640px) 20vw, (max-width: 1024px) 20vw, 200px"
-                quality={100}
-                unoptimized={partner.src.endsWith('.svg')}
-              />
-            </div>
-          ))}
-        </div>
-      </section>
 
     </section>
   )

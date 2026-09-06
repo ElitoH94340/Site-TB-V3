@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { VideoPlayButton } from '@/components/video-play-button'
 
 const TABS = [
   {
@@ -199,7 +200,7 @@ export function FactoryView() {
         .animate-slide-left { animation: slideFromLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
       `}</style>
 
-      <div className="relative z-10 w-full px-[100px]">
+      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-[100px]">
         
         {/* EN-TÊTE */}
         <header className="text-center animate-text-sweep pt-8 sm:pt-12 mb-12">
@@ -245,36 +246,48 @@ export function FactoryView() {
         {/* CONTENEUR GLOBAL DES 3 COLONNES */}
         <div className="w-full animate-text-sweep grid" style={{ animationDelay: '400ms' }}>
           {[true, false].map((isGhost) => {
-            // Pour le fantôme, on force les données du premier onglet ("Primaire")
-            const tabData = isGhost ? TABS[0] : current;
-            const moduleData = isGhost ? TABS[0].additionalContent?.modules[0] : currentModule;
+            const tallestModule = TABS.reduce((best, tab) => {
+              for (const module of tab.additionalContent.modules) {
+                const score =
+                  module.objectives.length +
+                  (module.desc ? 1 : 0) +
+                  (module.subDesc ? 1 : 0)
+                if (score > best.score) {
+                  return { tab, module, score }
+                }
+              }
+              return best
+            }, { tab: TABS[0], module: TABS[0].additionalContent.modules[0], score: 0 })
+
+            const tabData = isGhost ? tallestModule.tab : current;
+            const moduleData = isGhost ? tallestModule.module : currentModule;
             
             if (!tabData.additionalContent || !moduleData) return null;
 
             const modVideoId = 'videoId' in moduleData ? moduleData.videoId : undefined;
             const actVideoId = modVideoId || tabData.videos[isGhost ? 0 : videoIndex];
-            const tModulesCount = tabData.additionalContent.modules.length;
+            const tModulesCount = current.additionalContent?.modules.length ?? tabData.additionalContent.modules.length;
             const multModules = tModulesCount > 1;
 
             return (
               <div 
                 key={isGhost ? 'ghost' : `${active}-${moduleIndex}`}
                 className={cn(
-                  "col-start-1 row-start-1 w-full",
+                  "col-start-1 row-start-1 w-full h-full",
                   isGhost ? "invisible opacity-0 pointer-events-none" : "relative z-10"
                 )}
                 aria-hidden={isGhost}
               >
                 <div 
                   className={cn(
-                    'grid grid-cols-1 lg:grid-cols-[1.6fr_0.8fr_0.8fr] gap-[25px] w-full items-stretch h-full',
+                    'mx-auto flex h-full w-full max-w-5xl flex-col gap-6',
                     !isGhost && (slideDirection === 'right' ? 'animate-slide-right' : 'animate-slide-left')
                   )}
                 >
                   
-                  {/* COLONNE 1 : VIDÉO */}
-                  <div className="flex flex-col bg-neutral-950/80 border border-white/10 shadow-2xl h-full">
-                    <div className="relative w-full aspect-video lg:aspect-auto lg:flex-1 overflow-hidden bg-black flex items-center justify-center cursor-pointer group">
+                  {/* VIDÉO */}
+                  <div className="flex w-full flex-col bg-neutral-950/80 border border-white/10 shadow-2xl">
+                    <div className="relative w-full aspect-video overflow-hidden bg-black flex items-center justify-center cursor-pointer group">
                       {((modVideoId && !isModuleVideoPlaying) || (!modVideoId && !isVideoPlaying) || isGhost) ? (
                         <>
                           <img
@@ -283,21 +296,14 @@ export function FactoryView() {
                             className="absolute inset-0 h-full w-full object-cover opacity-85"
                           />
                           <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-transparent" />
-                          <button
-                            type="button"
-                            className="relative z-10 flex h-14 w-20 items-center justify-center rounded-xl bg-red-600 shadow-xl transition-transform duration-300 group-hover:scale-110"
-                            aria-label="Lancer la vidéo"
+                          <VideoPlayButton
                             onClick={() => {
                               if (!isGhost) {
                                 if (modVideoId) setIsModuleVideoPlaying(true)
                                 else setIsVideoPlaying(true)
                               }
                             }}
-                          >
-                            <svg className="h-6 w-6 text-white fill-current ml-1" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z" />
-                            </svg>
-                          </button>
+                          />
                         </>
                       ) : (
                         <iframe
@@ -323,8 +329,9 @@ export function FactoryView() {
                     )}
                   </div>
 
-                  {/* COLONNE 2 : TEXTE */}
-                  <div className="flex flex-col justify-between bg-neutral-950/80 p-6 lg:p-8 border border-white/10 shadow-2xl h-full text-center">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full flex-1 items-stretch">
+                  {/* TEXTE */}
+                  <div className="flex min-h-[28rem] flex-col justify-between bg-neutral-950/80 p-6 lg:p-8 border border-white/10 shadow-2xl h-full text-center">
                     <div>
                       {multModules && (
                         <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
@@ -361,10 +368,10 @@ export function FactoryView() {
                       />
                     </div>
 
-                    <div className="pt-6 mt-auto">
+                    <div className="pt-6 mt-auto flex justify-center">
                       <Link
                         href="/formules"
-                        className="inline-flex w-full items-center justify-center px-6 py-3 rounded-full border border-neutral-400 bg-neutral-900 text-white font-medium text-xs tracking-wide shadow-md transition-all duration-300 hover:bg-red-600 hover:border-red-600 hover:text-white cursor-pointer"
+                        className="inline-flex w-full max-w-[350px] items-center justify-center px-6 py-3 rounded-full border border-neutral-400 bg-neutral-900 text-white font-medium text-xs tracking-wide shadow-md transition-all duration-300 hover:bg-red-600 hover:border-red-600 hover:text-white cursor-pointer"
                         tabIndex={isGhost ? -1 : 0}
                       >
                         {tabData.additionalContent.ctaButton}
@@ -372,13 +379,13 @@ export function FactoryView() {
                     </div>
                   </div>
 
-                  {/* COLONNE 3 : OBJECTIFS */}
-                  <div className="flex flex-col justify-between bg-neutral-950/80 p-6 lg:p-8 border border-white/10 shadow-2xl h-full">
-                    <div>
-                      <h4 className="mb-6 text-xs font-semibold uppercase tracking-[0.3em] text-red-500 text-center">
-                        Objectifs
-                      </h4>
-                      <div className="space-y-3.5">
+                  {/* OBJECTIFS */}
+                  <div className="flex min-h-[28rem] flex-col bg-neutral-950/80 p-6 lg:p-8 border border-white/10 shadow-2xl h-full">
+                    <h4 className="mb-6 shrink-0 text-xs font-semibold uppercase tracking-[0.3em] text-red-500 text-center">
+                      Objectifs
+                    </h4>
+                    <div className="flex flex-1 flex-col items-center justify-center">
+                      <div className="mx-auto flex w-fit flex-col items-start gap-3.5">
                         {moduleData.objectives.map((obj, i) => (
                           <div key={i} className="flex items-start gap-3 group cursor-default">
                             <div className="relative flex items-center justify-center shrink-0 w-4 h-4 mt-1">
@@ -391,6 +398,7 @@ export function FactoryView() {
                         ))}
                       </div>
                     </div>
+                  </div>
                   </div>
 
                 </div>
