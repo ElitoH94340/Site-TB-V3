@@ -7,11 +7,11 @@ import { FormulaFrame } from '@/components/formula-frame'
 import { withBasePath } from '@/lib/paths'
 
 const partners = [
-  { name: 'Cinélux', src: '/partners/cinelux.png' },
-  { name: 'Sonika', src: '/partners/sonika.png' },
-  { name: 'Vocenova', src: '/partners/vocenova.png' },
-  { name: 'Rialto Films', src: '/partners/rialto.png' },
-  { name: 'Echo Media', src: '/partners/echo-media.png' },
+  { name: 'Partenaire 1', src: '/logos-01.svg' },
+  { name: 'Partenaire 2', src: '/logos-02.svg' },
+  { name: 'Partenaire 3', src: '/logos-03.svg' },
+  { name: 'Partenaire 4', src: '/logos-04.svg' },
+  { name: 'Partenaire 5', src: '/logos-05.svg' },
 ]
 
 const dubbingRoles = [
@@ -376,22 +376,17 @@ export function HomeView() {
           </div>
         </section>
 
-        <section className="bg-black py-12 px-6 sm:px-12 lg:px-20">
-          <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-            <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-neutral-600 shrink-0">
-              PARTENAIRES
-            </span>
-
-            <div className="flex flex-wrap items-center gap-8 sm:gap-16 grayscale opacity-40">
-              {partners.map((partner) => (
-                <img
-                  key={partner.name}
-                  src={withBasePath(partner.src || '/placeholder.svg')}
-                  alt={partner.name}
-                  className="h-4 sm:h-5 w-auto object-contain hover:opacity-100 hover:grayscale-0 transition-all"
-                />
-              ))}
-            </div>
+        {/* SECTION LOGOS : SANS EFFET SURVOL */}
+        <section className="bg-black py-8 px-8 sm:px-16 lg:px-24 border-t border-neutral-900">
+          <div className="w-full flex flex-wrap items-center justify-between gap-8">
+            {partners.map((partner) => (
+              <img
+                key={partner.name}
+                src={withBasePath(partner.src)}
+                alt={partner.name}
+                className="h-[72px] sm:h-[96px] w-auto object-contain"
+              />
+            ))}
           </div>
         </section>
 
