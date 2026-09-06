@@ -501,7 +501,7 @@ export function EventsView({ onOpenContact }: EventsViewProps) {
                           {!isPlaying && (
                             <VideoPlayButton
                               onClick={togglePlay}
-                              className="pointer-events-auto cursor-pointer"
+                              className="absolute z-20 pointer-events-auto cursor-pointer"
                             />
                           )}
 
