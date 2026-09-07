@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { VideoPlayButton } from '@/components/video-play-button'
+import { withBasePath } from '@/lib/paths'
 
 const TABS = [
   {
@@ -300,7 +301,7 @@ export function FactoryView() {
                       {((modMedia && !isModuleVideoPlaying) || (!modMedia && !isVideoPlaying) || isGhost) ? (
                         <>
                           <img
-                            src={actMedia.photo}
+                            src={withBasePath(actMedia.photo)}
                             alt="Lancer la vidéo"
                             className="absolute inset-0 h-full w-full object-cover opacity-85"
                           />
@@ -316,7 +317,7 @@ export function FactoryView() {
                         </>
                       ) : (
                         <video
-                          src={actMedia.video}
+                          src={withBasePath(actMedia.video)}
                           className="absolute inset-0 h-full w-full object-cover"
                           controls
                           autoPlay
@@ -378,7 +379,7 @@ export function FactoryView() {
 
                     <div className="pt-6 mt-auto flex justify-center">
                       <Link
-                        href="/formules"
+                        href={withBasePath('/formules')}
                         className="inline-flex w-full max-w-[350px] items-center justify-center px-6 py-3 rounded-full border border-neutral-400 bg-neutral-900 text-white font-medium text-xs tracking-wide shadow-md transition-all duration-300 hover:bg-red-600 hover:border-red-600 hover:text-white cursor-pointer"
                         tabIndex={isGhost ? -1 : 0}
                       >
