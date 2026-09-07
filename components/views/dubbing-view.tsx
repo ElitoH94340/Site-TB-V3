@@ -182,7 +182,7 @@ export function DubbingView() {
 </ul>
             </div>
 
-            {/* VIDÉO OBJECTIFS DE RÉFÉRENCE */}
+{/* VIDÉO OBJECTIFS DE RÉFÉRENCE */}
             <div className="w-full">
               <div className="relative w-full border border-neutral-300 bg-neutral-900/10 p-2 sm:p-3 shadow-xl backdrop-blur-md">
                 <div 
@@ -192,7 +192,7 @@ export function DubbingView() {
                   {!isVideoPlaying ? (
                     <>
                       <img 
-                        src="https://i.ytimg.com/vi/ejoMCZcqU_s/maxresdefault.jpg?v=2" 
+                        src="/couverture-doublage-pour-tous.jpg" 
                         alt="Présentation Vidéo" 
                         className="absolute inset-0 h-full w-full object-cover opacity-90 md:scale-105"
                       />
@@ -200,14 +200,12 @@ export function DubbingView() {
                       <VideoPlayButton />
                     </>
                   ) : (
-                    <iframe
-                      className="absolute top-0 left-0 h-full w-full bg-black md:scale-105"
-                      src="https://www.youtube.com/embed/ejoMCZcqU_s?autoplay=1&rel=0"
-                      title="Lecteur vidéo YouTube"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    ></iframe>
+                    <video
+                      src="/Doublage-Pour-Tous.mp4"
+                      className="absolute inset-0 h-full w-full object-cover"
+                      controls
+                      autoPlay
+                    />
                   )}
                 </div>
               </div>
@@ -216,7 +214,7 @@ export function DubbingView() {
           </div>
         </div>
 
-        {/* SECTION S'AMUSER À DOUBLER */}
+{/* SECTION S'AMUSER À DOUBLER */}
         <div className="w-full bg-textured-paper py-14 px-5 sm:px-8 border-b border-neutral-300 overflow-hidden relative">
           <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden opacity-65">
             <div className="absolute top-0 left-0 w-[280px] h-[280px] bg-gradient-to-tr from-neutral-400/50 via-neutral-300/40 to-neutral-500/50 rounded-[30%_70%_60%_40%/50%_50%_50%_50%] blur-[45px] animate-thermal-1" />
@@ -239,7 +237,7 @@ export function DubbingView() {
                 {!isVideo1Playing ? (
                   <>
                     <img 
-                      src="https://i.ytimg.com/vi/573IoaBcqlU/maxresdefault.jpg?v=2" 
+                      src="/couverture-s-amuser-a-doubler.webp" 
                       alt="S'amuser à doubler" 
                       className="absolute inset-0 h-full w-full object-cover opacity-90 md:scale-105"
                     />
@@ -247,14 +245,12 @@ export function DubbingView() {
                     <VideoPlayButton />
                   </>
                 ) : (
-                  <iframe
-                    className="absolute top-0 left-0 h-full w-full bg-black md:scale-105"
-                    src="https://www.youtube.com/embed/573IoaBcqlU?autoplay=1&rel=0"
-                    title="S'amuser à doubler"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  ></iframe>
+                  <video
+                    src="/s-amuser-a-doubler.mp4"
+                    className="absolute inset-0 h-full w-full object-cover"
+                    controls
+                    autoPlay
+                  />
                 )}
               </div>
             </div>
@@ -318,7 +314,7 @@ export function DubbingView() {
               </div>
             </div>
 
-            {/* VIDÉO DÉMO COMMENT ÇA MARCHE */}
+{/* VIDÉO DÉMO COMMENT ÇA MARCHE */}
             <div className="max-w-4xl mx-auto w-full">
               <div className="relative w-full border border-white/10 bg-neutral-900/40 p-2 sm:p-3 shadow-2xl backdrop-blur-md">
                 <div 
@@ -328,7 +324,7 @@ export function DubbingView() {
                   {!isHowItWorksVideoPlaying ? (
                     <>
                       <img 
-                        src="https://i.ytimg.com/vi/gl0dyMWsEo0/maxresdefault.jpg?v=2"
+                        src="/couverture-le-deroule.jpg"
                         alt="Comment ça marche"
                         className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
                       />
@@ -336,14 +332,12 @@ export function DubbingView() {
                       <VideoPlayButton />
                     </>
                   ) : (
-                    <iframe
-                      className="absolute top-0 left-0 h-full w-full bg-black md:scale-105"
-                      src="https://www.youtube.com/embed/gl0dyMWsEo0?autoplay=1&rel=0"
-                      title="Comment ça marche"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    ></iframe>
+                    <video
+                      src="/le-deroule.mp4"
+                      className="absolute inset-0 h-full w-full object-cover"
+                      controls
+                      autoPlay
+                    />
                   )}
                 </div>
               </div>

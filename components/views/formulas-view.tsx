@@ -86,10 +86,10 @@ export function FormulasView() {
 
           const videoSrc = withBasePath(
             index === 0
-              ? '/T-B-Immersion.mov'
+              ? '/T-B-Immersion.mp4'
               : index === 1
-                ? '/T-B-Immersion-filmée.mov'
-                : '/T-B-Captation.mov',
+                ? '/T-B-Immersion-filmée.mp4'
+                : '/T-B-Captation.mp4',
           )
 
           const coverSrc = withBasePath(

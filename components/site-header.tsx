@@ -32,17 +32,12 @@ export function SiteHeader() {
   }, [menuOpen])
 
   return (
-    <header className="site-header" style={{ width: '100%' }}>
-      {/* On force le parent en display flex sur toute la largeur */}
-      <div 
-        className="site-header-bar" 
-        style={{ display: 'flex', alignItems: 'center', width: '100%', boxSizing: 'border-box' }}
-      >
+    <header className="site-header">
+      <div className="site-header-bar">
         <Link
           href="/"
           aria-label="Retour à l'accueil"
           className="site-header-brand"
-          style={{ flexShrink: 0, marginRight: '3rem' }}
           onClick={() => setMenuOpen(false)}
         >
           <span className="site-header-logo">
@@ -56,25 +51,8 @@ export function SiteHeader() {
           <span className="site-header-title">Tournez Bobines</span>
         </Link>
 
-        {/* On force le nav à prendre tout l'espace restant */}
-        <nav 
-          aria-label="Navigation principale" 
-          className="site-nav-desktop"
-          style={{ flex: 1, display: 'flex', minWidth: 0 }}
-        >
-          {/* On force la liste à occuper 100% et à étaler les liens */}
-          <ul 
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              width: '100%', 
-              justify: 'space-evenly', 
-              justifyContent: 'space-evenly',
-              listStyle: 'none',
-              margin: 0,
-              padding: 0 
-            }}
-          >
+        <nav aria-label="Navigation principale" className="site-nav-desktop">
+          <ul>
             {NAV_ITEMS.map((item) => {
               const isActive =
                 pathname === item.href || pathname === `${item.href}/`
@@ -102,7 +80,6 @@ export function SiteHeader() {
         <button
           type="button"
           className="site-nav-burger"
-          style={{ marginLeft: 'auto' }}
           aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"

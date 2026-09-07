@@ -171,7 +171,7 @@ export function AboutView() {
                 {!isVideoPlaying ? (
                   <>
                     <img 
-                      src="https://i.ytimg.com/vi/BVycG1JWfW4/maxresdefault.jpg" 
+                      src="/couverture-le-principe.jpg" 
                       alt="Présentation Vidéo" 
                       className="absolute inset-0 h-full w-full object-cover opacity-80 md:scale-105"
                     />
@@ -179,14 +179,12 @@ export function AboutView() {
                     <VideoPlayButton />
                   </>
                 ) : (
-                  <iframe
-                    className="absolute top-0 left-0 h-full w-full bg-black md:scale-105"
-                    src="https://www.youtube.com/embed/BVycG1JWfW4?autoplay=1&rel=0"
-                    title="Lecteur vidéo YouTube"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  ></iframe>
+                  <video
+                    src="/le-principe.mp4"
+                    className="absolute inset-0 h-full w-full object-cover"
+                    controls
+                    autoPlay
+                  />
                 )}
               </div>
             </div>
